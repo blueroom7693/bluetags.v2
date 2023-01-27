@@ -47,9 +47,9 @@ const Header = styled.View`
   margin: 40px;
 `;
 const ProjectLogo = styled.Image`
-  height: 220px;
-  width: 220px;
-  border-radius: 200px;
+  height: 294px;
+  width: 428px;
+  margin-top: -40px;
 `;
 const ProjectName = styled.Text`
   font-size: 24px;
@@ -83,7 +83,7 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   const [data, setData] = useState<IData[]>();
   useEffect(() => {
     if (!isLoadingNft) {
-      setData(Object.values(searchedData?.data));
+      // setData(Object.values(searchedData?.data));
     }
   }, [isLoadingNft, searchedData]);
   //RETURN
@@ -93,7 +93,7 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
         <>
           {/* HEADER */}
           <Header>
-            <ProjectLogo source={{ uri: params.logourl }}></ProjectLogo>
+            <ProjectLogo source={{ uri: params.logoUrl }}></ProjectLogo>
             <ProjectName>{params.title}</ProjectName>
           </Header>
           {/* SNS */}
