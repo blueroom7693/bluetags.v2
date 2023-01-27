@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import MiddleBarSVG from "../../assets/images/misc/middlebar.svg";
 import { View } from "react-native";
+import SubscribeSVG from "../../assets/images/misc/subscribeWhite.svg";
 
 //TYPE
 interface ICircleProject {
@@ -18,8 +19,9 @@ interface ICircleProject {
 //CSS
 const Title = styled.Text`
   color: ${(props) => props.theme.Text0dp};
-  font-size: 19px;
+  font-size: 14px;
   font-weight: 400;
+  margin-bottom: 20px;
 `;
 const ProjectTitle = styled.Text`
   color: ${(props) => props.theme.Text0dp};
@@ -38,19 +40,22 @@ const ListContainer = styled.View`
   border-width: 1px;
   border-radius: 10px;
   border-color: rgba(25, 31, 40, 0.1);
+  align-items: center;
 `;
 const Container = styled.TouchableOpacity`
   background-color: ${(props) => props.theme.Bg0dp};
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: row;
-  flex: 1;
-  padding-left: 50px;
-  padding-right: 50px;
   margin-bottom: 10px;
+  /* justify-content: center; */
+  padding-top: 30px;
+  /* width: 316px; */
 `;
 const TextContainer = styled.View`
-  width: 100%;
+  margin-bottom: 20px;
+  justify-content: center;
+  width: 256px;
+  height: 80px;
 `;
 const ProjectLogo = styled.Image`
   width: 80px;
@@ -58,8 +63,27 @@ const ProjectLogo = styled.Image`
   border-radius: 10px;
 `;
 const BlueTags = styled.Text`
-  color: ${(props) => props.theme.Text1dp};
+  color: ${(props) => props.theme.Text0dp};
   font-size: 14px;
+`;
+const Description = styled.Text`
+  color: ${(props) => props.theme.Text0dp};
+  font-size: 12px;
+  font-weight: 500;
+`;
+const SubscribeContainer = styled.View`
+  width: 336px;
+  height: 40px;
+  background-color: #191f28;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+`;
+const Subscribe = styled.Text`
+  font-weight: 700;
+  font-size: 12px;
+  color: ${(props) => props.theme.BtnInner};
 `;
 
 const SmallHCard: React.FC<ICircleProject> = ({
@@ -102,7 +126,22 @@ const SmallHCard: React.FC<ICircleProject> = ({
         </TextContainer>
         <ProjectLogo source={{ uri: thumbnail }}></ProjectLogo>
       </Container>
+      <View style={{ height: 51 }}>
+        <Description>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas
+          velit eget lacus finibus lobortis. Integer felis turpis, dapibus a mi
+          ut, placerat tincidunt dolor. Suspendisse dui nibh, placerat at
+          elementum vel, malesuada in urna. Cras ante lectus, cursus quis dui
+          eget, scelerisque porta orci. Fusce cursus nunc sed justo pretium
+          suscipit. Vivamus et ex eget lac
+        </Description>
+      </View>
+      {/* <Description>{fullData.description}</Description> */}
       <BlueTags>#SAMPLE #SAMPLE</BlueTags>
+      <SubscribeContainer>
+        <Subscribe>Subscribe</Subscribe>
+        <SubscribeSVG />
+      </SubscribeContainer>
     </ListContainer>
   );
 };
