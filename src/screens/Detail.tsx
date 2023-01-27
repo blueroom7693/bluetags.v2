@@ -1,11 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, Text, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import { getNftInfo } from "../axios";
 import SmallHCard from "../components/card/SmallHCard";
 import SquareCard from "../components/card/SquareCard";
+import LinearGradient from "react-native-linear-gradient";
 
 //INTERFACE
 interface IData {
@@ -44,12 +45,19 @@ const Container = styled.FlatList`
 `;
 const Header = styled.View`
   align-items: center;
-  margin: 40px;
+  background-color: black;
+  opacity: 0.4;
+  height: 294px;
+  width: 428px;
+  margin-top: -40px;
+  justify-content: center;
 `;
 const ProjectLogo = styled.Image`
   height: 294px;
   width: 428px;
   margin-top: -40px;
+  position: absolute;
+  z-index: -1;
 `;
 const ProjectName = styled.Text`
   font-size: 24px;
@@ -92,8 +100,17 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
       ListHeaderComponent={
         <>
           {/* HEADER */}
+          {/* <LinearGradient
+            colors={["#4c669f", "#3b5998", "#192f6a"]}
+            style={styles.linearGradient}
+          >
+            <Text style={styles.buttonText}>Sign in with Facebook</Text>
+          </LinearGradient> */}
+          <ProjectLogo
+            source={require("../assets/images/azukiWall.webp")}
+          ></ProjectLogo>
           <Header>
-            <ProjectLogo source={{ uri: params.logoUrl }}></ProjectLogo>
+            {/* <ProjectLogo source={{ uri: params.logoUrl }}></ProjectLogo> */}
             <ProjectName>{params.title}</ProjectName>
           </Header>
           {/* SNS */}
@@ -160,5 +177,21 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
     />
   );
 };
+
+var styles = StyleSheet.create({
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    textAlign: "center",
+    margin: 10,
+    color: "#ffffff",
+    backgroundColor: "transparent",
+  },
+});
 
 export default Detail;
