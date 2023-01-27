@@ -1,12 +1,18 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import { getNftInfo } from "../axios";
 import SmallHCard from "../components/card/SmallHCard";
 import SquareCard from "../components/card/SquareCard";
-import LinearGradient from "react-native-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 
 //INTERFACE
 interface IData {
@@ -45,12 +51,12 @@ const Container = styled.FlatList`
 `;
 const Header = styled.View`
   align-items: center;
-  background-color: black;
-  opacity: 0.4;
+  /* background-color: black; */
+  /* opacity: 1; */
   height: 294px;
   width: 428px;
   margin-top: -40px;
-  justify-content: center;
+  justify-content: flex-end;
 `;
 const ProjectLogo = styled.Image`
   height: 294px;
@@ -60,10 +66,10 @@ const ProjectLogo = styled.Image`
   z-index: -1;
 `;
 const ProjectName = styled.Text`
-  font-size: 24px;
-  color: ${(props) => props.theme.Text0dp};
-  margin-top: 20px;
-  font-weight: 800;
+  font-size: 25px;
+  color: ${(props) => props.theme.Bg0dp};
+  margin-bottom: 20px;
+  font-weight: 700;
 `;
 const SnsContaier = styled.View`
   flex-direction: row;
@@ -75,6 +81,31 @@ const SnsImage = styled.Image`
   border-radius: 20px;
   margin: 10px;
 `;
+
+const SubTotalContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 60px;
+  padding-right: 60px;
+  height: 120px;
+  background-color: rgba(55, 51, 255, 0.02);
+`;
+const SubContainer = styled.View`
+  flex-direction: column;
+  align-items: center;
+`;
+const SubText = styled.Text`
+  font-size: 13px;
+  font-weight: 700;
+  color: ${(props) => props.theme.Text0dp};
+`;
+const SubText2 = styled.Text`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${(props) => props.theme.Text0dp};
+`;
+
 //MAIN
 const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   //GETDATA
@@ -91,9 +122,13 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   const [data, setData] = useState<IData[]>();
   useEffect(() => {
     if (!isLoadingNft) {
-      // setData(Object.values(searchedData?.data));
+      // console.log("from here");
+      // console.log(Object.values(searchedData?.data));
+      setData(Object.values(searchedData?.data.bluecards));
     }
   }, [isLoadingNft, searchedData]);
+  // console.log(searchedData);
+  // console.log(data);
   //RETURN
   return (
     <Container
@@ -109,10 +144,29 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
           <ProjectLogo
             source={require("../assets/images/azukiWall.webp")}
           ></ProjectLogo>
+          <LinearGradient
+            // Background Linear Gradient
+            colors={["transparent", "rgba(37, 124, 255, 0.7)"]}
+            style={styles.background}
+          />
           <Header>
             {/* <ProjectLogo source={{ uri: params.logoUrl }}></ProjectLogo> */}
             <ProjectName>{params.title}</ProjectName>
           </Header>
+          <SubTotalContainer>
+            <SubContainer>
+              <SubText>Chain 73</SubText>
+              <SubText2>Lowest Cost</SubText2>
+            </SubContainer>
+            <SubContainer>
+              <SubText>6,433</SubText>
+              <SubText2>Holder</SubText2>
+            </SubContainer>
+            <SubContainer>
+              <SubText>3.6K</SubText>
+              <SubText2>Follower</SubText2>
+            </SubContainer>
+          </SubTotalContainer>
           {/* SNS */}
           <SnsContaier>
             <TouchableOpacity>
@@ -161,16 +215,16 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
         </>
       }
       data={data}
-      keyExtractor={(item) => item._id}
+      keyExtractor={(item) => item.id}
       // contentContainerStyle={{ paddingHorizontal: 20 }}
       renderItem={({ item }) => (
         <SmallHCard
           createdAt={item.createdAt}
-          nft={item.nft}
+          nft={item.project.title}
           thumbnail={item.thumbnail}
           title={item.title}
-          chain={item.chain}
-          SNS={item.SNS}
+          chain={item.project.chain}
+          SNS={item.sns}
           fullData={item}
         ></SmallHCard>
       )}
@@ -178,19 +232,30 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   );
 };
 
-var styles = StyleSheet.create({
-  linearGradient: {
+const styles = StyleSheet.create({
+  container: {
     flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "orange",
+  },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 294,
+    marginTop: -40,
+  },
+  button: {
+    padding: 15,
+    alignItems: "center",
     borderRadius: 5,
   },
-  buttonText: {
-    fontSize: 18,
-    textAlign: "center",
-    margin: 10,
-    color: "#ffffff",
+  text: {
     backgroundColor: "transparent",
+    fontSize: 15,
+    color: "#fff",
   },
 });
 

@@ -25,7 +25,8 @@ export function getAdminCheck(token: string) {
 }
 
 export function getNftInfo(nft: string) {
-  const data = axiosInstance.get<IData>(`/api/v1/nft/?nft=${nft}`);
+  // const data = axiosInstance.get<IData>(`bluecards/project/${nft}`);
+  const data = axiosInstance.get(`/api/bluecards/project/${nft}`);
 
   return data;
 }
