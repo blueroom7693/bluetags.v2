@@ -1,9 +1,8 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import MiddleBarSVG from "../../assets/images/misc/middlebar.svg";
-import { View } from "react-native";
-
+import { Text, TouchableOpacity, View } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 //TYPE
 interface ICircleProject {
   fullData: any;
@@ -18,26 +17,10 @@ interface ICircleProject {
 //CSS
 const Title = styled.Text`
   color: ${(props) => props.theme.Text0dp};
-  font-size: 19px;
-  font-weight: 400;
-`;
-const ProjectTitle = styled.Text`
-  color: ${(props) => props.theme.Text0dp};
   font-size: 12px;
-  font-weight: 700;
-`;
-const Date = styled.Text`
-  color: ${(props) => props.theme.Text0dp};
-  font-size: 12px;
-  font-weight: 500;
 `;
 const ListContainer = styled.View`
-  margin: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-width: 1px;
-  border-radius: 10px;
-  border-color: rgba(25, 31, 40, 0.1);
+  margin-bottom: 40px;
 `;
 const Container = styled.TouchableOpacity`
   background-color: ${(props) => props.theme.Bg0dp};
@@ -53,9 +36,10 @@ const TextContainer = styled.View`
   width: 100%;
 `;
 const ProjectLogo = styled.Image`
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border-radius: 10px;
+  margin-right: 10px;
 `;
 const BlueTags = styled.Text`
   color: ${(props) => props.theme.Text1dp};
@@ -86,23 +70,13 @@ const SmallHCard: React.FC<ICircleProject> = ({
   return (
     <ListContainer>
       <Container>
-        <TextContainer>
-          <Title>{title}</Title>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              width: 146,
-            }}
-          >
-            <ProjectTitle>{fullData.project.title}</ProjectTitle>
-            <MiddleBarSVG width={11} />
-            <Date>22.09.24</Date>
-          </View>
-        </TextContainer>
         <ProjectLogo source={{ uri: thumbnail }}></ProjectLogo>
+        <TextContainer>
+          <BlueTags>#SAMPLE #SAMPLE</BlueTags>
+          <Title>{title}</Title>
+        </TextContainer>
+        <AntDesign name="staro" size={24} color="white" />
       </Container>
-      <BlueTags>#SAMPLE #SAMPLE</BlueTags>
     </ListContainer>
   );
 };

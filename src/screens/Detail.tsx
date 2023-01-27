@@ -106,6 +106,21 @@ const SubText2 = styled.Text`
   color: ${(props) => props.theme.Text0dp};
 `;
 
+const HistoryText = styled.Text`
+  font-size: 26px;
+  font-weight: 300;
+  color: ${(props) => props.theme.Text0dp};
+  margin-left: 35px;
+`;
+const HistorySubText = styled.Text`
+  font-size: 16px;
+  font-weight: 700;
+  color: ${(props) => props.theme.Text0dp};
+  margin-left: 35px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+`;
+
 //MAIN
 const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   //GETDATA
@@ -122,25 +137,15 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   const [data, setData] = useState<IData[]>();
   useEffect(() => {
     if (!isLoadingNft) {
-      // console.log("from here");
-      // console.log(Object.values(searchedData?.data));
       setData(Object.values(searchedData?.data.bluecards));
     }
   }, [isLoadingNft, searchedData]);
-  // console.log(searchedData);
-  // console.log(data);
   //RETURN
   return (
     <Container
       ListHeaderComponent={
         <>
           {/* HEADER */}
-          {/* <LinearGradient
-            colors={["#4c669f", "#3b5998", "#192f6a"]}
-            style={styles.linearGradient}
-          >
-            <Text style={styles.buttonText}>Sign in with Facebook</Text>
-          </LinearGradient> */}
           <ProjectLogo
             source={require("../assets/images/azukiWall.webp")}
           ></ProjectLogo>
@@ -168,7 +173,7 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
             </SubContainer>
           </SubTotalContainer>
           {/* SNS */}
-          <SnsContaier>
+          {/* <SnsContaier>
             <TouchableOpacity>
               <SnsImage
                 source={{
@@ -211,7 +216,9 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
                 }}
               />
             </TouchableOpacity>
-          </SnsContaier>
+          </SnsContaier> */}
+          <HistoryText>History</HistoryText>
+          <HistorySubText>Sub title</HistorySubText>
         </>
       }
       data={data}
