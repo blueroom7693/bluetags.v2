@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "langApp",
+    "slug": "langApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": ["**/*"],
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./src/assets/images/splash3.png"
+    },
+    "scheme": "exp://"
+  },
+  "name": "langApp"
+}
