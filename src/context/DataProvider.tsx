@@ -32,14 +32,10 @@ const DataProvider = ({ children }: any) => {
     async function getUser() {
       if (userToken !== "undefined") {
         const data = await axiosInstance
-          .get(`/api/v1/user/data/`, {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          })
+          .get(`/api/users`)
           .then((response) => {
             setUser(response.data);
-            setSubscribedProject(user.favoriteNft);
+            setSubscribedProject(response.data.subscribe);
           })
           .catch((error) => {
             if (error.response.data.name === "TokenExpiredError") {

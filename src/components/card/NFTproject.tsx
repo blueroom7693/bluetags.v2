@@ -65,25 +65,29 @@ const NFTproject: React.FC<ISquareCard> = ({
       },
     });
   };
+  // all subscribe
+  const Allsubscribe = useRecoilValue(allSubscirbeProject);
+  console.log(Allsubscribe);
+
   // ISSUBSCRIBE?
   const userToken = useRecoilValue(token);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const { user } = useContext(DataContext);
-  useEffect(() => {
-    if (user) {
-      if (
-        user.favoriteNft.includes(
-          title
-            .toLowerCase()
-            .replace(/ /gi, "")
-            .replace(/-/gi, "")
-            .replace(/`/gi, "")
-        )
-      ) {
-        setIsSubscribed(true);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     if (
+  //       user.favoriteNft.includes(
+  //         title
+  //           .toLowerCase()
+  //           .replace(/ /gi, "")
+  //           .replace(/-/gi, "")
+  //           .replace(/`/gi, "")
+  //       )
+  //     ) {
+  //       setIsSubscribed(true);
+  //     }
+  //   }
+  // }, []);
   // 배열 삭제
   const onRemove = (id) => {
     setSubscribeProject(subscribedProject.filter((user) => user !== id));

@@ -211,7 +211,7 @@ const Tabs = () => {
               <MaterialIcons name={"home-filled"} color={"white"} size={30} />
               <Ionicons
                 name="search"
-                color={"white"}
+                color={"black"}
                 size={30}
                 onPress={() =>
                   navigation.navigate("Stack", {

@@ -24,6 +24,8 @@ import { getUserStored } from "./src/async";
 import { getAllNft, IData } from "./src/axios";
 import * as NavigationBar from "expo-navigation-bar";
 import { ThemeContext } from "styled-components/native";
+import { useFonts } from "expo-font";
+
 // NavigationBar.setBackgroundColorAsync("#1f1f1f");
 
 SplashScreen.preventAutoHideAsync();
@@ -38,16 +40,22 @@ export default function App() {
   const [userToken, setUserToken] = useRecoilState(token);
   // splash screen
   const [appIsReady, setAppIsReady] = useState(false);
+  //font
+  const [fontsLoaded] = useFonts({
+    "SpoqaHanSansNeo-Thin": require("./src/assets/fonts/SpoqaHanSansNeo-Thin.ttf"),
+    "SpoqaHanSansNeo-Regular": require("./src/assets/fonts/SpoqaHanSansNeo-Regular.ttf"),
+  });
 
   useEffect(() => {
     async function prepare() {
       try {
+        if (!fontsLoaded) {
+          return;
+        }
         await Font.loadAsync(Entypo.font);
         // async storage 토큰 확인
         const token = JSON.parse(await AsyncStorage.getItem("sangwan"));
-        // console.log(token);
         if (token !== (undefined || null)) {
-          console.log(token);
           setIsLogin(true);
           setUserToken(token);
         }

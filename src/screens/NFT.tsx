@@ -18,20 +18,58 @@ import { isLogined } from "../atom";
 import { useRecoilState } from "recoil";
 import { AllNft, AllNftNonChain } from "../AllNft";
 import NFTproject from "../components/card/NFTproject";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProjects, getUser } from "../axios";
+import { useEffect, useState } from "react";
 
-console.log(Object.values(AllNftNonChain));
+const CollectionText = styled.Text`
+  font-size: 22px;
+  font-weight: 400;
+  color: ${(props) => props.theme.Text0dp};
+  margin-left: 20px;
+`;
+
 const NFT = () => {
+  //query
+  const { isLoading: isLoadingProjectData, data: ProjectData } = useQuery(
+    ["subscribeInfo"],
+    getAllProjects
+  );
+
+  const { isLoading: isLoadingUser, data: User } = useQuery(
+    ["userData"],
+    getUser
+  );
+
+  useEffect(() => {
+    if (!isLoadingUser) {
+      console.log(User.data);
+    }
+  }, []);
+
+  //SETDATA
+  const [allProjectData, setAllProjectData] = useState(null);
+
+  useEffect(() => {
+    if (!isLoadingProjectData) {
+      setAllProjectData(ProjectData.data.projects);
+    }
+    // console.log(allProjectData);
+  }, [isLoadingProjectData, ProjectData]);
+
   return (
     <SafeAreaView>
+      <CollectionText>Projects</CollectionText>
       <FlatList
-        data={Object.values(AllNftNonChain)}
-        keyExtractor={(item) => item.title}
+        // data={Object.values(allProjectData)}
+        data={allProjectData}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <NFTproject
             fullData={item}
             chain={item.chain}
             title={item.title}
-            logourl={item.logourl}
+            logourl={item.logoUrl}
           />
         )}
       />

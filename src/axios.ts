@@ -24,28 +24,15 @@ export function getAdminCheck(token: string) {
   return data;
 }
 
-export function getNftInfo(nft: string) {
-  // const data = axiosInstance.get<IData>(`bluecards/project/${nft}`);
-  const data = axiosInstance.get(`/api/bluecards/project/${nft}`);
+// export function getUser(token: string) {
+//   const data = axiosInstance.get(`/api/v1/user/data/`, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
 
-  return data;
-}
-
-export function getAllNft() {
-  const data = axiosInstance.get("/api/bluecards");
-
-  return data;
-}
-
-export function getUser(token: string) {
-  const data = axiosInstance.get(`/api/v1/user/data/`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return data;
-}
+//   return data;
+// }
 
 export function getSearch(keyword: string) {
   const data = axiosInstance.get(`/api/v1/nft/search/?keyword=${keyword}`);
@@ -55,6 +42,32 @@ export function getSearch(keyword: string) {
 
 export function getInfoDetail(id: string) {
   const data = axiosInstance.get(`/api/v1/nft/info/${id}`);
+
+  return data;
+}
+
+// newblutags API
+
+export function getAllBluecards() {
+  const data = axiosInstance.get("/api/bluecards");
+
+  return data;
+}
+
+export function getAllProjects() {
+  const data = axiosInstance.get("/api/projects");
+
+  return data;
+}
+
+export function getNftInfo(nft: string) {
+  const data = axiosInstance.get(`/api/bluecards/project/${nft}`);
+
+  return data;
+}
+
+export function getUser() {
+  const data = axiosInstance.get(`/api/users/`);
 
   return data;
 }

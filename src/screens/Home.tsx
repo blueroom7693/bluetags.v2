@@ -1,10 +1,11 @@
 import { SafeAreaView, StyleSheet } from "react-native";
 import styled from "styled-components/native";
-import { getAllNft } from "../axios";
+import { getAllBluecards } from "../axios";
 import { useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
+  allSubscirbeProject,
   chainString,
   isBottomDetail,
   isBottomFilter,
@@ -77,6 +78,7 @@ const HeaderTitle = styled.Text`
   font-weight: 700;
   opacity: 0.5;
   margin-bottom: 16px;
+  font-family: "SpoqaHanSansNeo-Regular";
 `;
 const SubHeaderTitle = styled.Text`
   font-size: 26px;
@@ -84,6 +86,7 @@ const SubHeaderTitle = styled.Text`
   margin-left: 30px;
   margin-bottom: 3px;
   margin-top: 35px;
+  font-family: "SpoqaHanSansNeo-Regular";
 `;
 
 // main
@@ -109,7 +112,7 @@ export default function Home() {
   //query
   const { isLoading: isLoadingNft, data: NftData } = useQuery<IInfo>(
     ["homeInfo"],
-    getAllNft
+    getAllBluecards
   );
   //recoil value
   const chain = useRecoilValue(chainString);
@@ -145,7 +148,6 @@ export default function Home() {
     if (!isLoadingNft) {
       setData(Object.values(NftData.data.bluecards));
     }
-    // console.log(data);
   }, [isLoadingNft, NftData]);
 
   //usercheck
@@ -154,7 +156,6 @@ export default function Home() {
     axios.get("https://www.bluetags.app/api/projects").then((response) => {
       setProjectData(response.data.projects);
     });
-    // console.log(projectData);
   }, []);
   useEffect(() => {
     if (projectData) {
@@ -165,8 +166,6 @@ export default function Home() {
       setNewProjectData(arr);
     }
   }, [projectData]);
-  // console.log(newProjectData);
-  // console.log(arr);
 
   // useEffect(() => {
   //   if (!isLoadingNft) {
