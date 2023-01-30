@@ -91,6 +91,11 @@ const SubHeaderTitle = styled.Text`
 
 // main
 export default function Home() {
+  useEffect(() => {
+    console.log("실행됨");
+  }, []);
+  console.log("실행됨2");
+
   //USERDATA
   const { user } = useContext(DataContext);
   //ProjectData

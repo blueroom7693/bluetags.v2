@@ -28,20 +28,26 @@ const Container = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  height: 60px;
+  border-width: 1px;
 `;
 const ProjectLogo = styled.Image`
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
   margin-right: 10px;
 `;
 const ProjectName = styled.Text`
-  font-size: 18px;
+  font-size: 16px;
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-weight: 700;
   color: ${(props) => props.theme.Text0dp};
 `;
-const ProjectBy = styled.Text`
-  font-size: 12px;
-  color: ${(props) => props.theme.Text1dp};
+const ProjectPrice = styled.Text`
+  font-size: 16px;
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-weight: 700;
+  color: ${(props) => props.theme.Text0dp};
 `;
 const SubscribeBtn = styled.TouchableOpacity`
   justify-content: space-between;
@@ -121,17 +127,20 @@ const NFTproject: React.FC<ISquareCard> = ({
     }
   };
 
-  console.log(subscribedProject.includes(`${queryTitle}`));
-
   return subscribedProject ? (
     <TouchableOpacity onPress={goToDetail}>
       <Container>
-        <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           <ProjectLogo source={{ uri: logourl }}></ProjectLogo>
           <View>
             <ProjectName>{title}</ProjectName>
-            <ProjectBy>by sangwan</ProjectBy>
           </View>
+          <ProjectPrice>2.5 {fullData.chain}</ProjectPrice>
         </View>
         <SubscribeBtn
           onPress={() => {
