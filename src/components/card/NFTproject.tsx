@@ -67,27 +67,28 @@ const NFTproject: React.FC<ISquareCard> = ({
   };
   // all subscribe
   const Allsubscribe = useRecoilValue(allSubscirbeProject);
-  console.log(Allsubscribe);
+  // console.log(Allsubscribe);
 
   // ISSUBSCRIBE?
   const userToken = useRecoilValue(token);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const { user } = useContext(DataContext);
-  // useEffect(() => {
-  //   if (user) {
-  //     if (
-  //       user.favoriteNft.includes(
-  //         title
-  //           .toLowerCase()
-  //           .replace(/ /gi, "")
-  //           .replace(/-/gi, "")
-  //           .replace(/`/gi, "")
-  //       )
-  //     ) {
-  //       setIsSubscribed(true);
-  //     }
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    if (user) {
+      if (
+        user.subscribe.includes(
+          title
+            .toLowerCase()
+            .replace(/ /gi, "")
+            .replace(/-/gi, "")
+            .replace(/`/gi, "")
+        )
+      ) {
+        setIsSubscribed(true);
+      }
+    }
+  }, []);
   // 배열 삭제
   const onRemove = (id) => {
     setSubscribeProject(subscribedProject.filter((user) => user !== id));
@@ -96,6 +97,7 @@ const NFTproject: React.FC<ISquareCard> = ({
   const [subscribedProject, setSubscribeProject] =
     useRecoilState(allSubscirbeProject);
 
+  //querytitle
   const queryTitle = `${title
     .toLowerCase()
     .replace(/ /gi, "")
@@ -118,8 +120,9 @@ const NFTproject: React.FC<ISquareCard> = ({
       (error) => console.log(error);
     }
   };
-  //ALLDATA
-  const AllNfts = AllNft;
+
+  console.log(subscribedProject.includes(`${queryTitle}`));
+
   return subscribedProject ? (
     <TouchableOpacity onPress={goToDetail}>
       <Container>
@@ -139,14 +142,9 @@ const NFTproject: React.FC<ISquareCard> = ({
           {/* <SubscribeBtn onPress={onClick}> */}
           {/* {isSubscribed ? ( */}
           {subscribedProject.includes(`${queryTitle}`) ? (
-            <AntDesign
-              name="star"
-              size={24}
-              color="white"
-              // color={`${(props) => props.theme.Bg0dp}`}
-            />
+            <AntDesign name="star" size={24} color="black" />
           ) : (
-            <AntDesign name="staro" size={24} color="white" />
+            <AntDesign name="staro" size={24} color="black" />
           )}
         </SubscribeBtn>
       </Container>

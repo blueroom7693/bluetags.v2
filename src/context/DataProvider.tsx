@@ -36,6 +36,15 @@ const DataProvider = ({ children }: any) => {
           .then((response) => {
             setUser(response.data);
             setSubscribedProject(response.data.subscribe);
+            setSubscribedProject(
+              response.data.subscribe.map((v) =>
+                v
+                  .toLowerCase()
+                  .replace(/ /gi, "")
+                  .replace(/-/gi, "")
+                  .replace(/`/gi, "")
+              )
+            );
           })
           .catch((error) => {
             if (error.response.data.name === "TokenExpiredError") {
