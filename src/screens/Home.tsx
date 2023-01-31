@@ -1,8 +1,8 @@
-import { SafeAreaView, StyleSheet } from "react-native";
+import { RefreshControl, SafeAreaView, StyleSheet } from "react-native";
 import styled from "styled-components/native";
-import { getAllBluecards } from "../axios";
+import { getAllBluecards, getUser } from "../axios";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   allSubscirbeProject,
@@ -24,6 +24,7 @@ import HeaderScroller from "../components/HeaderScroller";
 import { DataContext } from "../context/DataProvider";
 import axios from "axios";
 import NFTlist from "../components/card/NFTlist";
+import Loader from "../components/Loader";
 
 //INTERFACE
 interface HMediaProps {
@@ -91,10 +92,7 @@ const SubHeaderTitle = styled.Text`
 
 // main
 export default function Home() {
-  useEffect(() => {
-    console.log("실행됨");
-  }, []);
-  console.log("실행됨2");
+  getUser().then((res) => console.log(res.data));
 
   //USERDATA
   const { user } = useContext(DataContext);
@@ -177,10 +175,23 @@ export default function Home() {
   //     setData(Object.values(NftData?.data).filter(filter));
   //   }
   // }, [chain, project, sns, today, past, subscribe, NftData]);
+  ////refresh
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
   //RETURN
+
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
-      <HomeContainer>
+      <HomeContainer
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         {/* HEADER */}
         {/* <HeaderScroller /> */}
         {/* RECOMMEDED ARTICLE FLATLIST */}

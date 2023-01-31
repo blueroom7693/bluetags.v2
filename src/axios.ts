@@ -24,16 +24,6 @@ export function getAdminCheck(token: string) {
   return data;
 }
 
-// export function getUser(token: string) {
-//   const data = axiosInstance.get(`/api/v1/user/data/`, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-
-//   return data;
-// }
-
 export function getSearch(keyword: string) {
   const data = axiosInstance.get(`/api/v1/nft/search/?keyword=${keyword}`);
 
@@ -68,6 +58,9 @@ export function getNftInfo(nft: string) {
 
 export function getUser() {
   const data = axiosInstance.get(`/api/users/`);
+  // const Userdata = axiosInstance
+  //   .get(`/api/users/`)
+  //   .then((res) => console.log(res.data));
 
   return data;
 }

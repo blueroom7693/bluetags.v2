@@ -1,22 +1,6 @@
-import {
-  Image,
-  ImageBackground,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { SafeAreaView } from "react-native";
 import styled from "styled-components/native";
 import { Dimensions, FlatList } from "react-native";
-import Swiper from "react-native-swiper";
-import icons from "../../icons";
-import { WHITE } from "../colors";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
-import axios from "axios";
-import { isLogined } from "../atom";
-import { useRecoilState } from "recoil";
-import { AllNft, AllNftNonChain } from "../AllNft";
 import NFTproject from "../components/card/NFTproject";
 import { useQuery } from "@tanstack/react-query";
 import { getAllProjects, getUser } from "../axios";
@@ -27,6 +11,22 @@ const CollectionText = styled.Text`
   font-weight: 400;
   color: ${(props) => props.theme.Text0dp};
   margin-left: 20px;
+`;
+
+const ListHeaderContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${(props) => props.theme.Bg0dp};
+  flex-direction: row;
+  height: 60px;
+  border-width: 1px;
+`;
+const ListHeaderText = styled.Text`
+  font-size: 16px;
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-weight: 700;
+  color: ${(props) => props.theme.Text0dp};
 `;
 
 const NFT = () => {
@@ -61,7 +61,13 @@ const NFT = () => {
     <SafeAreaView>
       <CollectionText>Projects</CollectionText>
       <FlatList
-        // data={Object.values(allProjectData)}
+        ListHeaderComponent={
+          <ListHeaderContainer>
+            <ListHeaderText>Collection</ListHeaderText>
+            <ListHeaderText>Floor Price</ListHeaderText>
+            <ListHeaderText>Volumn</ListHeaderText>
+          </ListHeaderContainer>
+        }
         data={allProjectData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (

@@ -1,13 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { isLogined, allSubscirbeProject, token } from "../atom";
+import { RecoilState, useRecoilState, useRecoilValue } from "recoil";
+import { isLogined, allSubscirbeProject, token, userData } from "../atom";
 import { response } from "../constants/response";
 import { axiosInstance } from "./../axiosInstance";
 
 interface IContext {
   isLogin: boolean;
-  user: IUser;
+  user: any;
 }
 
 export interface IUser {
@@ -27,7 +27,8 @@ const DataProvider = ({ children }: any) => {
   const [isLogin, setIsLogin] = useRecoilState(isLogined);
   const [subscribedProject, setSubscribedProject] =
     useRecoilState(allSubscirbeProject);
-  const [user, setUser] = useState({} as IUser);
+  const [user, setUser] = useRecoilState(userData);
+
   useEffect(() => {
     async function getUser() {
       if (userToken !== "undefined") {
@@ -35,6 +36,11 @@ const DataProvider = ({ children }: any) => {
           .get(`/api/users`)
           .then((response) => {
             setUser(response.data);
+            console.log(
+              "im here im hereim hereim hereim hereim hereim hereim hereim hereim hereim hereim hereim here"
+            );
+            console.log(user);
+            // console.log(response.data);
             setSubscribedProject(response.data.subscribe);
             setSubscribedProject(
               response.data.subscribe.map((v) =>
@@ -48,7 +54,7 @@ const DataProvider = ({ children }: any) => {
           })
           .catch((error) => {
             if (error.response.data.name === "TokenExpiredError") {
-              setUser({} as IUser);
+              setUser(null);
             }
           });
       }

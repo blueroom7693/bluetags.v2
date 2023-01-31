@@ -2,14 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { Text, TouchableOpacity, View } from "react-native";
-import { AllNft } from "../../AllNft";
-import { color } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import { DataContext } from "../../context/DataProvider";
-import { allSubscirbeProject, token } from "../../atom";
+import { allSubscirbeProject, token, userData } from "../../atom";
 import { axiosInstance } from "../../axiosInstance";
 import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
+import useMutation from "../../libs/client/useMutation";
 
 //TYPE
 interface ISquareCard {
@@ -53,7 +52,7 @@ const SubscribeBtn = styled.TouchableOpacity`
   justify-content: space-between;
 `;
 
-//MAIN
+//NFTproject
 const NFTproject: React.FC<ISquareCard> = ({
   fullData,
   logourl,
@@ -71,15 +70,18 @@ const NFTproject: React.FC<ISquareCard> = ({
       },
     });
   };
+  // 유저정보가져오기
+  // const { user } = useContext(DataContext);
+  const { user } = useRecoilValue(userData);
+  console.log("user");
+  console.log(userData);
+
   // all subscribe
   const Allsubscribe = useRecoilValue(allSubscirbeProject);
-  // console.log(Allsubscribe);
+  console.log(Allsubscribe);
 
-  // ISSUBSCRIBE?
-  const userToken = useRecoilValue(token);
+  //구독 된건지 아닌지 하나씩 확인
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const { user } = useContext(DataContext);
-
   useEffect(() => {
     if (user) {
       if (
@@ -96,9 +98,9 @@ const NFTproject: React.FC<ISquareCard> = ({
     }
   }, []);
   // 배열 삭제
-  const onRemove = (id) => {
-    setSubscribeProject(subscribedProject.filter((user) => user !== id));
-  };
+  // const onRemove = (id) => {
+  //   setSubscribeProject(subscribedProject.filter((user) => user !== id));
+  // };
   // Subscribe
   const [subscribedProject, setSubscribeProject] =
     useRecoilState(allSubscirbeProject);
@@ -110,22 +112,37 @@ const NFTproject: React.FC<ISquareCard> = ({
     .replace(/-/gi, "")
     .replace(/`/gi, "")}`;
 
-  const onClickSubcribe = () => {
-    try {
-      axiosInstance.get(`/api/v1/user/favorite/choose/?nft=${queryTitle}`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
+  const [subscribe, { loading, error, status }] = useMutation(
+    "https://www.bluetags.app/api/users/subscribe"
+  );
+
+  const onClickSubcribe = (projectId: string, projectTitle: string) => {
+    if (!loading) {
+      subscribe({
+        projectId,
+        id: user.id,
       });
-      if (subscribedProject.includes(`${queryTitle}`)) {
-        onRemove(`${queryTitle}`);
-      } else {
-        setSubscribeProject([...subscribedProject, `${queryTitle}`]);
-      }
-    } catch {
-      (error) => console.log(error);
+      setIsSubscribed((prev) => !prev);
     }
   };
+
+  //old version
+  // const onClickSubcribe = () => {
+  //   try {
+  //     axiosInstance.get(`/api/v1/user/favorite/choose/?nft=${queryTitle}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${userToken}`,
+  //       },
+  //     });
+  //     if (subscribedProject.includes(`${queryTitle}`)) {
+  //       onRemove(`${queryTitle}`);
+  //     } else {
+  //       setSubscribeProject([...subscribedProject, `${queryTitle}`]);
+  //     }
+  //   } catch {
+  //     (error) => console.log(error);
+  //   }
+  // };
 
   return subscribedProject ? (
     <TouchableOpacity onPress={goToDetail}>
@@ -144,8 +161,7 @@ const NFTproject: React.FC<ISquareCard> = ({
         </View>
         <SubscribeBtn
           onPress={() => {
-            onClickSubcribe();
-            setIsSubscribed((prev) => !prev);
+            onClickSubcribe(fullData.id, fullData.title);
           }}
         >
           {/* <SubscribeBtn onPress={onClick}> */}
