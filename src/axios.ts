@@ -1,3 +1,5 @@
+import { useRecoilState } from "recoil";
+import { userData } from "./atom";
 import { axiosInstance } from "./axiosInstance";
 
 export interface IData {
@@ -58,9 +60,16 @@ export function getNftInfo(nft: string) {
 
 export function getUser() {
   const data = axiosInstance.get(`/api/users/`);
-  // const Userdata = axiosInstance
-  //   .get(`/api/users/`)
-  //   .then((res) => console.log(res.data));
 
   return data;
+}
+
+export function UpdateUser() {
+  // const data = axiosInstance.get(`/api/users/`);
+  const [updatedUser, setUpdatedUser] = useRecoilState(userData);
+  axiosInstance.get(`/api/users/`).then((res) => setUpdatedUser(res.data));
+  console.log("user info is updated");
+  console.log(updatedUser);
+
+  return;
 }

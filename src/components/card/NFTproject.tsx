@@ -29,6 +29,9 @@ const Container = styled.View`
   justify-content: space-between;
   height: 60px;
   border-width: 1px;
+  border-color: rgba(220, 220, 220, 1);
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 const ProjectLogo = styled.Image`
   width: 40px;
@@ -37,13 +40,13 @@ const ProjectLogo = styled.Image`
   margin-right: 10px;
 `;
 const ProjectName = styled.Text`
-  font-size: 16px;
+  font-size: 14px;
   font-family: "SpoqaHanSansNeo-Regular";
   font-weight: 700;
   color: ${(props) => props.theme.Text0dp};
 `;
 const ProjectPrice = styled.Text`
-  font-size: 16px;
+  font-size: 13px;
   font-family: "SpoqaHanSansNeo-Regular";
   font-weight: 700;
   color: ${(props) => props.theme.Text0dp};
@@ -72,38 +75,15 @@ const NFTproject: React.FC<ISquareCard> = ({
   };
   // 유저정보가져오기
   // const { user } = useContext(DataContext);
-  const { user } = useRecoilValue(userData);
-  console.log("user");
-  console.log(userData);
+  const user = useRecoilValue(userData);
 
-  // all subscribe
-  const Allsubscribe = useRecoilValue(allSubscirbeProject);
-  console.log(Allsubscribe);
-
-  //구독 된건지 아닌지 하나씩 확인
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  useEffect(() => {
-    if (user) {
-      if (
-        user.subscribe.includes(
-          title
-            .toLowerCase()
-            .replace(/ /gi, "")
-            .replace(/-/gi, "")
-            .replace(/`/gi, "")
-        )
-      ) {
-        setIsSubscribed(true);
-      }
-    }
-  }, []);
-  // 배열 삭제
-  // const onRemove = (id) => {
-  //   setSubscribeProject(subscribedProject.filter((user) => user !== id));
-  // };
   // Subscribe
   const [subscribedProject, setSubscribeProject] =
     useRecoilState(allSubscirbeProject);
+  // 배열 삭제
+  const onRemove = (id) => {
+    setSubscribeProject(subscribedProject.filter((user) => user !== id));
+  };
 
   //querytitle
   const queryTitle = `${title
@@ -111,7 +91,7 @@ const NFTproject: React.FC<ISquareCard> = ({
     .replace(/ /gi, "")
     .replace(/-/gi, "")
     .replace(/`/gi, "")}`;
-
+  //subscribe Post
   const [subscribe, { loading, error, status }] = useMutation(
     "https://www.bluetags.app/api/users/subscribe"
   );
@@ -122,7 +102,12 @@ const NFTproject: React.FC<ISquareCard> = ({
         projectId,
         id: user.id,
       });
-      setIsSubscribed((prev) => !prev);
+      // setIsSubscribed((prev) => !prev);
+      if (subscribedProject.includes(`${queryTitle}`)) {
+        onRemove(`${queryTitle}`);
+      } else {
+        setSubscribeProject([...subscribedProject, `${queryTitle}`]);
+      }
     }
   };
 
@@ -144,28 +129,25 @@ const NFTproject: React.FC<ISquareCard> = ({
   //   }
   // };
 
-  return subscribedProject ? (
+  return user ? (
     <TouchableOpacity onPress={goToDetail}>
       <Container>
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
+            width: 260,
           }}
         >
           <ProjectLogo source={{ uri: logourl }}></ProjectLogo>
-          <View>
-            <ProjectName>{title}</ProjectName>
-          </View>
-          <ProjectPrice>2.5 {fullData.chain}</ProjectPrice>
+          <ProjectName>{title}</ProjectName>
         </View>
+        <ProjectPrice>2.5 {fullData.chain}</ProjectPrice>
         <SubscribeBtn
           onPress={() => {
             onClickSubcribe(fullData.id, fullData.title);
           }}
         >
-          {/* <SubscribeBtn onPress={onClick}> */}
-          {/* {isSubscribed ? ( */}
           {subscribedProject.includes(`${queryTitle}`) ? (
             <AntDesign name="star" size={24} color="black" />
           ) : (

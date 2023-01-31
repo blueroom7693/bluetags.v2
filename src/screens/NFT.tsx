@@ -21,12 +21,20 @@ const ListHeaderContainer = styled.View`
   flex-direction: row;
   height: 60px;
   border-width: 1px;
+  border-color: rgba(220, 220, 220, 1);
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 const ListHeaderText = styled.Text`
   font-size: 16px;
   font-family: "SpoqaHanSansNeo-Regular";
   font-weight: 700;
   color: ${(props) => props.theme.Text0dp};
+`;
+
+const ProjectList = styled.FlatList`
+  margin-left: 15px;
+  margin-right: 15px;
 `;
 
 const NFT = () => {
@@ -59,8 +67,7 @@ const NFT = () => {
 
   return (
     <SafeAreaView>
-      <CollectionText>Projects</CollectionText>
-      <FlatList
+      <ProjectList
         ListHeaderComponent={
           <ListHeaderContainer>
             <ListHeaderText>Collection</ListHeaderText>

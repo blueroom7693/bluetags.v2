@@ -1,6 +1,6 @@
 import { RefreshControl, SafeAreaView, StyleSheet } from "react-native";
 import styled from "styled-components/native";
-import { getAllBluecards, getUser } from "../axios";
+import { getAllBluecards, getUser, UpdateUser } from "../axios";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -15,12 +15,11 @@ import {
   snstString,
   subscirbeProject,
   todayString,
+  userData,
 } from "../atom";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
 import SquareCard from "../components/card/SquareCard";
 import { AllNftNonChain } from "../AllNft";
-import CircleCard from "../components/card/CircleCard";
-import HeaderScroller from "../components/HeaderScroller";
 import { DataContext } from "../context/DataProvider";
 import axios from "axios";
 import NFTlist from "../components/card/NFTlist";
@@ -92,8 +91,6 @@ const SubHeaderTitle = styled.Text`
 
 // main
 export default function Home() {
-  getUser().then((res) => console.log(res.data));
-
   //USERDATA
   const { user } = useContext(DataContext);
   //ProjectData
