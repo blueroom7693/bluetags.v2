@@ -192,8 +192,8 @@ export default function Home() {
         {/* HEADER */}
         {/* <HeaderScroller /> */}
         {/* RECOMMEDED ARTICLE FLATLIST */}
-        <SubHeaderTitle>start with tags</SubHeaderTitle>
-        <HeaderTitle>Recommended Article</HeaderTitle>
+        <SubHeaderTitle>BlueCard</SubHeaderTitle>
+        <HeaderTitle>Large</HeaderTitle>
         <NFTList
           data={data}
           keyExtractor={(item) => item.id}
@@ -215,8 +215,8 @@ export default function Home() {
           )}
         />
         {/* RECOMMEDED PROJECT FLATLIST */}
-        <SubHeaderTitle>for you</SubHeaderTitle>
-        <HeaderTitle>Recommended Project</HeaderTitle>
+        <SubHeaderTitle>Project</SubHeaderTitle>
+        <HeaderTitle>Large</HeaderTitle>
         {/* <NFTList
           data={AllNft}
           keyExtractor={(item) => item.title}

@@ -59,7 +59,6 @@ function LogoTitle() {
         width: 104,
         resizeMode: "contain",
         marginLeft: 20,
-        // height: 51,
       }}
     />
   );
@@ -124,6 +123,64 @@ const Tabs = () => {
               <Ionicons
                 name="search"
                 // color={theme.Text0dp}
+                // color="rgb(0, 117, 255)"
+                color="grey"
+                style={{ marginRight: 20 }}
+                size={24}
+                onPress={() =>
+                  navigation.navigate("Stack", {
+                    screen: "Search",
+                    params: {
+                      // ...fullData,
+                    },
+                  })
+                }
+              />
+              <Ionicons
+                name={"person"}
+                // color={theme.Text0dp}
+                // color="rgb(0, 117, 255)"
+                color="grey"
+                style={{ marginRight: 30 }}
+                size={24}
+                onPress={() =>
+                  navigation.navigate("Stack", {
+                    screen: "Profile",
+                    params: {
+                      // ...fullData,
+                    },
+                  })
+                }
+              />
+            </HeaderRight>
+          ),
+        })}
+      />
+      <Tab.Screen
+        name="Watchlist"
+        component={Watchlist}
+        options={({ navigation, route }) => ({
+          // tabBarBadge: 2,
+          // tabBarBadgeStyle: { backgroundColor: "red" },
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="star" color={color} size={24} />
+          ),
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerRight: ({ color, size }) => (
+            <HeaderRight>
+              {/* <FontAwesomeIcon
+                icon={faFilter}
+                color={theme.Text0dp}
+                size={22}
+              />
+              <MaterialIcons
+                name={"home-filled"}
+                color={theme.Text0dp}
+                size={24}
+              /> */}
+              <Ionicons
+                name="search"
+                // color={theme.Text0dp}
                 color="rgb(0, 117, 255)"
                 style={{ marginRight: 20 }}
                 size={24}
@@ -156,48 +213,6 @@ const Tabs = () => {
         })}
       />
       <Tab.Screen
-        name="Watchlist"
-        component={Watchlist}
-        options={({ navigation, route }) => ({
-          // tabBarBadge: 2,
-          // tabBarBadgeStyle: { backgroundColor: "red" },
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="star" color={color} size={24} />
-          ),
-          headerRight: ({ color, size }) => (
-            <HeaderRight>
-              <MaterialIcons name={"home-filled"} color={"white"} size={30} />
-              <Ionicons
-                name="search"
-                color={"white"}
-                size={30}
-                onPress={() =>
-                  navigation.navigate("Stack", {
-                    screen: "Search",
-                    params: {
-                      // ...fullData,
-                    },
-                  })
-                }
-              />
-              <Ionicons
-                name={"person"}
-                color={"white"}
-                size={30}
-                onPress={() =>
-                  navigation.navigate("Stack", {
-                    screen: "Profile",
-                    params: {
-                      // ...fullData,
-                    },
-                  })
-                }
-              />
-            </HeaderRight>
-          ),
-        })}
-      />
-      <Tab.Screen
         name="NFT"
         component={NFT}
         options={({ navigation, route }) => ({
@@ -208,13 +223,25 @@ const Tabs = () => {
               size={24}
             />
           ),
+          headerTitle: (props) => <LogoTitle {...props} />,
           headerRight: ({ color, size }) => (
             <HeaderRight>
-              <MaterialIcons name={"home-filled"} color={"white"} size={24} />
+              {/* <FontAwesomeIcon
+                icon={faFilter}
+                color={theme.Text0dp}
+                size={22}
+              />
+              <MaterialIcons
+                name={"home-filled"}
+                color={theme.Text0dp}
+                size={24}
+              /> */}
               <Ionicons
                 name="search"
-                color={"black"}
-                size={30}
+                // color={theme.Text0dp}
+                color="rgb(0, 117, 255)"
+                style={{ marginRight: 20 }}
+                size={24}
                 onPress={() =>
                   navigation.navigate("Stack", {
                     screen: "Search",
@@ -226,8 +253,10 @@ const Tabs = () => {
               />
               <Ionicons
                 name={"person"}
-                color={"white"}
-                size={30}
+                // color={theme.Text0dp}
+                color="rgb(0, 117, 255)"
+                style={{ marginRight: 30 }}
+                size={24}
                 onPress={() =>
                   navigation.navigate("Stack", {
                     screen: "Profile",
