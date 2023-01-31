@@ -74,7 +74,6 @@ const NFTproject: React.FC<ISquareCard> = ({
     });
   };
   // 유저정보가져오기
-  // const { user } = useContext(DataContext);
   const user = useRecoilValue(userData);
 
   // Subscribe
@@ -91,6 +90,7 @@ const NFTproject: React.FC<ISquareCard> = ({
     .replace(/ /gi, "")
     .replace(/-/gi, "")
     .replace(/`/gi, "")}`;
+
   //subscribe Post
   const [subscribe, { loading, error, status }] = useMutation(
     "https://www.bluetags.app/api/users/subscribe"
@@ -102,7 +102,6 @@ const NFTproject: React.FC<ISquareCard> = ({
         projectId,
         id: user.id,
       });
-      // setIsSubscribed((prev) => !prev);
       if (subscribedProject.includes(`${queryTitle}`)) {
         onRemove(`${queryTitle}`);
       } else {
@@ -110,24 +109,6 @@ const NFTproject: React.FC<ISquareCard> = ({
       }
     }
   };
-
-  //old version
-  // const onClickSubcribe = () => {
-  //   try {
-  //     axiosInstance.get(`/api/v1/user/favorite/choose/?nft=${queryTitle}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${userToken}`,
-  //       },
-  //     });
-  //     if (subscribedProject.includes(`${queryTitle}`)) {
-  //       onRemove(`${queryTitle}`);
-  //     } else {
-  //       setSubscribeProject([...subscribedProject, `${queryTitle}`]);
-  //     }
-  //   } catch {
-  //     (error) => console.log(error);
-  //   }
-  // };
 
   return user ? (
     <TouchableOpacity onPress={goToDetail}>

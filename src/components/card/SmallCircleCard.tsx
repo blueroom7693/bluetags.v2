@@ -11,22 +11,25 @@ interface ICircleProject {
 }
 //CSS
 const ProjectLogo = styled.Image`
-  width: 50px;
-  height: 50px;
-  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: black;
 `;
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
-  justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  width: 48px;
+  height: 66px;
+  justify-content: flex-start;
+`;
+const ProjectName = styled.Text`
+  font-size: 9px;
 `;
 
 //MAIN
 const SmallCircleCard: React.FC<ICircleProject> = ({ title }) => {
-  //
   const [project, setProject] = useRecoilState(projectString);
-  console.log(project);
 
   return (
     <TouchableOpacity
@@ -38,6 +41,7 @@ const SmallCircleCard: React.FC<ICircleProject> = ({ title }) => {
         <ProjectLogo
           source={{ uri: AllNftNonChain[title].logourl }}
         ></ProjectLogo>
+        <ProjectName>{title}</ProjectName>
       </Container>
     </TouchableOpacity>
   );

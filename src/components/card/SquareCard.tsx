@@ -77,30 +77,35 @@ const ProjectLogo = styled.Image`
   border-radius: 5px;
 `;
 const SnsLogo = styled.Image`
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   margin-left: 10px;
 `;
 const CreatedAt = styled.Text`
   font-size: 12px;
   margin-right: 0px;
   color: ${(props) => props.theme.Text0dp};
+  font-family: "SpoqaHanSansNeo-Regular";
 `;
 const Description = styled.Text`
   font-size: 12px;
   font-weight: 500;
   line-height: 14px;
   color: ${(props) => props.theme.Text0dp};
+  font-family: "SpoqaHanSansNeo-Regular";
+  margin-top: 20px;
 `;
 const BlueTags = styled.Text`
   font-size: 12px;
   color: ${(props) => props.theme.Text0dp};
+  font-family: "SpoqaHanSansNeo-Regular";
 `;
 const ArticleTitle = styled.Text`
   font-size: 16px;
   font-weight: 500;
   color: ${(props) => props.theme.Text0dp};
   padding-left: 15px;
+  font-family: "SpoqaHanSansNeo-Regular";
 `;
 
 //MAIN

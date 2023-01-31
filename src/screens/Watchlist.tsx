@@ -28,12 +28,13 @@ import {
   token,
 } from "../atom";
 import { IUser } from "../context/DataProvider";
-import { getAllNft, getUser, IData } from "../axios";
+import { getAllBluecards, getAllNft, getUser, IData } from "../axios";
 import { IInfo } from "./Detail";
 import MiddleVCard from "../components/card/MiddleVCard";
 import { AllNftNonChain } from "../AllNft";
 import CircleCard from "../components/card/CircleCard";
 import SmallCircleCard from "../components/card/SmallCircleCard";
+import SquareCard from "../components/card/SquareCard";
 
 //CSS
 const ContentsList = styled.FlatList`
@@ -73,27 +74,28 @@ const AllProjectText = styled.Text`
 const Watchlist = () => {
   //THEME
   const isDark = useColorScheme() === "dark";
-  //TOKEN
-  const userToken = useRecoilValue(token);
   //
   const AllNftNonChains = AllNftNonChain;
-  //GETDATA
+  //query
   const { isLoading: isLoadingNft, data: NftData } = useQuery<IInfo>(
-    ["watchlistInfo"],
-    getAllNft
+    ["homeInfo"],
+    getAllBluecards
   );
   //SUBSCRIBE
   const [subscribeData, setSubscribeData] = useRecoilState(allSubscirbeProject);
-  useEffect(() => {
-    axiosInstance
-      .get<IUser>(`/api/v1/user/favorite`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
-      .then((response) => setSubscribeData(Object.values(response.data)));
-  }, [allSubscirbeProject]);
-  console.log(subscribeData);
+
+  // console.log(NftData.data);
+
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get<IUser>(`/api/v1/user/favorite`, {
+  //       headers: {
+  //         Authorization: `Bearer ${userToken}`,
+  //       },
+  //     })
+  //     .then((response) => setSubscribeData(Object.values(response.data)));
+  // }, [allSubscirbeProject]);
+  // console.log(subscribeData);
 
   //RECOILVALUE
   const chain = useRecoilValue(chainString);
@@ -103,56 +105,56 @@ const Watchlist = () => {
   const past = useRecoilValue(pastString);
   const subscribe = useRecoilValue(allSubscirbeProject);
   //Filter
-  const Watchlistfilter = (info: IData) => {
-    let chainBool: boolean = true;
-    let projectBool: boolean = true;
-    let snsBool: boolean = true;
-    let dateBool: boolean = true;
-    let subscribeBool: boolean = true;
-    const date = new Date(Date.parse(info.createdAt)).getTime();
-    if (chain !== "") {
-      chainBool = info.chain === chain.toUpperCase();
-    }
-    if (project !== "") {
-      projectBool =
-        info.nft ===
-        project
-          .toLowerCase()
-          .replace(/ /gi, "")
-          .replace(/-/gi, "")
-          .replace(/`/gi, "");
-    }
-    if (sns !== "") {
-      snsBool = info.SNS === sns;
-    }
-    if (today.getTime() - date < 0 || date - past.getTime() < 0) {
-      dateBool = false;
-    }
-    if (subscribe.length !== 0) {
-      subscribeBool = subscribe.includes(
-        info.nft
-          .toLowerCase()
-          .replace(/ /gi, "")
-          .replace(/-/gi, "")
-          .replace(/`/gi, "")
-      );
-    }
-    return chainBool && projectBool && snsBool && dateBool && subscribeBool;
-  };
+  // const Watchlistfilter = (info: IData) => {
+  //   let chainBool: boolean = true;
+  //   let projectBool: boolean = true;
+  //   let snsBool: boolean = true;
+  //   let dateBool: boolean = true;
+  //   let subscribeBool: boolean = true;
+  //   const date = new Date(Date.parse(info.createdAt)).getTime();
+  //   if (chain !== "") {
+  //     chainBool = info.project.chain === chain.toUpperCase();
+  //   }
+  //   if (project !== "") {
+  //     projectBool =
+  //       info.project.title ===
+  //       project
+  //         .toLowerCase()
+  //         .replace(/ /gi, "")
+  //         .replace(/-/gi, "")
+  //         .replace(/`/gi, "");
+  //   }
+  //   if (sns !== "") {
+  //     snsBool = info.sns === sns;
+  //   }
+  //   if (today.getTime() - date < 0 || date - past.getTime() < 0) {
+  //     dateBool = false;
+  //   }
+  //   if (subscribe.length !== 0) {
+  //     subscribeBool = subscribe.includes(
+  //       info.project.title
+  //         .toLowerCase()
+  //         .replace(/ /gi, "")
+  //         .replace(/-/gi, "")
+  //         .replace(/`/gi, "")
+  //     );
+  //   }
+  //   return chainBool && projectBool && snsBool && dateBool && subscribeBool;
+  // };
   //SETDATA
   const [data, setData] = useState<IData[]>();
 
   useEffect(() => {
     if (!isLoadingNft) {
-      setData(Object.values(NftData.data));
+      setData(Object.values(NftData.data.bluecards));
     }
   }, [isLoadingNft, NftData]);
 
-  useEffect(() => {
-    if (!isLoadingNft) {
-      setData(Object.values(NftData?.data).filter(Watchlistfilter));
-    }
-  }, [chain, project, sns, today, past, subscribe, NftData]);
+  // useEffect(() => {
+  //   if (!isLoadingNft) {
+  //     setData(Object.values(NftData?.data.bluecards).filter(Watchlistfilter));
+  //   }
+  // }, [chain, project, sns, today, past, subscribe, NftData]);
 
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
@@ -180,17 +182,28 @@ const Watchlist = () => {
       />
       <ContentsList
         data={data}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <MiddleVCard
+          // <MiddleVCard
+          //   createdAt={item.createdAt}
+          //   nft={item.project.title}
+          //   thumbnail={item.thumbnail}
+          //   title={item.title}
+          //   chain={item.chain}
+          //   SNS={item.sns}
+          //   fullData={item}
+          // ></MiddleVCard>
+          <SquareCard
             createdAt={item.createdAt}
-            nft={item.nft}
+            nft={item.project.title}
             thumbnail={item.thumbnail}
             title={item.title}
-            chain={item.chain}
-            SNS={item.SNS}
+            chain={item.project.chain}
+            SNS={item.sns}
+            projectlogo={item.project.logoUrl}
+            description={item.description}
             fullData={item}
-          ></MiddleVCard>
+          ></SquareCard>
         )}
       />
       <BottomFilter />

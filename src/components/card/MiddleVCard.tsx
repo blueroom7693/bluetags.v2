@@ -89,7 +89,6 @@ const MiddleVCard: React.FC<ISquareCard> = ({
     });
   };
   //ALLDATA
-  const AllNfts = AllNft;
   return (
     <TouchableOpacity onPress={goToDetail}>
       <Container>
@@ -97,7 +96,7 @@ const MiddleVCard: React.FC<ISquareCard> = ({
         <TitleConatier>
           <TouchableOpacity>
             <ProjectLogo
-              source={{ uri: AllNfts.eth[`${nft}`].logourl }}
+              source={{ uri: fullData.project.logoUrl }}
             ></ProjectLogo>
           </TouchableOpacity>
           <View>
