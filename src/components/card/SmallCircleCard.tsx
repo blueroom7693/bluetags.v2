@@ -15,6 +15,7 @@ const ProjectLogo = styled.Image`
   height: 40px;
   border-radius: 4px;
   background-color: black;
+  margin-bottom: 12px;
 `;
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};

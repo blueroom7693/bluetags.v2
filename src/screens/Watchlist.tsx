@@ -39,36 +39,37 @@ import SquareCard from "../components/card/SquareCard";
 //CSS
 const ContentsList = styled.FlatList`
   background-color: ${(props) => props.theme.Bg0dp};
-  flex: 2;
   /* width: 100%; */
 `;
 
 const ProjectScroller = styled.FlatList`
   background-color: ${(props) => props.theme.Bg0dp};
-  flex: 0.23;
   border-color: ${(props) => props.theme.BgBorder};
-  border-bottom-width: 1px;
+  height: 100px;
+  margin-top: 20px;
+  /* flex: 0.23; */
+  /* border-bottom-width: 1px; */
   /* width: 100%; */
 `;
 const HListSeparator = styled.View`
-  width: 20px;
+  width: 30px;
   background-color: ${(props) => props.theme.Bg0dp};
 `;
 
 //CSS FIRST COMPONENTS
 const AllProject = styled.TouchableOpacity`
-  width: 50px;
-  height: 50px;
-  border-radius: 70px;
-  background-color: ${(props) => props.theme.Text0dp};
+  width: 48px;
+  height: 66px;
+  border-radius: 40px;
+  background-color: ${(props) => props.theme.Bg0dp};
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  margin-right: 20px;
+  /* margin-top: 20px; */
+  margin-right: 30px;
 `;
 
 const AllProjectText = styled.Text`
-  font-size: 20px;
+  font-size: 15px;
 `;
 
 const Watchlist = () => {
@@ -164,18 +165,18 @@ const Watchlist = () => {
         keyExtractor={(item) => item}
         horizontal={true}
         ItemSeparatorComponent={HListSeparator}
-        contentContainerStyle={{ paddingHorizontal: 20 }}
-        ListHeaderComponent={
-          <AllProject>
-            <AllProjectText
-              onPress={() => {
-                setProject("");
-              }}
-            >
-              All
-            </AllProjectText>
-          </AllProject>
-        }
+        contentContainerStyle={{ paddingHorizontal: 30 }}
+        // ListHeaderComponent={
+        //   <AllProject>
+        //     <AllProjectText
+        //       onPress={() => {
+        //         setProject("");
+        //       }}
+        //     >
+        //       All
+        //     </AllProjectText>
+        //   </AllProject>
+        // }
         renderItem={({ item }) => (
           <SmallCircleCard title={item}></SmallCircleCard>
         )}
