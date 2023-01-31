@@ -9,9 +9,9 @@ export const lightTheme = {
   PrimaryContent0dp: "#000000",
   Secondary0dp: "rgba(55, 51, 255, 0.7)",
   onError: "#CF6679",
-  Tabbar: "#1f1f1f",
-  TabbarActive: "black",
-  TabbarInactive: "white",
+  Tabbar: "#f9f8ff",
+  TabbarActive: "#0075FF",
+  TabbarInactive: "#B0B0B0",
   BtnInner: "white",
 };
 export const darkTheme = {

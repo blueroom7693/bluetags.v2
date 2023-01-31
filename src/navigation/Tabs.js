@@ -54,15 +54,13 @@ const HeaderLogo = styled.Image`
 function LogoTitle() {
   return (
     <HeaderLogo
-      // source={{ uri: "../assets/images/Frame.png", width: 40, height: 40 }}
       source={require("../assets/images/Frame.png")}
       style={{
-        width: 85,
+        width: 104,
         resizeMode: "contain",
+        marginLeft: 20,
         // height: 51,
       }}
-
-      // src="../assets/images/Frame.png"
     />
   );
 }
@@ -82,8 +80,8 @@ const Tabs = () => {
           backgroundColor: `${theme.Tabbar}`,
           height: 50,
           position: "absolute",
-          // borderTopWidth: 1,
-          borderTopColor: LIGHT_GREY,
+          borderTopWidth: 0,
+          // borderTopColor: LIGHT_GREY,
           display: isTabBar ? "none" : "flex",
         },
         tabBarActiveTintColor: `${theme.TabbarActive}`,
@@ -95,12 +93,12 @@ const Tabs = () => {
           color: `${theme.Text0dp}`,
         },
         tabBarLabelStyle: {
-          marginTop: -5,
           fontSize: 10,
-          fontWeight: "400",
+          fontWeight: "700",
+          fontFamily: "SpoqaHanSansNeo-Regular",
         },
         headerShown: true,
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
       }}
     >
       <Tab.Screen
@@ -108,25 +106,27 @@ const Tabs = () => {
         component={Home}
         options={({ navigation, route }) => ({
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name={"home-filled"} color={color} size={30} />
+            <MaterialIcons name={"home-filled"} color={color} size={24} />
           ),
           headerTitle: (props) => <LogoTitle {...props} />,
           headerRight: ({ color, size }) => (
             <HeaderRight>
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faFilter}
                 color={theme.Text0dp}
-                size={24}
+                size={22}
               />
               <MaterialIcons
                 name={"home-filled"}
                 color={theme.Text0dp}
-                size={30}
-              />
+                size={24}
+              /> */}
               <Ionicons
                 name="search"
-                color={theme.Text0dp}
-                size={30}
+                // color={theme.Text0dp}
+                color="rgb(0, 117, 255)"
+                style={{ marginRight: 20 }}
+                size={24}
                 onPress={() =>
                   navigation.navigate("Stack", {
                     screen: "Search",
@@ -138,8 +138,10 @@ const Tabs = () => {
               />
               <Ionicons
                 name={"person"}
-                color={theme.Text0dp}
-                size={30}
+                // color={theme.Text0dp}
+                color="rgb(0, 117, 255)"
+                style={{ marginRight: 30 }}
+                size={24}
                 onPress={() =>
                   navigation.navigate("Stack", {
                     screen: "Profile",
@@ -157,10 +159,10 @@ const Tabs = () => {
         name="Watchlist"
         component={Watchlist}
         options={({ navigation, route }) => ({
-          tabBarBadge: 2,
-          tabBarBadgeStyle: { backgroundColor: "red" },
+          // tabBarBadge: 2,
+          // tabBarBadgeStyle: { backgroundColor: "red" },
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="star" color={color} size={30} />
+            <Ionicons name="star" color={color} size={24} />
           ),
           headerRight: ({ color, size }) => (
             <HeaderRight>
@@ -203,12 +205,12 @@ const Tabs = () => {
             <FontAwesomeIcon
               icon={faHexagonVerticalNft}
               color={color}
-              size={32}
+              size={24}
             />
           ),
           headerRight: ({ color, size }) => (
             <HeaderRight>
-              <MaterialIcons name={"home-filled"} color={"white"} size={30} />
+              <MaterialIcons name={"home-filled"} color={"white"} size={24} />
               <Ionicons
                 name="search"
                 color={"black"}
