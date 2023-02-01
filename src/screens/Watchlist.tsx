@@ -28,7 +28,7 @@ import {
   token,
 } from "../atom";
 import { IUser } from "../context/DataProvider";
-import { getAllBluecards, getAllNft, getUser, IData } from "../axios";
+import useUser, { getAllBluecards, getAllNft, getUser, IData } from "../axios";
 import { IInfo } from "./Detail";
 import MiddleVCard from "../components/card/MiddleVCard";
 import { AllNftNonChain } from "../AllNft";
@@ -74,38 +74,25 @@ const AllProjectText = styled.Text`
 `;
 
 const Watchlist = ({ navigation, router }) => {
-  const [user, setUser] = useState();
   //THEME
   const isDark = useColorScheme() === "dark";
-  //
-  const AllNftNonChains = AllNftNonChain;
-  //query
+  //query - 전체블루카드
   const { isLoading: isLoadingNft, data: NftData } = useQuery<IInfo>(
     ["homeInfo"],
     getAllBluecards
   );
-  const [s, setS] = useState<string[]>();
-  //SUBSCRIBE
-  const [subscribeData, setSubscribeData] = useRecoilState(allSubscirbeProject);
-
+  // 구독리스트
+  const [subscribeProject, setSubscribeProject] = useState<string[]>();
+  //유저정보 업데이트
   const isfoucsed = useIsFocused();
   useEffect(() => {
-    axios
-      .get("https://www.bluetags.app/api/users")
-      .then((res) => setS(res.data.subscribe));
+    if (isfoucsed) {
+      axios
+        .get("https://www.bluetags.app/api/users")
+        .then((res) => setSubscribeProject(res.data.subscribe));
+      console.log("페이지 들어옴");
+    }
   }, [isfoucsed]);
-  // console.log(NftData.data);
-
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get<IUser>(`/api/v1/user/favorite`, {
-  //       headers: {
-  //         Authorization: `Bearer ${userToken}`,
-  //       },
-  //     })
-  //     .then((response) => setSubscribeData(Object.values(response.data)));
-  // }, [allSubscirbeProject]);
-  // console.log(subscribeData);
 
   //RECOILVALUE
   const chain = useRecoilValue(chainString);
@@ -168,9 +155,9 @@ const Watchlist = ({ navigation, router }) => {
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
-      {s ? (
+      {subscribeProject ? (
         <ProjectScroller
-          data={s}
+          data={subscribeProject}
           keyExtractor={(item) => item}
           horizontal={true}
           ItemSeparatorComponent={HListSeparator}

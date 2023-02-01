@@ -91,10 +91,8 @@ const SubHeaderTitle = styled.Text`
 
 // main
 export default function Home() {
-  console.log(useUser().user.subscribe, 1231654);
+  // console.log(useUser().user.subscribe, 1231654);
 
-  //USERDATA
-  const { user } = useContext(DataContext);
   //ProjectData
   const [projectData, setProjectData] = useState(null);
   const [newProjectData, setNewProjectData] = useState(null);
