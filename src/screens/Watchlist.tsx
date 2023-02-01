@@ -23,7 +23,6 @@ import {
   pastString,
   projectString,
   snstString,
-  subscirbeProject,
   todayString,
   token,
 } from "../atom";
@@ -83,6 +82,7 @@ const Watchlist = ({ navigation, router }) => {
   );
   // 구독리스트
   const [subscribeProject, setSubscribeProject] = useState<string[]>();
+  const [sw, setSw] = useState();
   //유저정보 업데이트
   const isfoucsed = useIsFocused();
   useEffect(() => {
@@ -90,9 +90,24 @@ const Watchlist = ({ navigation, router }) => {
       axios
         .get("https://www.bluetags.app/api/users")
         .then((res) => setSubscribeProject(res.data.subscribe));
+
       console.log("페이지 들어옴");
     }
   }, [isfoucsed]);
+
+  useEffect(() => {
+    if (subscribeProject) {
+      const lower = subscribeProject.map((e) => {
+        return e
+          .toLowerCase()
+          .replace(/ /gi, "")
+          .replace(/-/gi, "")
+          .replace(/`/gi, "");
+      });
+      setSw(lower);
+      console.log(lower);
+    }
+  }, [subscribeProject]);
 
   //RECOILVALUE
   const chain = useRecoilValue(chainString);
@@ -155,9 +170,9 @@ const Watchlist = ({ navigation, router }) => {
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
-      {subscribeProject ? (
+      {sw ? (
         <ProjectScroller
-          data={subscribeProject}
+          data={sw}
           keyExtractor={(item) => item}
           horizontal={true}
           ItemSeparatorComponent={HListSeparator}
@@ -174,10 +189,10 @@ const Watchlist = ({ navigation, router }) => {
           //   </AllProject>
           // }
           renderItem={({ item }) => (
-            //<SmallCircleCard title={item}></SmallCircleCard>
-            <View>
-              <Text>{item}</Text>
-            </View>
+            <SmallCircleCard title={item}></SmallCircleCard>
+            // <View>
+            //   <Text>{item}</Text>
+            // </View>
           )}
         />
       ) : null}
