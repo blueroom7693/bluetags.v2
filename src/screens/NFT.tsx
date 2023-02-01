@@ -75,6 +75,7 @@ const NFT = () => {
   useEffect(() => {
     if (!isLoadingProjectData) {
       setAllProjectData(ProjectData.data.projects);
+      console.log(ProjectData.data.projects);
     }
     // console.log(allProjectData);
   }, [isLoadingProjectData, ProjectData]);
