@@ -5,6 +5,8 @@ import NFTproject from "../components/card/NFTproject";
 import { useQuery } from "@tanstack/react-query";
 import { getAllProjects, getUser } from "../axios";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { useIsFocused } from "@react-navigation/native";
 
 const CollectionText = styled.Text`
   font-size: 22px;
@@ -47,6 +49,19 @@ const NFT = () => {
     ["userData"],
     getUser
   );
+  ////////////////////////////
+  // 구독리스트
+  const [subscribeProject, setSubscribeProject] = useState<string[]>();
+  //유저정보 업데이트
+  const isfoucsed = useIsFocused();
+  useEffect(() => {
+    if (isfoucsed) {
+      axios
+        .get("https://www.bluetags.app/api/users")
+        .then((res) => setSubscribeProject(res.data.subscribe));
+      console.log("페이지 들어옴");
+    }
+  }, [isfoucsed]);
 
   useEffect(() => {
     if (!isLoadingUser) {

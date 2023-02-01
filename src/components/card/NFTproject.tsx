@@ -65,7 +65,7 @@ const NFTproject: React.FC<ISquareCard> = ({
   title,
   isBool = false,
 }) => {
-  const [sw, setSw] = useState(isBool);
+  const [isSubscribed, setIsSubscribed] = useState(isBool);
   //NAV
   const navigation = useNavigation();
   const goToDetail = () => {
@@ -106,12 +106,12 @@ const NFTproject: React.FC<ISquareCard> = ({
         projectId,
         id: user.id,
       });
-      setSw((prev) => !prev);
-      if (subscribedProject.includes(`${queryTitle}`)) {
-        onRemove(`${queryTitle}`);
-      } else {
-        setSubscribeProject([...subscribedProject, `${queryTitle}`]);
-      }
+      setIsSubscribed((prev) => !prev);
+      // if (subscribedProject.includes(`${queryTitle}`)) {
+      //   onRemove(`${queryTitle}`);
+      // } else {
+      //   setSubscribeProject([...subscribedProject, `${queryTitle}`]);
+      // }
     }
   };
 
@@ -134,12 +134,7 @@ const NFTproject: React.FC<ISquareCard> = ({
             onClickSubcribe(fullData.id, fullData.title);
           }}
         >
-          {/* {subscribedProject.includes(`${queryTitle}`) ? (
-            <AntDesign name="star" size={24} color="black" />
-          ) : (
-            <AntDesign name="staro" size={24} color="black" />
-          )} */}
-          {sw ? (
+          {isSubscribed ? (
             <AntDesign name="star" size={24} color="black" />
           ) : (
             <AntDesign name="staro" size={24} color="black" />
