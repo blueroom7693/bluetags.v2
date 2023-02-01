@@ -10,17 +10,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 import useMutation from "../../libs/client/useMutation";
 
-//TYPE
-interface ISquareCard {
-  fullData: any;
-  nft: string;
-  chain: string;
-  title: string;
-  thumbnail: string;
-  description: string;
-  createdAt: string;
-  SNS: string;
-}
 //CSS
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
@@ -55,13 +44,28 @@ const SubscribeBtn = styled.TouchableOpacity`
   justify-content: space-between;
 `;
 
+interface ISquareCard {
+  fullData: any;
+  nft: string;
+  chain: string;
+  title: string;
+  thumbnail: string;
+  description: string;
+  createdAt: string;
+  SNS: string;
+  logourl: string;
+  isBool?: boolean;
+}
+
 //NFTproject
 const NFTproject: React.FC<ISquareCard> = ({
   fullData,
   logourl,
   chain,
   title,
+  isBool = false,
 }) => {
+  const [sw, setSw] = useState(isBool);
   //NAV
   const navigation = useNavigation();
   const goToDetail = () => {
@@ -76,10 +80,10 @@ const NFTproject: React.FC<ISquareCard> = ({
   // 유저정보가져오기
   const user = useRecoilValue(userData);
 
-  // Subscribe
+  //Subscribe
   const [subscribedProject, setSubscribeProject] =
     useRecoilState(allSubscirbeProject);
-  // 배열 삭제
+  //배열 삭제
   const onRemove = (id) => {
     setSubscribeProject(subscribedProject.filter((user) => user !== id));
   };
@@ -102,6 +106,7 @@ const NFTproject: React.FC<ISquareCard> = ({
         projectId,
         id: user.id,
       });
+      setSw((prev) => !prev);
       if (subscribedProject.includes(`${queryTitle}`)) {
         onRemove(`${queryTitle}`);
       } else {
@@ -129,7 +134,12 @@ const NFTproject: React.FC<ISquareCard> = ({
             onClickSubcribe(fullData.id, fullData.title);
           }}
         >
-          {subscribedProject.includes(`${queryTitle}`) ? (
+          {/* {subscribedProject.includes(`${queryTitle}`) ? (
+            <AntDesign name="star" size={24} color="black" />
+          ) : (
+            <AntDesign name="staro" size={24} color="black" />
+          )} */}
+          {sw ? (
             <AntDesign name="star" size={24} color="black" />
           ) : (
             <AntDesign name="staro" size={24} color="black" />

@@ -1,6 +1,6 @@
 import { RefreshControl, SafeAreaView, StyleSheet } from "react-native";
 import styled from "styled-components/native";
-import { getAllBluecards, getUser, UpdateUser } from "../axios";
+import useUser, { getAllBluecards, getUser, UpdateUser } from "../axios";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -91,14 +91,14 @@ const SubHeaderTitle = styled.Text`
 
 // main
 export default function Home() {
+  console.log(useUser().user.subscribe, 1231654);
+
   //USERDATA
   const { user } = useContext(DataContext);
   //ProjectData
   const [projectData, setProjectData] = useState(null);
   const [newProjectData, setNewProjectData] = useState(null);
 
-  //AllNftNonChain
-  const AllNft = Object.values(AllNftNonChain);
   //BOTTOM FILTER
   const [bottomFilter, setBottomFilter] = useRecoilState(isBottomFilter);
   const openFilter = () => {
@@ -204,7 +204,7 @@ export default function Home() {
             <SquareCard
               createdAt={item.createdAt}
               nft={item.project.title}
-              thumbnail={item.thumbnail}
+              thumbnail={item?.thumbnail}
               title={item.title}
               chain={item.project.chain}
               SNS={item.sns}

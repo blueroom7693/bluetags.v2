@@ -35,6 +35,7 @@ import { AllNftNonChain } from "../AllNft";
 import CircleCard from "../components/card/CircleCard";
 import SmallCircleCard from "../components/card/SmallCircleCard";
 import SquareCard from "../components/card/SquareCard";
+import { useIsFocused } from "@react-navigation/native";
 
 //CSS
 const ContentsList = styled.FlatList`
@@ -72,7 +73,8 @@ const AllProjectText = styled.Text`
   font-size: 15px;
 `;
 
-const Watchlist = () => {
+const Watchlist = ({ navigation, router }) => {
+  const [user, setUser] = useState();
   //THEME
   const isDark = useColorScheme() === "dark";
   //
@@ -82,9 +84,16 @@ const Watchlist = () => {
     ["homeInfo"],
     getAllBluecards
   );
+  const [s, setS] = useState<string[]>();
   //SUBSCRIBE
   const [subscribeData, setSubscribeData] = useRecoilState(allSubscirbeProject);
 
+  const isfoucsed = useIsFocused();
+  useEffect(() => {
+    axios
+      .get("https://www.bluetags.app/api/users")
+      .then((res) => setS(res.data.subscribe));
+  }, [isfoucsed]);
   // console.log(NftData.data);
 
   // useEffect(() => {
@@ -144,7 +153,6 @@ const Watchlist = () => {
   // };
   //SETDATA
   const [data, setData] = useState<IData[]>();
-
   useEffect(() => {
     if (!isLoadingNft) {
       setData(Object.values(NftData.data.bluecards));
@@ -160,27 +168,32 @@ const Watchlist = () => {
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
-      <ProjectScroller
-        data={subscribeData}
-        keyExtractor={(item) => item}
-        horizontal={true}
-        ItemSeparatorComponent={HListSeparator}
-        contentContainerStyle={{ paddingHorizontal: 30 }}
-        // ListHeaderComponent={
-        //   <AllProject>
-        //     <AllProjectText
-        //       onPress={() => {
-        //         setProject("");
-        //       }}
-        //     >
-        //       All
-        //     </AllProjectText>
-        //   </AllProject>
-        // }
-        renderItem={({ item }) => (
-          <SmallCircleCard title={item}></SmallCircleCard>
-        )}
-      />
+      {s ? (
+        <ProjectScroller
+          data={s}
+          keyExtractor={(item) => item}
+          horizontal={true}
+          ItemSeparatorComponent={HListSeparator}
+          contentContainerStyle={{ paddingHorizontal: 30 }}
+          // ListHeaderComponent={
+          //   <AllProject>
+          //     <AllProjectText
+          //       onPress={() => {
+          //         setProject("");
+          //       }}
+          //     >
+          //       All
+          //     </AllProjectText>
+          //   </AllProject>
+          // }
+          renderItem={({ item }) => (
+            //<SmallCircleCard title={item}></SmallCircleCard>
+            <View>
+              <Text>{item}</Text>
+            </View>
+          )}
+        />
+      ) : null}
       <ContentsList
         data={data}
         keyExtractor={(item) => item.id}

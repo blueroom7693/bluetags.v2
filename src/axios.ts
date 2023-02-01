@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userData } from "./atom";
 import { axiosInstance } from "./axiosInstance";
@@ -64,12 +66,10 @@ export function getUser() {
   return data;
 }
 
-export function UpdateUser() {
-  // const data = axiosInstance.get(`/api/users/`);
-  const [updatedUser, setUpdatedUser] = useRecoilState(userData);
-  axiosInstance.get(`/api/users/`).then((res) => setUpdatedUser(res.data));
-  console.log("user info is updated");
-  console.log(updatedUser);
-
-  return;
+export default function useUser() {
+  const { isLoading: isLoadingUser, data: User } = useQuery(
+    ["userData"],
+    getUser
+  );
+  return { user: User?.data, isLoading: !User && !isLoadingUser };
 }

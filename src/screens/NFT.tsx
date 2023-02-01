@@ -43,7 +43,6 @@ const NFT = () => {
     ["subscribeInfo"],
     getAllProjects
   );
-
   const { isLoading: isLoadingUser, data: User } = useQuery(
     ["userData"],
     getUser
@@ -51,7 +50,7 @@ const NFT = () => {
 
   useEffect(() => {
     if (!isLoadingUser) {
-      console.log(User.data);
+      console.log(User.data.subscribe);
     }
   }, []);
 
@@ -64,28 +63,33 @@ const NFT = () => {
     }
     // console.log(allProjectData);
   }, [isLoadingProjectData, ProjectData]);
-
+  useEffect(() => {
+    console.log(User);
+  }, [User]);
   return (
     <SafeAreaView>
-      <ProjectList
-        ListHeaderComponent={
-          <ListHeaderContainer>
-            <ListHeaderText>Collection</ListHeaderText>
-            <ListHeaderText>Floor Price</ListHeaderText>
-            <ListHeaderText>Volumn</ListHeaderText>
-          </ListHeaderContainer>
-        }
-        data={allProjectData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <NFTproject
-            fullData={item}
-            chain={item.chain}
-            title={item.title}
-            logourl={item.logoUrl}
-          />
-        )}
-      />
+      {isLoadingUser ? null : (
+        <ProjectList
+          ListHeaderComponent={
+            <ListHeaderContainer>
+              <ListHeaderText>Collection</ListHeaderText>
+              <ListHeaderText>Floor Price</ListHeaderText>
+              <ListHeaderText>Volumn</ListHeaderText>
+            </ListHeaderContainer>
+          }
+          data={allProjectData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <NFTproject
+              fullData={item}
+              chain={item.chain}
+              title={item.title}
+              logourl={item.logoUrl}
+              isBool={User?.data.subscribe.includes(item.title)}
+            />
+          )}
+        />
+      )}
     </SafeAreaView>
   );
 };

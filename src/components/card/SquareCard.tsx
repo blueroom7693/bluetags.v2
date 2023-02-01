@@ -4,18 +4,6 @@ import styled from "styled-components/native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AllNft } from "../../AllNft";
 
-//TYPE
-interface ISquareCard {
-  fullData: any;
-  nft: string;
-  chain: string;
-  title: string;
-  thumbnail: string;
-  description: string;
-  createdAt: string;
-  SNS: string;
-  projectlogo: string;
-}
 //CSS
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
@@ -108,13 +96,26 @@ const ArticleTitle = styled.Text`
   font-family: "SpoqaHanSansNeo-Regular";
 `;
 
+//TYPE
+interface ISquareCard {
+  fullData: any;
+  nft: string;
+  chain: string;
+  title: string;
+  thumbnail?: string;
+  description: string;
+  createdAt: string;
+  SNS: string;
+  projectlogo: string;
+}
+
 //MAIN
 const SquareCard: React.FC<ISquareCard> = ({
   fullData,
   nft,
   chain,
   title,
-  thumbnail,
+  thumbnail = false,
   description,
   createdAt,
   SNS,
@@ -148,7 +149,16 @@ const SquareCard: React.FC<ISquareCard> = ({
         {/* <ProjectLogo
           source={{ uri: AllNfts.eth[`${nft}`].logourl }}
         ></ProjectLogo> */}
-        <Thumbnail source={{ uri: thumbnail }}></Thumbnail>
+        {thumbnail ? (
+          <Thumbnail source={{ uri: thumbnail }}></Thumbnail>
+        ) : (
+          <Thumbnail
+            source={{
+              uri: "https://marketplace.canva.com/EAE-xnqWvJk/1/0/1600w/canva-retro-smoke-and-round-light-desktop-wallpapers-JLofAI27pCg.jpg",
+            }}
+          ></Thumbnail>
+        )}
+        {/* <Thumbnail source={{ uri: thumbnail }}></Thumbnail> */}
         <MainContainer>
           <TitleConatainer>
             <View
