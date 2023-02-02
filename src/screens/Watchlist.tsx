@@ -100,7 +100,8 @@ const Watchlist = ({ navigation, router }) => {
         axios
           .get(`https://www.bluetags.app/api/bluecards?user=${res.data.id}`)
           .then((respose) => {
-            setNftData(Object.values(respose.data.bluecards)[1]);
+            setNftData(Object.values(respose.data.bluecards)[2]);
+            // console.log(Object.values(respose.data.bluecards)[1]);
             setIsLoadingNft(false);
           });
       });
@@ -158,7 +159,6 @@ const Watchlist = ({ navigation, router }) => {
   //     setData(Object.values(NftData?.data.bluecards).filter(Watchlistfilter));
   //   }
   // }, [chain, project, sns, today, past, subscribe, NftData]);
-
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}

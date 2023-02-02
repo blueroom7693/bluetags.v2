@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { Text, TouchableOpacity } from "react-native";
 import { AllNftNonChain } from "../../AllNft";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { projectString } from "../../atom";
+import axios from "axios";
 
 interface ICircleProject {
   title: string;
@@ -30,9 +31,32 @@ const ProjectName = styled.Text`
 
 //MAIN
 const SmallCircleCard: React.FC<ICircleProject> = ({ title }) => {
+  //Filtering
   const [project, setProject] = useRecoilState(projectString);
+  //axios
+  const [projectInfo, setProjectInfo] = useState();
+  // useEffect(() => {
+  //   if (title) {
+  //     axios
+  //       .get(`https://www.bluetags.app/api/projects/:${title}`)
+  //       .then((res) => {
+  //         console.log(res.data);
+  //         setProjectInfo(res.data);
+  //       });
+  //   }
+  // }, [title]);
 
-  return (
+  ///////////////////
+  // useEffect(() => {
+  //   axios.get(`https://www.bluetags.app/api/projects/${title}`).then((res) => {
+  //     // console.log(Object.values(res.data));
+  //     // console.log(res.data);
+  //     setProjectInfo(res.data.project);
+  //   });
+  // }, [title]);
+
+  console.log(title);
+  return true ? (
     <TouchableOpacity
       onPress={() => {
         setProject(title);
@@ -42,10 +66,11 @@ const SmallCircleCard: React.FC<ICircleProject> = ({ title }) => {
         <ProjectLogo
           source={{ uri: AllNftNonChain[title].logourl }}
         ></ProjectLogo>
-        {/* <ProjectName>{title}</ProjectName> */}
+        <ProjectName>{title}</ProjectName>
+        {/* <ProjectName>{projectInfo.title}</ProjectName> */}
       </Container>
     </TouchableOpacity>
-  );
+  ) : null;
 };
 
 export default SmallCircleCard;
