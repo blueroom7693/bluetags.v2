@@ -1,23 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Cardscreen from "../screens/Card";
-import { Button, useColorScheme, Text, View, Image } from "react-native";
-import {
-  BLACK_COLOR,
-  BLUE,
-  DARK_GREY,
-  LIGHT_GREY,
-  Pallet,
-  WHITE,
-  YELLOW_COLOR,
-} from "../colors";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
-import Search from "../screens/Search";
-import Profile from "../screens/Profile";
 import styled from "styled-components";
 import { DrawerActions } from "@react-navigation/native";
 import Watchlist from "../screens/Watchlist";
-import Feed from "../screens/Home";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { isBottomFilter } from "../atom";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -28,6 +14,8 @@ import Home from "../screens/Home";
 import { useContext } from "react";
 import { ThemeContext } from "styled-components/native";
 import * as NavigationBar from "expo-navigation-bar";
+import NewsPage from "../screens/News";
+import CalendarPage from "../screens/Calendar";
 
 DrawerActions;
 
@@ -157,6 +145,51 @@ const Tabs = () => {
         })}
       />
       <Tab.Screen
+        name="News"
+        component={NewsPage}
+        options={({ navigation, route }) => ({
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-newspaper-outline" color={color} size={24} />
+          ),
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerRight: ({ color, size }) => (
+            <HeaderRight>
+              <Ionicons
+                name="search"
+                // color={theme.Text0dp}
+                color="rgb(0, 117, 255)"
+                style={{ marginRight: 20 }}
+                size={24}
+                onPress={() =>
+                  navigation.navigate("Stack", {
+                    screen: "Search",
+                    params: {
+                      // ...fullData,
+                    },
+                  })
+                }
+              />
+              <Ionicons
+                name={"person"}
+                // color={theme.Text0dp}
+                color="rgb(0, 117, 255)"
+                style={{ marginRight: 30 }}
+                size={24}
+                onPress={() =>
+                  navigation.navigate("Stack", {
+                    screen: "Profile",
+                    params: {
+                      // ...fullData,
+                    },
+                  })
+                }
+              />
+            </HeaderRight>
+          ),
+        })}
+      />
+
+      <Tab.Screen
         name="Watchlist"
         component={Watchlist}
         options={({ navigation, route }) => ({
@@ -212,6 +245,52 @@ const Tabs = () => {
           ),
         })}
       />
+
+      <Tab.Screen
+        name="Calendar"
+        component={CalendarPage}
+        options={({ navigation, route }) => ({
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="calendar-sharp" color={color} size={24} />
+          ),
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerRight: ({ color, size }) => (
+            <HeaderRight>
+              <Ionicons
+                name="search"
+                // color={theme.Text0dp}
+                color="rgb(0, 117, 255)"
+                style={{ marginRight: 20 }}
+                size={24}
+                onPress={() =>
+                  navigation.navigate("Stack", {
+                    screen: "Search",
+                    params: {
+                      // ...fullData,
+                    },
+                  })
+                }
+              />
+              <Ionicons
+                name={"person"}
+                // color={theme.Text0dp}
+                color="rgb(0, 117, 255)"
+                style={{ marginRight: 30 }}
+                size={24}
+                onPress={() =>
+                  navigation.navigate("Stack", {
+                    screen: "Profile",
+                    params: {
+                      // ...fullData,
+                    },
+                  })
+                }
+              />
+            </HeaderRight>
+          ),
+        })}
+      />
+
       <Tab.Screen
         name="NFT"
         component={NFT}
