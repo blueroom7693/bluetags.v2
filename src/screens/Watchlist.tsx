@@ -20,6 +20,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   allSubscirbeProject,
   chainString,
+  isBottomFilter,
   pastString,
   projectString,
   snstString,
@@ -53,7 +54,7 @@ const ContentsList = styled.FlatList`
 const ProjectScroller = styled.FlatList`
   background-color: ${(props) => props.theme.Bg0dp};
   border-color: ${(props) => props.theme.BgBorder};
-  height: 100px;
+  height: 80px;
   margin-top: 20px;
   /* flex: 0.23; */
   /* border-bottom-width: 1px; */
@@ -179,6 +180,8 @@ const Watchlist = ({ navigation, router }) => {
   //     setData(Object.values(NftData?.data.bluecards).filter(Watchlistfilter));
   //   }
   // }, [chain, project, sns, today, past, subscribe, NftData]);
+  const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
+
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
@@ -212,6 +215,9 @@ const Watchlist = ({ navigation, router }) => {
         keyExtractor={(item) => item.id}
         ListHeaderComponent={
           <HeaderView>
+            <TouchableOpacity onPress={() => setIsOpen(true)}>
+              <Text>hiihi</Text>
+            </TouchableOpacity>
             <HeaderTitle>Main title</HeaderTitle>
             <SubHeaderTitle>Sub Event</SubHeaderTitle>
           </HeaderView>

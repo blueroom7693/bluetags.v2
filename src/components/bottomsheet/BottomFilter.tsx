@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useMemo, useState } from "react";
 import { StyleSheet, View, Text, Button, Image } from "react-native";
 import BottomSheet, {
+  BottomSheetBackdrop,
   BottomSheetFlatList,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
@@ -20,7 +21,7 @@ const BottomFilter = () => {
   // hooks
   const sheetRef = useRef<BottomSheet>(null);
   // SNAPPOINT
-  const snapPoints = ["50%"];
+  const snapPoints = ["55%"];
   //ISOPEN RECOIL
   const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
   //FILTER RECOIL
@@ -49,9 +50,11 @@ const BottomFilter = () => {
       snapPoints={snapPoints}
       enablePanDownToClose={true}
       onClose={() => setIsOpen(false)}
+      // backdropComponent
       // backgroundComponent={CustomBackground}
       backgroundStyle={styles.container}
     >
+      {/* <BottomSheetBackdrop></BottomSheetBackdrop> */}
       <BottomSheetView style={styles.container}>
         <TopSection>
           <BottomContainerText>Filter</BottomContainerText>
