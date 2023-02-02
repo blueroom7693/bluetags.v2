@@ -60,7 +60,7 @@ const ProjectScroller = styled.FlatList`
   /* width: 100%; */
 `;
 const HListSeparator = styled.View`
-  width: 30px;
+  width: 15px;
   background-color: ${(props) => props.theme.Bg0dp};
 `;
 
@@ -168,7 +168,7 @@ const Watchlist = ({ navigation, router }) => {
           keyExtractor={(item) => item}
           horizontal={true}
           ItemSeparatorComponent={HListSeparator}
-          contentContainerStyle={{ paddingHorizontal: 30 }}
+          contentContainerStyle={{ paddingHorizontal: 15 }}
           // ListHeaderComponent={
           //   <AllProject>
           //     <AllProjectText

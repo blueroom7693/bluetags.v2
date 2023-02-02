@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { AllNftNonChain } from "../../AllNft";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { projectString } from "../../atom";
@@ -21,42 +21,31 @@ const ProjectLogo = styled.Image`
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
   align-items: center;
-  width: 48px;
-  height: 66px;
+  width: 58px;
+  height: 75px;
   justify-content: flex-start;
 `;
 const ProjectName = styled.Text`
   font-size: 9px;
+  color: ${(props) => props.theme.Text0dp};
+  font-weight: 700;
+  text-align:center
+  font-family: "SpoqaHanSansNeo-Regular";
 `;
 
 //MAIN
 const SmallCircleCard: React.FC<ICircleProject> = ({ title }) => {
   //Filtering
   const [project, setProject] = useRecoilState(projectString);
-  //axios
+  //axios project info
   const [projectInfo, setProjectInfo] = useState();
-  // useEffect(() => {
-  //   if (title) {
-  //     axios
-  //       .get(`https://www.bluetags.app/api/projects/:${title}`)
-  //       .then((res) => {
-  //         console.log(res.data);
-  //         setProjectInfo(res.data);
-  //       });
-  //   }
-  // }, [title]);
+  useEffect(() => {
+    axios.get(`https://www.bluetags.app/api/projects/${title}`).then((res) => {
+      setProjectInfo(res.data.project);
+    });
+  }, [title]);
 
-  ///////////////////
-  // useEffect(() => {
-  //   axios.get(`https://www.bluetags.app/api/projects/${title}`).then((res) => {
-  //     // console.log(Object.values(res.data));
-  //     // console.log(res.data);
-  //     setProjectInfo(res.data.project);
-  //   });
-  // }, [title]);
-
-  console.log(title);
-  return true ? (
+  return projectInfo ? (
     <TouchableOpacity
       onPress={() => {
         setProject(title);
@@ -64,10 +53,11 @@ const SmallCircleCard: React.FC<ICircleProject> = ({ title }) => {
     >
       <Container>
         <ProjectLogo
-          source={{ uri: AllNftNonChain[title].logourl }}
+          // source={{ uri: AllNftNonChain[title].logourl }}
+          source={{ uri: `${projectInfo.logoUrl}` }}
         ></ProjectLogo>
-        <ProjectName>{title}</ProjectName>
-        {/* <ProjectName>{projectInfo.title}</ProjectName> */}
+        {/* <ProjectName>{title}</ProjectName> */}
+        <ProjectName>{projectInfo.title}</ProjectName>
       </Container>
     </TouchableOpacity>
   ) : null;
