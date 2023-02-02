@@ -80,6 +80,26 @@ const AllProjectText = styled.Text`
   font-size: 15px;
 `;
 
+const HeaderView = styled.View``;
+
+const HeaderTitle = styled.Text`
+  font-size: 26px;
+  color: ${(props) => props.theme.Text1dp};
+  margin-left: 15px;
+  margin-bottom: 3px;
+  margin-top: 35px;
+  font-family: "SpoqaHanSansNeo-Regular";
+`;
+const SubHeaderTitle = styled.Text`
+  font-size: 16px;
+  color: ${(props) => props.theme.Text0dp};
+  margin-left: 15px;
+  font-weight: 700;
+  opacity: 0.5;
+  margin-bottom: 16px;
+  font-family: "SpoqaHanSansNeo-Regular";
+`;
+
 const Watchlist = ({ navigation, router }) => {
   //THEME
   const isDark = useColorScheme() === "dark";
@@ -168,6 +188,7 @@ const Watchlist = ({ navigation, router }) => {
           keyExtractor={(item) => item}
           horizontal={true}
           ItemSeparatorComponent={HListSeparator}
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 15 }}
           // ListHeaderComponent={
           //   <AllProject>
@@ -186,8 +207,15 @@ const Watchlist = ({ navigation, router }) => {
         />
       ) : null}
       <ContentsList
+        showsVerticalScrollIndicator={false}
         data={NftData}
         keyExtractor={(item) => item.id}
+        ListHeaderComponent={
+          <HeaderView>
+            <HeaderTitle>Main title</HeaderTitle>
+            <SubHeaderTitle>Sub Event</SubHeaderTitle>
+          </HeaderView>
+        }
         renderItem={({ item }) => (
           <BluecardLarge fullData={item}></BluecardLarge>
         )}

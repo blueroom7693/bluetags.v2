@@ -22,7 +22,7 @@ const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
   align-items: center;
   width: 58px;
-  height: 75px;
+  height: 15px;
   justify-content: flex-start;
 `;
 const ProjectName = styled.Text`

@@ -1,7 +1,13 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { AllNft } from "../../AllNft";
 import MiddleBarSVG from "../../assets/images/misc/middlebar.svg";
 import BtnSVG from "../../assets/images/misc/subscribeWhite.svg";
@@ -146,7 +152,7 @@ const BluecardLarge: React.FC<ISquareCard> = ({ fullData }) => {
   };
   //ALLDATA
   return (
-    <TouchableOpacity onPress={goToDetail}>
+    <TouchableWithoutFeedback onPress={goToDetail}>
       <Container
         style={{
           shadowColor: "#000000",
@@ -224,7 +230,7 @@ const BluecardLarge: React.FC<ISquareCard> = ({ fullData }) => {
         </MainContainer>
         {/* <BlueTags>#SAMPLE</BlueTags> */}
       </Container>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 };
 
