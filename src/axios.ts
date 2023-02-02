@@ -66,10 +66,16 @@ export function getUser() {
   return data;
 }
 
-export default function useUser() {
+export function useUser() {
   const { isLoading: isLoadingUser, data: User } = useQuery(
     ["userData"],
     getUser
   );
   return { user: User?.data, isLoading: !User && !isLoadingUser };
+}
+
+export function getSubscribeBluecard(userId: string) {
+  const data = axiosInstance.get(`/api/bluecards?user=${userId}`);
+
+  return data;
 }

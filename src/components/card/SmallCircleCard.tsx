@@ -42,7 +42,7 @@ const SmallCircleCard: React.FC<ICircleProject> = ({ title }) => {
         <ProjectLogo
           source={{ uri: AllNftNonChain[title].logourl }}
         ></ProjectLogo>
-        <ProjectName>{title}</ProjectName>
+        {/* <ProjectName>{title}</ProjectName> */}
       </Container>
     </TouchableOpacity>
   );

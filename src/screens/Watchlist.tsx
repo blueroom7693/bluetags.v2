@@ -27,7 +27,14 @@ import {
   token,
 } from "../atom";
 import { IUser } from "../context/DataProvider";
-import useUser, { getAllBluecards, getAllNft, getUser, IData } from "../axios";
+import useUser, {
+  getAllBluecards,
+  getAllNft,
+  getSubscribeBlucard,
+  getSubscribeBluecard,
+  getUser,
+  IData,
+} from "../axios";
 import { IInfo } from "./Detail";
 import MiddleVCard from "../components/card/MiddleVCard";
 import { AllNftNonChain } from "../AllNft";
@@ -76,38 +83,82 @@ const Watchlist = ({ navigation, router }) => {
   //THEME
   const isDark = useColorScheme() === "dark";
   //query - 전체블루카드
-  const { isLoading: isLoadingNft, data: NftData } = useQuery<IInfo>(
-    ["homeInfo"],
-    getAllBluecards
-  );
+  // const { isLoading: isLoadingNft, data: NftData } = useQuery<IInfo>(
+  //   ["homeInfo"],
+  //   getAllBluecards
+  // );
+
+  // 구독리스트 기반 블루카드 받아오기!
+  const [user, setUser] = useState<string>();
+
   // 구독리스트
   const [subscribeProject, setSubscribeProject] = useState<string[]>();
   const [sw, setSw] = useState();
+  //
+  const [NftData, setNftData] = useState();
+  const [isLoadingNft, setIsLoadingNft] = useState(true);
   //유저정보 업데이트
   const isfoucsed = useIsFocused();
   useEffect(() => {
     if (isfoucsed) {
-      axios
-        .get("https://www.bluetags.app/api/users")
-        .then((res) => setSubscribeProject(res.data.subscribe));
-
-      console.log("페이지 들어옴");
-    }
-  }, [isfoucsed]);
-
-  useEffect(() => {
-    if (subscribeProject) {
-      const lower = subscribeProject.map((e) => {
-        return e
-          .toLowerCase()
-          .replace(/ /gi, "")
-          .replace(/-/gi, "")
-          .replace(/`/gi, "");
+      axios.get("https://www.bluetags.app/api/users").then((res) => {
+        setSubscribeProject(res.data.subscribe);
+        setUser(res.data.id);
       });
-      setSw(lower);
-      console.log(lower);
     }
-  }, [subscribeProject]);
+    console.log("와치리스트 페이지 들어옴");
+  }, [isfoucsed]);
+  axios
+    .get(`https://www.bluetags.app/api/bluecards?user=63c76bc5cf44b7a82bc9584f`)
+    .then((res) => {
+      // console.log(Object.values(res.data.bluecards)[0][3].title);
+      // console.log(Object.values(res.data.bluecards));
+
+      setNftData(Object.values(res.data.bluecards)[1]);
+
+      setIsLoadingNft(false);
+    });
+  // const { isLoading: isLoadingNft, data: NftData } = useQuery(
+  //   ["getSubscribeBlucard"],
+  //   getSubscribeBluecard(user)
+  // );
+  // useEffect(() => {
+  //   // console.log(user);
+  //   if (user) {
+  //     getSubscribeBluecard(user).then((res) => {
+  //       setNftData(res.data.bluecards);
+  //       setIsLoadingNft(false);
+  //     });
+  //     // if (!NftData) {
+  //     //   setIsLoadingNft(false);
+  //     // }
+  //   }
+  // }, [user]);
+
+  // axios
+  //   .get(`https://www.bluetags.app/api/bluecards?user=63c76bc5cf44b7a82bc9584f`)
+  //   .then((res) => {
+  //     console.log(res.data, 123124);
+  //     setNftData(res.data);
+  //     setIsLoadingNft(false);
+
+  //   });
+
+  // console.log(NftData);
+
+  // useEffect(() => {
+  //   if (subscribeProject) {
+  //     const lower = subscribeProject.map((e) => {
+  //       return e
+  //         .toLowerCase()
+  //         .replace(/ /gi, "")
+  //         .replace(/-/gi, "")
+  //         .replace(/`/gi, "");
+  //     });
+  //     setSw(lower);
+  //     console.log(lower);
+  //   }
+  // }, [subscribeProject]);
 
   //RECOILVALUE
   const chain = useRecoilValue(chainString);
@@ -154,12 +205,12 @@ const Watchlist = ({ navigation, router }) => {
   //   return chainBool && projectBool && snsBool && dateBool && subscribeBool;
   // };
   //SETDATA
-  const [data, setData] = useState<IData[]>();
-  useEffect(() => {
-    if (!isLoadingNft) {
-      setData(Object.values(NftData.data.bluecards));
-    }
-  }, [isLoadingNft, NftData]);
+  // const [data, setData] = useState<IData[]>();
+  // useEffect(() => {
+  //   if (!isLoadingNft) {
+  //     setData(Object.values(NftData.data.bluecards));
+  //   }
+  // }, [isLoadingNft, NftData]);
 
   // useEffect(() => {
   //   if (!isLoadingNft) {
@@ -197,7 +248,8 @@ const Watchlist = ({ navigation, router }) => {
         />
       ) : null}
       <ContentsList
-        data={data}
+        // data={data}
+        data={NftData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           // <MiddleVCard

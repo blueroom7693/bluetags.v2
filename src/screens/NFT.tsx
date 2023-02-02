@@ -101,7 +101,7 @@ const NFT = () => {
               chain={item.chain}
               title={item.title}
               logourl={item.logoUrl}
-              isBool={User?.data.subscribe.includes(item.title)}
+              isBool={User?.data.subscribe.includes(item.key)}
             />
           )}
         />
