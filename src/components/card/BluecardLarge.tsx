@@ -3,12 +3,14 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AllNft } from "../../AllNft";
+import MiddleBarSVG from "../../assets/images/misc/middlebar.svg";
+import BtnSVG from "../../assets/images/misc/subscribeWhite.svg";
 
 //CSS
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
-  width: 336px;
-  height: 480px;
+  width: 355px;
+  height: 516px;
   margin-top: 20px;
   align-items: flex-start;
   border-radius: 10px;
@@ -21,11 +23,11 @@ const Container = styled.View`
 const MainContainer = styled.View`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   padding: 0px 24px 24px;
   gap: 16px;
 
-  width: 336px;
+  width: 350px;
   height: 200px;
 `;
 
@@ -35,9 +37,11 @@ const TitleConatainer = styled.View`
   align-items: center;
   padding: 0px 0px 0px;
 
-  width: 260px;
-  height: 50px;
-  margin-top: 16px;
+  width: 315px;
+  height: 40px;
+  margin-top: 30px;
+  justify-content: space-between;
+  margin-bottom: 20px;
   /* border-bottom-width: 1px;
   border-bottom-color: rgba(0, 0, 0, 0.1);
   border-bottom-style: solid; */
@@ -47,37 +51,39 @@ const TimeContaier = styled.View`
   width: 100%;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   padding-bottom: 10px;
-  border-bottom-width: 1px;
+  /* border-bottom-width: 1px; */
   border-color: rgba(0, 0, 0, 0.1);
 `;
 
 const Thumbnail = styled.Image`
-  width: 336px;
-  height: 160px;
+  width: 355px;
+  height: 210px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 `;
 const ProjectLogo = styled.Image`
-  width: 45px;
-  height: 45px;
-  border-radius: 5px;
+  width: 17px;
+  height: 17px;
+  border-radius: 2px;
 `;
 const SnsLogo = styled.Image`
   width: 30px;
   height: 30px;
-  margin-left: 10px;
+  /* margin-left: 10px; */
+  border-radius: 0px;
 `;
 const CreatedAt = styled.Text`
   font-size: 12px;
-  margin-right: 0px;
+  margin-left: 10px;
   color: ${(props) => props.theme.Text0dp};
   font-family: "SpoqaHanSansNeo-Regular";
+  font-weight: 500;
 `;
 const Description = styled.Text`
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 400;
   line-height: 14px;
   color: ${(props) => props.theme.Text0dp};
   font-family: "SpoqaHanSansNeo-Regular";
@@ -89,11 +95,35 @@ const BlueTags = styled.Text`
   font-family: "SpoqaHanSansNeo-Regular";
 `;
 const ArticleTitle = styled.Text`
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 500;
   color: ${(props) => props.theme.Text0dp};
   padding-left: 15px;
   font-family: "SpoqaHanSansNeo-Regular";
+`;
+const ProjectTitle = styled.Text`
+  font-size: 12px;
+  font-weight: 700;
+  font-family: "SpoqaHanSansNeo-Regular";
+  color: ${(props) => props.theme.Text0dp};
+  margin-right: 10px;
+`;
+const BtnView = styled.TouchableOpacity`
+  width: 295px;
+  height: 40px;
+  background: #191f28;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-top: 30px;
+  flex-direction: row;
+`;
+const BtnText = styled.Text`
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  color: ${(props) => props.theme.Bg0dp};
 `;
 
 //TYPE
@@ -102,7 +132,7 @@ interface ISquareCard {
 }
 
 //MAIN
-const SquareCard: React.FC<ISquareCard> = ({ fullData }) => {
+const BluecardLarge: React.FC<ISquareCard> = ({ fullData }) => {
   //NAV
   const navigation = useNavigation();
   const goToDetail = () => {
@@ -138,32 +168,12 @@ const SquareCard: React.FC<ISquareCard> = ({ fullData }) => {
         {/* <Thumbnail source={{ uri: thumbnail }}></Thumbnail> */}
         <MainContainer>
           <TitleConatainer>
-            <View
-              style={{
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 5,
-                elevation: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                width: 45,
-                height: 45,
-              }}
-            >
-              <ProjectLogo
-                source={{ uri: fullData.project.logoUrl }}
-              ></ProjectLogo>
+            <View style={{ width: 250 }}>
+              <ArticleTitle>
+                {fullData.title.slice(0, 15)}
+                {fullData.title.length > 45 ? "..." : null}
+              </ArticleTitle>
             </View>
-            <ArticleTitle>
-              {fullData.title.slice(0, 45)}
-              {fullData.title.length > 45 ? "..." : null}
-            </ArticleTitle>
-          </TitleConatainer>
-          <TimeContaier>
-            <CreatedAt>{`${new Date(
-              fullData.createdAt
-            ).toDateString()}`}</CreatedAt>
             {fullData.sns === "discord" ? (
               <SnsLogo
                 source={{
@@ -177,8 +187,40 @@ const SquareCard: React.FC<ISquareCard> = ({ fullData }) => {
                 }}
               ></SnsLogo>
             )}
+          </TitleConatainer>
+          <TimeContaier>
+            <View
+              style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 5,
+                elevation: 10,
+                justifyContent: "center",
+                alignItems: "center",
+                width: 17,
+                height: 17,
+                marginRight: 10,
+              }}
+            >
+              <ProjectLogo
+                source={{ uri: fullData.project.logoUrl }}
+              ></ProjectLogo>
+            </View>
+            <ProjectTitle>{fullData.project.title}</ProjectTitle>
+            <MiddleBarSVG width={11} />
+            <CreatedAt>{`${new Date(
+              fullData.createdAt
+            ).toDateString()}`}</CreatedAt>
           </TimeContaier>
-          <Description>{fullData.description}</Description>
+          <Description>
+            {fullData.description.slice(0, 180)}
+            {fullData.description.length > 45 ? "..." : null}
+          </Description>
+          <BtnView>
+            <BtnText>Subscribe</BtnText>
+            <BtnSVG width={40} />
+          </BtnView>
         </MainContainer>
         {/* <BlueTags>#SAMPLE</BlueTags> */}
       </Container>
@@ -186,4 +228,4 @@ const SquareCard: React.FC<ISquareCard> = ({ fullData }) => {
   );
 };
 
-export default SquareCard;
+export default BluecardLarge;
