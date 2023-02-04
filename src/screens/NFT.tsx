@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import styled from "styled-components/native";
 import { Dimensions, FlatList } from "react-native";
 import NFTproject from "../components/card/NFTproject";
@@ -7,6 +7,27 @@ import { getAllProjects, getUser } from "../axios";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
+
+//css
+const HeaderView = styled.View``;
+
+const HeaderTitle = styled.Text`
+  font-size: 26px;
+  color: ${(props) => props.theme.Text1dp};
+  margin-left: 15px;
+  margin-bottom: 3px;
+  margin-top: 35px;
+  font-family: "SpoqaHanSansNeo-Regular";
+`;
+const SubHeaderTitle = styled.Text`
+  font-size: 16px;
+  color: ${(props) => props.theme.Text0dp};
+  margin-left: 15px;
+  font-weight: 700;
+  opacity: 0.5;
+  margin-bottom: 16px;
+  font-family: "SpoqaHanSansNeo-Regular";
+`;
 
 const CollectionText = styled.Text`
   font-size: 22px;
@@ -87,11 +108,17 @@ const NFT = () => {
       {isLoadingUser ? null : (
         <ProjectList
           ListHeaderComponent={
-            <ListHeaderContainer>
-              <ListHeaderText>Collection</ListHeaderText>
-              <ListHeaderText>Floor Price</ListHeaderText>
-              <ListHeaderText>Volumn</ListHeaderText>
-            </ListHeaderContainer>
+            <View>
+              <HeaderView>
+                <HeaderTitle>Trending News</HeaderTitle>
+                <SubHeaderTitle>Sub Event</SubHeaderTitle>
+              </HeaderView>
+              <ListHeaderContainer>
+                <ListHeaderText>Collection</ListHeaderText>
+                <ListHeaderText>Floor Price</ListHeaderText>
+                <ListHeaderText>Volumn</ListHeaderText>
+              </ListHeaderContainer>
+            </View>
           }
           data={allProjectData}
           keyExtractor={(item) => item.id}
