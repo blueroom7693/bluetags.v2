@@ -50,40 +50,25 @@ const CalendarPage = () => {
   }, [isfoucsed]);
 
   // 시작과 끝 날짜 구하기 함수
+  const [dateArray, setDateArray] = useState<string>();
   const getDatesStartToLast = (startDate, lastDate) => {
+    setDateArray(null);
     const result = [];
     while (startDate <= lastDate) {
       result.push(startDate.toISOString().split("T")[0]);
-      //   result.push(startDate.split("T")[0]);
       startDate.setDate(startDate.getDate() + 1);
-      console.log(startDate);
-      //   startDate.setDate(startDate.getDate() + 1);
     }
-    return result;
+    setDateArray(result);
+    console.log(dateArray);
+    return;
   };
 
-  //
+  //출력하자
   useEffect(() => {
     if (allBluecards) {
-      //   console.log(Object.values(allBluecards.title));
-      //   console.log(allBluecards[0].deadLineEnd.split("T")[0]);
-      //   console.log(new Date(allBluecards[0].deadLineEnd).getDate() + 1);
-      //   console.log(new Date(allBluecards[0].deadLineStart).getDate() + 1);
       const startDate = new Date(allBluecards[0].deadLineStart);
-      const endDate = new Date(2023, 1, 3);
-      //   console.log(startDate);
-
+      const endDate = new Date(allBluecards[0].deadLineEnd);
       getDatesStartToLast(startDate, endDate);
-      //   getDatesStartToLast(
-      //     new Date(allBluecards[0].deadLineStart),
-      //     allBluecards[0].deadLineEnd
-      //   );
-
-      //   console.log(new Date(allBluecards[0].deadLineEnd).getFullYear(), 2023);
-      //   console.log(new Date(allBluecards[0].deadLineEnd).getMonth() + 1, 1);
-      //   console.log(new Date(allBluecards[0].deadLineEnd).getDate());
-      //   console.log(allBluecards[0].deadLineEnd.slice(0, 10));
-      //   setDate(allBluecards[0].deadLineEnd.slice(0, 10));
     }
   }, [allBluecards]);
 
