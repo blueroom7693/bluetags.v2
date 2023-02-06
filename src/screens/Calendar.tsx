@@ -18,8 +18,6 @@ import { Calendar, CalendarList, Agenda } from "react-native-calendars"; // impo
 // ];
 
 const CalendarPage = () => {
-  //날짜 예시
-  const [date, setDate] = useState(null);
   // 유저정보
   const [user, setUser] = useState<string>();
   // 전체 블루카드
@@ -49,6 +47,21 @@ const CalendarPage = () => {
     console.log("캘린더 페이지 들어옴");
   }, [isfoucsed]);
 
+  // 필터링 및 데이터 정리 => deadline이 있는 블루카드만 추출
+  const [filterdData, setFilteredData] = useState<IData[]>();
+  const filter = (info) => {
+    let isDeadLineBool: boolean = false;
+    if (info.deadLineStart && info.deadLineEnd) {
+      isDeadLineBool = true;
+    }
+    return isDeadLineBool;
+  };
+  useEffect(() => {
+    if (allBluecards) {
+      setFilteredData(Object.values(allBluecards).filter(filter));
+    }
+  }, [allBluecards]);
+
   // 시작과 끝 날짜 구하기 함수
   const [dateArray, setDateArray] = useState<string>();
   const getDatesStartToLast = (startDate, lastDate) => {
@@ -59,7 +72,7 @@ const CalendarPage = () => {
       startDate.setDate(startDate.getDate() + 1);
     }
     setDateArray(result);
-    console.log(dateArray);
+    // console.log(dateArray);
     return;
   };
 
@@ -72,34 +85,49 @@ const CalendarPage = () => {
     }
   }, [allBluecards]);
 
+  const sample = {
+    "2023-02-02": [{ name: "item 1 - any js object" }],
+    "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
+    "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
+    "2023-02-06": [{ name: "item 2 - any js object", height: 150 }],
+    "2023-02-07": [{ name: "item 2 - any js object", height: 250 }],
+    "2023-02-08": [
+      { name: "item 3 - any js object" },
+      { name: "any js object" },
+    ],
+  };
+
   return user && allBluecards ? (
     <Agenda
-      items={{
-        "2023-02-04": [
-          {
-            name: "item 1 - any js object",
-            name2: "value",
-            name3: "value",
-            name4: "value",
-          },
-        ],
-        "2023-02-02": [{ name: "item 1 - any js object" }],
-        "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-        "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-        "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-        "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
+      renderEmptyDate={renderEmptyDate}
+      //   items={{
+      //     "2023-02-04": [
+      //       {
+      //         name: "item 1 - any js object",
+      //         name2: "value",
+      //         name3: "value",
+      //         name4: "value",
+      //       },
+      //     ],
+      //     "2023-02-02": [{ name: "item 1 - any js object" }],
+      //     "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
+      //     "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
+      //     "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
+      //     "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
 
-        "2023-02-06": [{ name: "item 2 - any js object", height: 150 }],
-        "2023-02-07": [{ name: "item 2 - any js object", height: 250 }],
-        "2023-02-08": [
-          { name: "item 3 - any js object" },
-          { name: "any js object" },
-        ],
-      }}
+      //     "2023-02-06": [{ name: "item 2 - any js object", height: 150 }],
+      //     "2023-02-07": [{ name: "item 2 - any js object", height: 250 }],
+      //     "2023-02-08": [
+      //       { name: "item 3 - any js object" },
+      //       { name: "any js object" },
+      //     ],
+      //   }}
+      items={sample}
       renderItem={(item, firstItemInDay) => {
+        console.log(item);
         return (
           <View>
-            <Text>hi</Text>
+            <Text>hi{item.height}</Text>
           </View>
         );
       }}
@@ -107,11 +135,24 @@ const CalendarPage = () => {
   ) : null;
 };
 
+//render empty
+const renderEmptyDate = () => {
+  return (
+    <View style={styles.emptyDate}>
+      <Text>This is empty date!</Text>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  emptyDate: {
+    height: 15,
+    flex: 1,
+    paddingTop: 30,
   },
 });
 
