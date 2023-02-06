@@ -118,7 +118,7 @@ const CalendarPage = () => {
       //     );
       //   }}
       renderItem={(item, firstItemInDay) => (
-        <CalendarCard fullData={item}></CalendarCard>
+        <CalendarCard fullData={item.fullData}></CalendarCard>
       )}
     />
   ) : null;
