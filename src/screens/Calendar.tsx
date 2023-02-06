@@ -63,27 +63,65 @@ const CalendarPage = () => {
   }, [allBluecards]);
 
   // 시작과 끝 날짜 구하기 함수
-  const [dateArray, setDateArray] = useState<string>();
-  const getDatesStartToLast = (startDate, lastDate) => {
-    setDateArray(null);
+  //   const [dateArray, setDateArray] = useState<string[]>();
+  const [dateArray, setDateArray] = useState();
+  interface Props {
+    [key: string]: { name: string; title: string; description: string }[];
+  }
+  const array: Props[] = [];
+
+  const getDatesStartToLast = (startDate, lastDate, FullData) => {
+    // setDateArray(null);
     const result = [];
     while (startDate <= lastDate) {
-      result.push(startDate.toISOString().split("T")[0]);
+      //   result.push(startDate.toISOString().split("T")[0]);
+      //   dateArray.push(startDate.toISOString().split("T")[0]);
+      // dateArray.push(`${startDate.toISOString().split("T")[0]}`:[{name:"hi",height:123}]);
+      //   const pushper = startDate.toISOString().split("T")[0];
+      //   console.log(pushper);
+      //   array.push({
+      //     [`${pushper}`]: [
+      //       {
+      //         name: "hi",
+      //         height: FullData.title,
+      //         description: FullData.description,
+      //       },
+      //     ],
+      //   });
+      array.push({
+        [`${startDate.toISOString().split("T")[0]}`]: [
+          {
+            name: "hi",
+            title: FullData.title,
+            description: FullData.description,
+          },
+        ],
+      });
+      //   array.push({ "2023-02-02": [{ name: "123", height: startDate }] });
       startDate.setDate(startDate.getDate() + 1);
     }
-    setDateArray(result);
-    // console.log(dateArray);
+    // setDateArray(result);
+    console.log(array);
     return;
   };
 
   //출력하자
   useEffect(() => {
-    if (allBluecards) {
-      const startDate = new Date(allBluecards[0].deadLineStart);
-      const endDate = new Date(allBluecards[0].deadLineEnd);
-      getDatesStartToLast(startDate, endDate);
+    if (filterdData) {
+      //   filterdData.map((e) => console.log(e.deadLineEnd));
+      filterdData.map((e) =>
+        getDatesStartToLast(
+          new Date(e.deadLineStart),
+          new Date(e.deadLineEnd),
+          e
+        )
+      );
+
+      //   const startDate = new Date(allBluecards[0].deadLineStart);
+      //   const endDate = new Date(allBluecards[0].deadLineEnd);
+      //   getDatesStartToLast(startDate, endDate);
     }
-  }, [allBluecards]);
+  }, [filterdData]);
 
   const sample = {
     "2023-02-02": [{ name: "item 1 - any js object" }],
@@ -124,7 +162,7 @@ const CalendarPage = () => {
       //   }}
       items={sample}
       renderItem={(item, firstItemInDay) => {
-        console.log(item);
+        // console.log(item);s
         return (
           <View>
             <Text>hi{item.height}</Text>
