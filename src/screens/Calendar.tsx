@@ -63,48 +63,25 @@ const CalendarPage = () => {
   }, [allBluecards]);
 
   // 시작과 끝 날짜 구하기 함수
-  //   const [dateArray, setDateArray] = useState<string[]>();
-  const [dateArray, setDateArray] = useState();
-  interface Props {
-    [key: string]: { name: string; title: string; description: string }[];
-  }
-  const array: Props[] = [];
+  const [loading, setLoading] = useState(false);
+  const [calendarObject, setCalendarObject] = useState({});
 
   const getDatesStartToLast = (startDate, lastDate, FullData) => {
-    // setDateArray(null);
-    const result = [];
     while (startDate <= lastDate) {
-      //   result.push(startDate.toISOString().split("T")[0]);
-      //   dateArray.push(startDate.toISOString().split("T")[0]);
-      // dateArray.push(`${startDate.toISOString().split("T")[0]}`:[{name:"hi",height:123}]);
-      //   const pushper = startDate.toISOString().split("T")[0];
-      //   console.log(pushper);
-      //   array.push({
-      //     [`${pushper}`]: [
-      //       {
-      //         name: "hi",
-      //         height: FullData.title,
-      //         description: FullData.description,
-      //       },
-      //     ],
-      //   });
-      array.push({
-        [`${startDate.toISOString().split("T")[0]}`]: [
-          {
-            name: "hi",
-            title: FullData.title,
-            description: FullData.description,
-          },
-        ],
-      });
-      //   array.push({ "2023-02-02": [{ name: "123", height: startDate }] });
+      calendarObject[startDate.toISOString().split("T")[0]] = [
+        {
+          name: "hi",
+          title: FullData.title,
+          description: FullData.description,
+          fullData: FullData,
+        },
+      ];
       startDate.setDate(startDate.getDate() + 1);
     }
-    // setDateArray(result);
-    console.log(array);
     return;
   };
 
+  //   console.log(calendarObject);
   //출력하자
   useEffect(() => {
     if (filterdData) {
@@ -116,56 +93,22 @@ const CalendarPage = () => {
           e
         )
       );
-
-      //   const startDate = new Date(allBluecards[0].deadLineStart);
-      //   const endDate = new Date(allBluecards[0].deadLineEnd);
-      //   getDatesStartToLast(startDate, endDate);
     }
+    setTimeout(function () {
+      console.log("Works!");
+    }, 3000);
+    setLoading(true);
   }, [filterdData]);
+  console.log(calendarObject);
 
-  const sample = {
-    "2023-02-02": [{ name: "item 1 - any js object" }],
-    "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-    "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-    "2023-02-06": [{ name: "item 2 - any js object", height: 150 }],
-    "2023-02-07": [{ name: "item 2 - any js object", height: 250 }],
-    "2023-02-08": [
-      { name: "item 3 - any js object" },
-      { name: "any js object" },
-    ],
-  };
-
-  return user && allBluecards ? (
+  return user && allBluecards && loading ? (
     <Agenda
       renderEmptyDate={renderEmptyDate}
-      //   items={{
-      //     "2023-02-04": [
-      //       {
-      //         name: "item 1 - any js object",
-      //         name2: "value",
-      //         name3: "value",
-      //         name4: "value",
-      //       },
-      //     ],
-      //     "2023-02-02": [{ name: "item 1 - any js object" }],
-      //     "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-      //     "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-      //     "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-      //     "2023-02-05": [{ name: "item 1 - any js object", height: 150 }],
-
-      //     "2023-02-06": [{ name: "item 2 - any js object", height: 150 }],
-      //     "2023-02-07": [{ name: "item 2 - any js object", height: 250 }],
-      //     "2023-02-08": [
-      //       { name: "item 3 - any js object" },
-      //       { name: "any js object" },
-      //     ],
-      //   }}
-      items={sample}
+      items={calendarObject}
       renderItem={(item, firstItemInDay) => {
-        // console.log(item);s
         return (
           <View>
-            <Text>hi{item.height}</Text>
+            <Text>hihihi</Text>
           </View>
         );
       }}
