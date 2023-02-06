@@ -1,8 +1,16 @@
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Modal, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Modal,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars"; // import { Calendar } from "react-native-big-calendar";
+import CalendarCard from "../components/card/CalendarCard";
 
 // const events = [
 //   {
@@ -99,15 +107,19 @@ const CalendarPage = () => {
     <Agenda
       renderEmptyDate={renderEmptyDate}
       items={calendarObject}
-      renderItem={(item, firstItemInDay) => {
-        return (
-          <View>
-            <Text>hihihi</Text>
-            <Text>{item.fullData.title}</Text>
-            <Text>{item.fullData.project.title}</Text>
-          </View>
-        );
-      }}
+      //   renderItem={(item, firstItemInDay) => {
+      //     return (
+      //       //   <CalendarCard fullData={item} />
+      //       <View>
+      //         <Text>hihihi</Text>
+      //         <Text>{item.fullData.title}</Text>
+      //         <Text>{item.fullData.project.title}</Text>
+      //       </View>
+      //     );
+      //   }}
+      renderItem={(item, firstItemInDay) => (
+        <CalendarCard fullData={item}></CalendarCard>
+      )}
     />
   ) : null;
 };
@@ -120,6 +132,7 @@ const renderEmptyDate = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
