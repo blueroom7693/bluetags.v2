@@ -65,14 +65,10 @@ const CalendarPage = () => {
   // 시작과 끝 날짜 구하기 함수
   const [loading, setLoading] = useState(false);
   const [calendarObject, setCalendarObject] = useState({});
-
   const getDatesStartToLast = (startDate, lastDate, FullData) => {
     while (startDate <= lastDate) {
       calendarObject[startDate.toISOString().split("T")[0]] = [
         {
-          name: "hi",
-          title: FullData.title,
-          description: FullData.description,
           fullData: FullData,
         },
       ];
@@ -81,11 +77,9 @@ const CalendarPage = () => {
     return;
   };
 
-  //   console.log(calendarObject);
-  //출력하자
-  useEffect(() => {
+  //데이터 정리(비동기화)
+  async function recap() {
     if (filterdData) {
-      //   filterdData.map((e) => console.log(e.deadLineEnd));
       filterdData.map((e) =>
         getDatesStartToLast(
           new Date(e.deadLineStart),
@@ -94,12 +88,12 @@ const CalendarPage = () => {
         )
       );
     }
-    setTimeout(function () {
-      console.log("Works!");
-    }, 3000);
-    setLoading(true);
+  }
+
+  //데이터 출력준비 완료
+  useEffect(() => {
+    recap().then(() => setLoading(true));
   }, [filterdData]);
-  console.log(calendarObject);
 
   return user && allBluecards && loading ? (
     <Agenda
@@ -109,6 +103,8 @@ const CalendarPage = () => {
         return (
           <View>
             <Text>hihihi</Text>
+            <Text>{item.fullData.title}</Text>
+            <Text>{item.fullData.project.title}</Text>
           </View>
         );
       }}
