@@ -51,6 +51,8 @@ const CalendarPage = () => {
       axios.get(`https://www.bluetags.app/api/bluecards`).then((respose) => {
         setallBluecards(respose.data.bluecards);
       });
+      setCalendarObject({});
+      setLoading(false);
     }
     console.log("캘린더 페이지 들어옴");
   }, [isfoucsed]);
@@ -75,12 +77,6 @@ const CalendarPage = () => {
   const [calendarObject, setCalendarObject] = useState({});
   const getDatesStartToLast = (startDate, lastDate, FullData) => {
     while (startDate <= lastDate) {
-      //   calendarObject[startDate.toISOString().split("T")[0]] = [
-      //     {
-      //       fullData: FullData,
-      //     },
-      //   ];
-      //   console.log([startDate.toISOString().split("T")[0]] in calendarObject);
       //new method
       if ([startDate.toISOString().split("T")[0]] in calendarObject) {
         calendarObject[startDate.toISOString().split("T")[0]] = [
@@ -94,28 +90,28 @@ const CalendarPage = () => {
           },
         ];
       }
-
       startDate.setDate(startDate.getDate() + 1);
     }
     return;
   };
-
+  console.log(calendarObject);
   //데이터 정리(비동기화)
   async function recap() {
     if (filterdData) {
-      filterdData.map((e) =>
+      filterdData.map((e, index) =>
         getDatesStartToLast(
           new Date(e.deadLineStart),
           new Date(e.deadLineEnd),
           e
         )
       );
+      setLoading(true);
     }
   }
 
   //데이터 출력준비 완료
   useEffect(() => {
-    recap().then(() => setLoading(true));
+    recap();
   }, [filterdData]);
 
   return user && allBluecards && loading ? (
@@ -130,6 +126,7 @@ const CalendarPage = () => {
       rowHasChanged={(r1, r2) => {
         return r1.text !== r2.text;
       }}
+
       //   theme={{
       //     agendaDayTextColor: "yellow",
       //     agendaDayNumColor: "green",
