@@ -56,7 +56,13 @@ const DetailArticle = ({ navigation: { setOptions }, route: { params } }) => {
   return (
     <Container>
       <Header>
-        <ThumbnailPhoto source={{ uri: params.thumbnail }}></ThumbnailPhoto>
+        {params.thumbnail ? (
+          <ThumbnailPhoto source={{ uri: params.thumbnail }}></ThumbnailPhoto>
+        ) : (
+          <ThumbnailPhoto
+            source={{ uri: params.project.logoUrl }}
+          ></ThumbnailPhoto>
+        )}
       </Header>
       <View
         style={{

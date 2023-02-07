@@ -107,19 +107,20 @@ const CalendarPage = () => {
     <Agenda
       renderEmptyDate={renderEmptyDate}
       items={calendarObject}
-      //   renderItem={(item, firstItemInDay) => {
-      //     return (
-      //       //   <CalendarCard fullData={item} />
-      //       <View>
-      //         <Text>hihihi</Text>
-      //         <Text>{item.fullData.title}</Text>
-      //         <Text>{item.fullData.project.title}</Text>
-      //       </View>
-      //     );
-      //   }}
       renderItem={(item, firstItemInDay) => (
         <CalendarCard fullData={item.fullData}></CalendarCard>
       )}
+      pastScrollRange={24}
+      futureScrollRange={24}
+      rowHasChanged={(r1, r2) => {
+        return r1.text !== r2.text;
+      }}
+      //   theme={{
+      //     agendaDayTextColor: "yellow",
+      //     agendaDayNumColor: "green",
+      //     agendaTodayColor: "red",
+      //     agendaKnobColor: "blue",
+      //   }}
     />
   ) : null;
 };
