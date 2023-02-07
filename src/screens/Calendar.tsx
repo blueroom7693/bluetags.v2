@@ -75,11 +75,26 @@ const CalendarPage = () => {
   const [calendarObject, setCalendarObject] = useState({});
   const getDatesStartToLast = (startDate, lastDate, FullData) => {
     while (startDate <= lastDate) {
-      calendarObject[startDate.toISOString().split("T")[0]] = [
-        {
-          fullData: FullData,
-        },
-      ];
+      //   calendarObject[startDate.toISOString().split("T")[0]] = [
+      //     {
+      //       fullData: FullData,
+      //     },
+      //   ];
+      //   console.log([startDate.toISOString().split("T")[0]] in calendarObject);
+      //new method
+      if ([startDate.toISOString().split("T")[0]] in calendarObject) {
+        calendarObject[startDate.toISOString().split("T")[0]] = [
+          ...calendarObject[startDate.toISOString().split("T")[0]],
+          { fullData: FullData },
+        ];
+      } else {
+        calendarObject[startDate.toISOString().split("T")[0]] = [
+          {
+            fullData: FullData,
+          },
+        ];
+      }
+
       startDate.setDate(startDate.getDate() + 1);
     }
     return;
