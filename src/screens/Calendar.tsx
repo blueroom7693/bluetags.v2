@@ -94,21 +94,38 @@ const CalendarPage = () => {
     }
     return;
   };
-  console.log(calendarObject);
+  //   console.log(new Date().getDate() + 60);
+  //빈 날짜 채우기
+  //   const fillEmptyDate = () => {
+  //     const today = new Date();
+  //     // const past = new Date(today.setDate(today.getDate() - 90));
+  //     // const future = new Date(today.setDate(today.getDate() + 90));
+  //     const past = new Date(today.setDate(today.getDate() - 90));
+  //     const future = new Date(today.setDate(today.getDate() + 180));
+  //     while (past <= future) {
+  //       if (past.toISOString().split("T")[0] in calendarObject) {
+  //         past.setDate(past.getDate() + 1);
+  //       } else {
+  //         calendarObject[past.toISOString().split("T")[0]] = [];
+  //         past.setDate(past.getDate() + 1);
+  //       }
+  //     }
+  //   };
   //데이터 정리(비동기화)
-  async function recap() {
+  function recap() {
     if (filterdData) {
-      filterdData.map((e, index) =>
-        getDatesStartToLast(
-          new Date(e.deadLineStart),
-          new Date(e.deadLineEnd),
-          e
-        )
+      filterdData.map(
+        (e, index) =>
+          getDatesStartToLast(
+            new Date(e.deadLineStart),
+            new Date(e.deadLineEnd),
+            e
+          )
+        // fillEmptyDate()
       );
       setLoading(true);
     }
   }
-
   //데이터 출력준비 완료
   useEffect(() => {
     recap();
@@ -116,13 +133,20 @@ const CalendarPage = () => {
 
   return user && allBluecards && loading ? (
     <Agenda
-      renderEmptyDate={renderEmptyDate}
+      renderEmptyData={() => {
+        return (
+          <View>
+            <Text>빈 페이지</Text>
+          </View>
+        );
+      }}
       items={calendarObject}
       renderItem={(item, firstItemInDay) => (
         <CalendarCard fullData={item.fullData}></CalendarCard>
       )}
       pastScrollRange={24}
       futureScrollRange={24}
+      //   showOnlySelectedDayItems
       rowHasChanged={(r1, r2) => {
         return r1.text !== r2.text;
       }}
@@ -134,7 +158,9 @@ const CalendarPage = () => {
       //     agendaKnobColor: "blue",
       //   }}
     />
-  ) : null;
+  ) : (
+    <Calendar />
+  );
 };
 
 //render empty
