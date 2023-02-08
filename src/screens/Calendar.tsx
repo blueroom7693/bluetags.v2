@@ -99,21 +99,28 @@ const CalendarPage = () => {
   //범례(legend) 만들기
   const [legend, setLegend] = useState({});
   const makeLegend = (startdate, lastdate, data) => {
-    const bluetags = data.bluetags[0];
-    const startdateYear = startdate.getFullYear();
-    const startdateMonth = startdate.getMonth();
-    const lastdateYear = lastdate.getFullYear();
-    const lastdateMonth = lastdate.getMonth();
-
+    let bluetags = data.bluetags[0];
+    let startdateYear = startdate.getFullYear();
+    let startdateMonth = startdate.getMonth() + 1;
+    let lastdateYear = lastdate.getFullYear();
+    let lastdateMonth = lastdate.getMonth() + 1;
     while (startdateYear < lastdateYear) {
       console.log("출력되면 안돼");
     }
     while (startdateMonth <= lastdateMonth) {
-      legend[`${startdateYear}-${startdateMonth}`] = [
-        // ...legend[`${startdate.getFullYear()}-${startdate.getMonth()}`],
-        { bluetags: data.bluetags[0], fulldata: data },
-      ];
-      break;
+      if (
+        legend[`${startdate.getFullYear()}-${startdate.getMonth()}`] in legend
+      ) {
+        legend[`${startdateYear}-${startdateMonth}`] = [
+          ...legend[`${startdate.getFullYear()}-${startdate.getMonth()}`],
+          { bluetags: data.bluetags[0], fulldata: data.id },
+        ];
+      } else {
+        legend[`${startdateYear}-${startdateMonth}`] = [
+          { bluetags: data.bluetags[0], fulldata: data.id },
+        ];
+      }
+      startdateMonth = startdateMonth + 1;
     }
     console.log(legend);
   };
