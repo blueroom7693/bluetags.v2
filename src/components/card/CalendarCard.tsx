@@ -62,7 +62,13 @@ const BtnText = styled.Text`
   font-size: 12px;
   color: ${(props) => props.theme.Bg0dp};
 `;
-
+const Bluetags = styled.Text`
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  color: ${(props) => props.theme.Text0dp};
+`;
 //type
 interface ICalendarCard {
   fullData: any;
@@ -91,7 +97,7 @@ const CalendarCard: React.FC<ICalendarCard> = ({ fullData }) => {
         {fullData.deadLineStart.slice(0, 10)} -{" "}
         {fullData.deadLineEnd.slice(0, 10)}
       </EventDate>
-      <EventDate>{fullData.bluetags}</EventDate>
+      <Bluetags>{fullData.bluetags[0]}</Bluetags>
       <Description>{fullData.description.slice(0, 150)}</Description>
       <BtnView onPress={goToDetail}>
         <BtnText>go to detail</BtnText>

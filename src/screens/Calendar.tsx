@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars"; // import { Calendar } from "react-native-big-calendar";
+import styled from "styled-components/native";
 import CalendarCard from "../components/card/CalendarCard";
 
 // const events = [
@@ -25,7 +26,30 @@ import CalendarCard from "../components/card/CalendarCard";
 //   },
 // ];
 
+const LegendContainer = styled.View`
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  z-index: 1;
+  background-color: #a8a8a830;
+  bottom: 60px;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`;
+
 const CalendarPage = () => {
+  const SAMPLE = {
+    "2023-02": {
+      event: ["123", "2356"],
+      minting: [],
+    },
+  };
+  const thisMonth = "02";
+  const thisYear = "2023";
+  // console.log(SAMPLE);
+
   // 유저정보
   const [user, setUser] = useState<string>();
   // 전체 블루카드
@@ -72,10 +96,33 @@ const CalendarPage = () => {
     }
   }, [allBluecards]);
 
+  //범례(legend) 만들기
+  const [legend, setLegend] = useState({});
+  const makeLegend = (startdate, lastdate, data) => {
+    const bluetags = data.bluetags[0];
+    const startdateYear = startdate.getFullYear();
+    const startdateMonth = startdate.getMonth();
+    const lastdateYear = lastdate.getFullYear();
+    const lastdateMonth = lastdate.getMonth();
+
+    while (startdateYear < lastdateYear) {
+      console.log("출력되면 안돼");
+    }
+    while (startdateMonth <= lastdateMonth) {
+      legend[`${startdateYear}-${startdateMonth}`] = [
+        // ...legend[`${startdate.getFullYear()}-${startdate.getMonth()}`],
+        { bluetags: data.bluetags[0], fulldata: data },
+      ];
+      break;
+    }
+    console.log(legend);
+  };
+
   // 시작과 끝 날짜 구하기 함수
   const [loading, setLoading] = useState(false);
   const [calendarObject, setCalendarObject] = useState({});
   const getDatesStartToLast = (startDate, lastDate, FullData) => {
+    makeLegend(startDate, lastDate, FullData);
     while (startDate <= lastDate) {
       //new method
       if ([startDate.toISOString().split("T")[0]] in calendarObject) {
@@ -111,6 +158,7 @@ const CalendarPage = () => {
   //       }
   //     }
   //   };
+
   //데이터 정리(비동기화)
   function recap() {
     if (filterdData) {
@@ -132,32 +180,85 @@ const CalendarPage = () => {
   }, [filterdData]);
 
   return user && allBluecards && loading ? (
-    <Agenda
-      renderEmptyData={() => {
-        return (
-          <View>
-            <Text>빈 페이지</Text>
-          </View>
-        );
-      }}
-      items={calendarObject}
-      renderItem={(item, firstItemInDay) => (
-        <CalendarCard fullData={item.fullData}></CalendarCard>
-      )}
-      pastScrollRange={24}
-      futureScrollRange={24}
-      //   showOnlySelectedDayItems
-      rowHasChanged={(r1, r2) => {
-        return r1.text !== r2.text;
-      }}
+    <View style={{ width: "100%", height: "100%" }}>
+      <Agenda
+        renderEmptyData={() => {
+          return (
+            <View>
+              <Text>빈 페이지</Text>
+            </View>
+          );
+        }}
+        items={calendarObject}
+        renderItem={(item, firstItemInDay) => (
+          <CalendarCard fullData={item.fullData}></CalendarCard>
+        )}
+        onMonthChange={(month) => {
+          console.log("month changed", month);
+        }}
+        pastScrollRange={24}
+        futureScrollRange={24}
+        //   showOnlySelectedDayItems
+        //   markingType={"period"}
+        //   markingType="multi-period"
+        //   markedDates={{
+        //     "2023-02-07": {
+        //       periods: [
+        //         { startingDay: false, endingDay: true, color: "#5f9ea0" },
+        //         { startingDay: false, endingDay: true, color: "#ffa500" },
+        //         { startingDay: true, endingDay: false, color: "#f0e68c" },
+        //       ],
+        //     },
+        //     "2023-02-08": {
+        //       periods: [
+        //         { startingDay: true, endingDay: false, color: "#ffa500" },
+        //         { color: "transparent" },
+        //         { startingDay: false, endingDay: false, color: "#f0e68c" },
+        //       ],
+        //     },
+        //   }}
+        theme={
+          {
+            // "stylesheet.calendar.header": {
+            //   dayTextAtIndex0: {
+            //     color: "red",
+            //   },
+            //   dayTextAtIndex6: {
+            //     color: "blue",
+            //   },
+            // },
+            // selectedDayBackgroundColor: "#080e11",
+            // dotColor: "#000000",
+          }
+        }
+        rowHasChanged={(r1, r2) => {
+          return r1.text !== r2.text;
+        }}
 
-      //   theme={{
-      //     agendaDayTextColor: "yellow",
-      //     agendaDayNumColor: "green",
-      //     agendaTodayColor: "red",
-      //     agendaKnobColor: "blue",
-      //   }}
-    />
+        //   theme={{
+        //     agendaDayTextColor: "yellow",
+        //     agendaDayNumColor: "green",
+        //     agendaTodayColor: "red",
+        //     agendaKnobColor: "blue",
+        //   }}
+      />
+      <LegendContainer>
+        <Text>Event</Text>
+        <Text>{SAMPLE[`${thisYear}-${thisMonth}`].event.length}</Text>
+        <Text>Minting</Text>
+        <Text>{SAMPLE["2023-02"].minting.length}</Text>
+        <Text>Voting</Text>
+        {SAMPLE["2023-02"].voting ? (
+          <Text>{SAMPLE["2023-02"].voting.length}</Text>
+        ) : (
+          <Text>0</Text>
+        )}
+
+        <Text>Lang</Text>
+        <Text>hi</Text>
+        <Text>hi</Text>
+      </LegendContainer>
+    </View>
   ) : (
     <Calendar />
   );
