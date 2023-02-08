@@ -28,15 +28,34 @@ import CalendarCard from "../components/card/CalendarCard";
 
 const LegendContainer = styled.View`
   width: 100%;
-  height: 40px;
+  height: 60px;
   position: absolute;
   z-index: 1;
-  background-color: #a8a8a830;
-  bottom: 60px;
-  border-radius: 20px;
+  background-color: ${(props) => props.theme.Tabbar};
+  bottom: 50px;
   align-items: center;
   justify-content: center;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+`;
+const LegendTitle = styled.Text`
+  font-size: 14px;
+  font-weight: 700;
+`;
+const LegendList = styled.View`
   flex-direction: row;
+`;
+const LegendDetailContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90px;
+  background-color: ${(props) => props.theme.Bg0dp};
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
 
 const CalendarPage = () => {
@@ -48,7 +67,12 @@ const CalendarPage = () => {
   };
   const thisMonth = "02";
   const thisYear = "2023";
-  // console.log(SAMPLE);
+  const [month, setMonth] = useState();
+  const [year, setYear] = useState();
+  const [event, setEvent] = useState();
+  const [voting, setVoting] = useState();
+  const [minting, setMinting] = useState();
+  const [lang, setLang] = useState();
 
   // 유저정보
   const [user, setUser] = useState<string>();
@@ -76,6 +100,7 @@ const CalendarPage = () => {
         setallBluecards(respose.data.bluecards);
       });
       setCalendarObject({});
+      setLegend({});
       setLoading(false);
     }
     console.log("캘린더 페이지 들어옴");
@@ -96,6 +121,11 @@ const CalendarPage = () => {
     }
   }, [allBluecards]);
 
+  //범례 만들기 2
+  // const addLegend = (data) =>{
+  //   data.deadLineStart data
+  // }
+
   //범례(legend) 만들기
   const [legend, setLegend] = useState({});
   const makeLegend = (startdate, lastdate, data) => {
@@ -108,11 +138,9 @@ const CalendarPage = () => {
       console.log("출력되면 안돼");
     }
     while (startdateMonth <= lastdateMonth) {
-      if (
-        legend[`${startdate.getFullYear()}-${startdate.getMonth()}`] in legend
-      ) {
+      if ([`${startdate.getFullYear()}-${startdateMonth}`] in legend) {
         legend[`${startdateYear}-${startdateMonth}`] = [
-          ...legend[`${startdate.getFullYear()}-${startdate.getMonth()}`],
+          ...legend[`${startdate.getFullYear()}-${startdateMonth}`],
           { bluetags: data.bluetags[0], fulldata: data.id },
         ];
       } else {
@@ -122,8 +150,35 @@ const CalendarPage = () => {
       }
       startdateMonth = startdateMonth + 1;
     }
-    console.log(legend);
   };
+  // 범례 수 세기
+  useEffect(() => {
+    if (user && allBluecards && loading) {
+      if (legend[`${year}-${month}`]) {
+        var event = legend[`${year}-${month}`].filter(
+          (item) => item["bluetags"] === "event"
+        );
+        var minting = legend[`${year}-${month}`].filter(
+          (item) => item["bluetags"] === "minting"
+        );
+        var voting = legend[`${year}-${month}`].filter(
+          (item) => item["bluetags"] === "voting"
+        );
+        var lang = legend[`${year}-${month}`].filter(
+          (item) => item["bluetags"] === "lang"
+        );
+        setEvent(event.length);
+        setLang(lang.length);
+        setMinting(minting.length);
+        setVoting(voting.length);
+      } else {
+        setEvent(0);
+        setLang(0);
+        setVoting(0);
+        setMinting(0);
+      }
+    }
+  }, [month]);
 
   // 시작과 끝 날짜 구하기 함수
   const [loading, setLoading] = useState(false);
@@ -148,7 +203,7 @@ const CalendarPage = () => {
     }
     return;
   };
-  //   console.log(new Date().getDate() + 60);
+
   //빈 날짜 채우기
   //   const fillEmptyDate = () => {
   //     const today = new Date();
@@ -192,7 +247,11 @@ const CalendarPage = () => {
         renderEmptyData={() => {
           return (
             <View>
-              <Text>빈 페이지</Text>
+              <Text>No Events</Text>
+              <Text>
+                You don't have any new incoming event at the moment! Check out
+                other dates
+              </Text>
             </View>
           );
         }}
@@ -200,8 +259,23 @@ const CalendarPage = () => {
         renderItem={(item, firstItemInDay) => (
           <CalendarCard fullData={item.fullData}></CalendarCard>
         )}
-        onMonthChange={(month) => {
-          console.log("month changed", month);
+        // onMonthChange={(month) => {
+        //   console.log("month changed", month);
+        //   setMonth(month.month);
+        //   setYear(month.year);
+        // }}
+        onDayChange={(day) => {
+          // console.log("day changed", day.month);
+          setMonth(day.month);
+          setYear(day.year);
+        }}
+        onDayPress={(day) => {
+          setMonth(day.month);
+          setYear(day.year);
+        }}
+        onVisibleMonthsChange={(months) => {
+          setMonth(months.month);
+          setYear(months.year);
         }}
         pastScrollRange={24}
         futureScrollRange={24}
@@ -224,46 +298,66 @@ const CalendarPage = () => {
         //       ],
         //     },
         //   }}
-        theme={
-          {
-            // "stylesheet.calendar.header": {
-            //   dayTextAtIndex0: {
-            //     color: "red",
-            //   },
-            //   dayTextAtIndex6: {
-            //     color: "blue",
-            //   },
-            // },
-            // selectedDayBackgroundColor: "#080e11",
-            // dotColor: "#000000",
-          }
-        }
+        theme={{}}
         rowHasChanged={(r1, r2) => {
           return r1.text !== r2.text;
         }}
-
-        //   theme={{
-        //     agendaDayTextColor: "yellow",
-        //     agendaDayNumColor: "green",
-        //     agendaTodayColor: "red",
-        //     agendaKnobColor: "blue",
-        //   }}
       />
-      <LegendContainer>
-        <Text>Event</Text>
-        <Text>{SAMPLE[`${thisYear}-${thisMonth}`].event.length}</Text>
-        <Text>Minting</Text>
-        <Text>{SAMPLE["2023-02"].minting.length}</Text>
-        <Text>Voting</Text>
-        {SAMPLE["2023-02"].voting ? (
-          <Text>{SAMPLE["2023-02"].voting.length}</Text>
-        ) : (
-          <Text>0</Text>
-        )}
 
-        <Text>Lang</Text>
-        <Text>hi</Text>
-        <Text>hi</Text>
+      <LegendContainer>
+        <LegendTitle>
+          Legend at {year}-{month}{" "}
+        </LegendTitle>
+        <LegendList>
+          <LegendDetailContainer>
+            <View
+              style={{
+                backgroundColor: "#64B5FF",
+                height: 10,
+                width: 10,
+                borderRadius: 10,
+              }}
+            ></View>
+            <Text>Event</Text>
+            <Text>{event}</Text>
+          </LegendDetailContainer>
+          <LegendDetailContainer>
+            <View
+              style={{
+                backgroundColor: "#ffa0d3",
+                height: 10,
+                width: 10,
+                borderRadius: 10,
+              }}
+            ></View>
+            <Text>Voting</Text>
+            <Text>{voting}</Text>
+          </LegendDetailContainer>
+          <LegendDetailContainer>
+            <View
+              style={{
+                backgroundColor: "#9dce99",
+                height: 10,
+                width: 10,
+                borderRadius: 10,
+              }}
+            ></View>
+            <Text>Minting</Text>
+            <Text>{minting}</Text>
+          </LegendDetailContainer>
+          <LegendDetailContainer>
+            <View
+              style={{
+                backgroundColor: "#fcc53a",
+                height: 10,
+                width: 10,
+                borderRadius: 10,
+              }}
+            ></View>
+            <Text>Lang</Text>
+            <Text>{lang}</Text>
+          </LegendDetailContainer>
+        </LegendList>
       </LegendContainer>
     </View>
   ) : (
