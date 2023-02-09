@@ -125,8 +125,8 @@ const NFTproject: React.FC<ISquareCard> = ({
             width: 260,
           }}
         >
-          <ProjectLogo source={{ uri: logourl }}></ProjectLogo>
-          <ProjectName>{title}</ProjectName>
+          <ProjectLogo source={{ uri: fullData.logoUrl }}></ProjectLogo>
+          <ProjectName>{fullData.title}</ProjectName>
         </View>
         <ProjectPrice>2.5 {fullData.chain}</ProjectPrice>
         <SubscribeBtn

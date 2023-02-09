@@ -134,14 +134,6 @@ const LoginScreen = ({ navigation }) => {
     { data: logoutData, loading: logoutLoading, status: logoutStatus },
   ] = useMutation("https://www.bluetags.app/api/users/sign-out");
 
-  function logoutFun() {
-    logOut({});
-    axios
-      .get("https://www.bluetags.app/api/users")
-      .then((res) => console.log(res.data));
-    setUser(null);
-  }
-
   //*setError
   const [errorMessage, setErrorMessage] = useState("");
   //*useRecoil
@@ -213,7 +205,7 @@ const LoginScreen = ({ navigation }) => {
         setIsLogin(false);
       }
     });
-  }, [status, socialStatus]);
+  }, [status, socialStatus, socialData]);
 
   //
   const { isLoading: isLoadingNft, data: NftData } = useQuery(

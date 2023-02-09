@@ -28,12 +28,6 @@ export function getAdminCheck(token: string) {
   return data;
 }
 
-export function getSearch(keyword: string) {
-  const data = axiosInstance.get(`/api/v1/nft/search/?keyword=${keyword}`);
-
-  return data;
-}
-
 export function getInfoDetail(id: string) {
   const data = axiosInstance.get(`/api/v1/nft/info/${id}`);
 
@@ -76,6 +70,23 @@ export function useUser() {
 
 export function getSubscribeBluecard(userId: string) {
   const data = axiosInstance.get(`/api/bluecards?user=${userId}`);
+
+  return data;
+}
+
+export function getSearchBluecards(keyword: string) {
+  const data = axiosInstance.get(`/api/search/bluecards?q=${keyword}`);
+
+  return data;
+}
+
+// export function getSearchProjects(keyword: string) {
+//   const data = axiosInstance.get(`/api/search/projects?q=${keyword}`);
+
+//   return data;
+// }
+export function getSearchProjects(keyword: string) {
+  const data = axiosInstance.get(`/api/search/projects?q=azu`);
 
   return data;
 }
