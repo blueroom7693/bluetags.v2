@@ -16,6 +16,7 @@ import styled from "styled-components/native";
 import CustomBackground from "../custom/CustomBackground";
 import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+import BlueTag from "../Bluetag";
 
 const BottomFilter = () => {
   // hooks
@@ -62,7 +63,7 @@ const BottomFilter = () => {
         </TopSection>
         <BottomContainerText>hello</BottomContainerText>
         <BottomContainerText>hello</BottomContainerText>
-        <BottomContainerText>hello</BottomContainerText>
+        {/* <BlueTag>hi</BlueTag> */}
         {/* picker */}
         <Picker
           selectedValue={chain}

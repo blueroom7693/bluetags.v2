@@ -121,7 +121,7 @@ const Watchlist = ({ navigation, router }) => {
         axios
           .get(`https://www.bluetags.app/api/bluecards?user=${res.data.id}`)
           .then((respose) => {
-            setNftData(Object.values(respose.data.bluecards)[2]);
+            setNftData(Object.values(respose.data.bluecards)[0]);
             // console.log(Object.values(respose.data.bluecards)[1]);
             setIsLoadingNft(false);
           });

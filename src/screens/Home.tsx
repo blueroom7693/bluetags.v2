@@ -24,6 +24,7 @@ import { DataContext } from "../context/DataProvider";
 import axios from "axios";
 import NFTlist from "../components/card/NFTlist";
 import Loader from "../components/Loader";
+import BluecardMedium from "../components/card/BluecardMedium";
 
 //INTERFACE
 interface HMediaProps {
@@ -198,45 +199,21 @@ export default function Home() {
           horizontal={true}
           ItemSeparatorComponent={HListSeparator}
           contentContainerStyle={{ paddingHorizontal: 20 }}
+          showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <SquareCard
-              createdAt={item.createdAt}
-              nft={item.project.title}
-              thumbnail={item?.thumbnail}
-              title={item.title}
-              chain={item.project.chain}
-              SNS={item.sns}
-              projectlogo={item.project.logoUrl}
-              description={item.description}
-              fullData={item}
-            ></SquareCard>
+            <BluecardMedium fullData={item}></BluecardMedium>
           )}
         />
         {/* RECOMMEDED PROJECT FLATLIST */}
         <SubHeaderTitle>Project</SubHeaderTitle>
         <HeaderTitle>Large</HeaderTitle>
-        {/* <NFTList
-          data={AllNft}
-          keyExtractor={(item) => item.title}
-          horizontal={true}
-          ItemSeparatorComponent={HListSeparator}
-          contentContainerStyle={{ paddingHorizontal: 20 }}
-          // numColumns="3"
-          renderItem={({ item }) => (
-            <CircleCard
-              fullData={item}
-              chain={item.chain}
-              title={item.title}
-              logo={item.logourl}
-            ></CircleCard>
-          )}
-        /> */}
         <NFTList
           data={newProjectData}
           keyExtractor={(item) => item[0].id}
           horizontal={true}
           ItemSeparatorComponent={HListSeparator}
           contentContainerStyle={{ paddingHorizontal: 20 }}
+          showsHorizontalScrollIndicator={false}
           // numColumns="3"
           renderItem={({ item }) => (
             <NFTlist
@@ -252,25 +229,6 @@ export default function Home() {
         {/* RECOMMEDED ARTICLE FLATLIST */}
         <SubHeaderTitle>start with tags</SubHeaderTitle>
         <HeaderTitle>Recommended Article</HeaderTitle>
-        {/* <NFTList
-          data={data}
-          keyExtractor={(item) => item._id}
-          horizontal={true}
-          ItemSeparatorComponent={HListSeparator}
-          contentContainerStyle={{ paddingHorizontal: 20 }}
-          renderItem={({ item }) => (
-            <SquareCard
-              // _id={item._id}
-              createdAt={item.createdAt}
-              nft={item.nft}
-              thumbnail={item.thumbnail}
-              title={item.title}
-              chain={item.chain}
-              SNS={item.SNS}
-              fullData={item}
-            ></SquareCard>
-          )}
-        /> */}
       </HomeContainer>
       <BottomFilter />
     </SafeAreaView>
