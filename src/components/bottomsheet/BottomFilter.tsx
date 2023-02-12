@@ -12,48 +12,71 @@ import {
   projectString,
   snstString,
 } from "../../atom";
-import styled from "styled-components/native";
+import styled, { ThemeConsumer, useTheme } from "styled-components/native";
 import CustomBackground from "../custom/CustomBackground";
 import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import BlueTag from "../Bluetag";
+import CustomBackdrop from "./customBackdrop";
+
+//CSS
+const BottomContainerText = styled.Text`
+  color: black;
+  font-size: 20px;
+  padding-left: 20px;
+`;
+const TopSection = styled.View`
+  border-bottom-width: 1px;
+  border-color: grey;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 const BottomFilter = () => {
   // hooks
   const sheetRef = useRef<BottomSheet>(null);
   // SNAPPOINT
-  const snapPoints = ["55%"];
+  // const snapPoints = ["55%"];
+  const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
   //ISOPEN RECOIL
   const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
   //FILTER RECOIL
-  //selector
   const [chain, setChain] = useRecoilState(chainString);
   const [project, setProject] = useRecoilState(projectString);
   const [sns, setSns] = useRecoilState(snstString);
-  console.log(chain);
-  //CSS
-  const BottomContainerText = styled.Text`
-    color: white;
-    font-size: 20px;
-    padding-left: 20px;
-  `;
-  const TopSection = styled.View`
-    border-bottom-width: 1px;
-    border-color: grey;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  `;
+
+  // renders
+  // const renderBackdrop = useCallback(
+  //   (props) => (
+  //     <BottomSheetBackdrop
+  //       {...props}
+  //       pressBehavior="close"
+  //       // disappearsOnIndex={1}
+  //       appearsOnIndex={0}
+  //       opacity={0.5}
+  //     />
+  //   ),
+  //   []
+  // );
 
   return isOpen ? (
     <BottomSheet
       ref={sheetRef}
       snapPoints={snapPoints}
+      index={1}
+      onChange={handleSheetChanges}
       enablePanDownToClose={true}
       onClose={() => setIsOpen(false)}
       // backdropComponent
       // backgroundComponent={CustomBackground}
       backgroundStyle={styles.container}
+      backdropComponent={CustomBackdrop}
     >
       {/* <BottomSheetBackdrop></BottomSheetBackdrop> */}
       <BottomSheetView style={styles.container}>
@@ -62,10 +85,7 @@ const BottomFilter = () => {
           <Entypo name="cross" size={36} color="white" />
         </TopSection>
         <BottomContainerText>hello</BottomContainerText>
-        <BottomContainerText>hello</BottomContainerText>
-        {/* <BlueTag>hi</BlueTag> */}
-        {/* picker */}
-        <Picker
+        {/* <Picker
           selectedValue={chain}
           onValueChange={(itemValue, itemIndex) => setChain(itemValue)}
           style={styles.picker}
@@ -82,8 +102,7 @@ const BottomFilter = () => {
           <Picker.Item label="ALL" value="" />
           <Picker.Item label="twitter" value="twitter" />
           <Picker.Item label="discord" value="discord" />
-        </Picker>
-        {/* picker */}
+        </Picker> */}
       </BottomSheetView>
     </BottomSheet>
   ) : null;
@@ -92,7 +111,7 @@ const BottomFilter = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3d3d3d",
+    backgroundColor: "rgba(255, 255, 255, 1)",
   },
   picker: {
     height: 20,

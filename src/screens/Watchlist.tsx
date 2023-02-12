@@ -44,6 +44,7 @@ import SmallCircleCard from "../components/card/SmallCircleCard";
 import SquareCard from "../components/card/SquareCard";
 import { useIsFocused } from "@react-navigation/native";
 import BluecardLarge from "../components/card/BluecardLarge";
+import Overlay from "../components/Overlay";
 
 //CSS
 const ContentsList = styled.FlatList`
@@ -227,6 +228,13 @@ const Watchlist = ({ navigation, router }) => {
         )}
       />
       <BottomFilter />
+      {/* {isOpen ? (
+        <Overlay
+          hideModal={() => {
+            setIsOpen(false);
+          }}
+        />
+      ) : null} */}
     </SafeAreaView>
   );
 };

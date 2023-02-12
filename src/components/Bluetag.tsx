@@ -8,13 +8,13 @@ const BlueTags = styled.View`
   width: auto;
   height: 24px;
   margin-right: 10px;
-  /* padding-left: 10px;
-  padding-right: 15px; */
+  margin-top: 10px;
   background-color: rgba(0, 117, 255, 0.7);
   border-bottom-left-radius: 24px;
   border-top-left-radius: 24px;
   border-bottom-right-radius: 48px;
-
+  /* border-width: 1px;
+  border-color */
   /* color: ${(props) => props.Text0dp}; */
 `;
 const BlueTagsName = styled.Text`

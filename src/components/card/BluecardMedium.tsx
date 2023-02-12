@@ -122,7 +122,7 @@ const BtnView = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  margin-top: 30px;
+  margin-top: 15px;
   flex-direction: row;
 `;
 const BtnText = styled.Text`
@@ -226,7 +226,6 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({ fullData }) => {
             text="hello"
             // className={"hi"}
           ></BlueTag>
-
           <BtnView>
             <BtnText>Subscribe</BtnText>
             <BtnSVG width={40} />
