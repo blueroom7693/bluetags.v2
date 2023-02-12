@@ -5,8 +5,15 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { useRecoilState } from "recoil";
+import { isBottomFilter } from "../../atom";
+import { TouchableOpacity } from "react-native";
 
 const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
+  //바털필터 제거
+  const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
+  const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+
   // animated variables
   const containerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(
@@ -22,14 +29,22 @@ const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
     () => [
       style,
       {
-        backgroundColor: "#rgba(0, 0, 0, 0.5)",
+        backgroundColor: "#rgba(0, 0, 0, 0.58)",
       },
       containerAnimatedStyle,
     ],
     [style, containerAnimatedStyle]
   );
 
-  return <Animated.View style={containerStyle} />;
+  return (
+    <Animated.View style={containerStyle} onTouchEnd={() => setIsOpen(false)} />
+  );
+  //   return (
+  //     <AnimatedTouchable
+  //       style={containerStyle}
+  //       onPress={() => setIsOpen(false)}
+  //     />
+  //   );
 };
 
 export default CustomBackdrop;

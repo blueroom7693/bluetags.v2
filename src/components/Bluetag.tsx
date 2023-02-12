@@ -9,7 +9,8 @@ const BlueTags = styled.View`
   height: 24px;
   margin-right: 10px;
   margin-top: 10px;
-  background-color: rgba(0, 117, 255, 0.7);
+  /* background-color: rgba(0, 117, 255, 0.7); */
+  background-color: ${(props) => props.color};
   border-bottom-left-radius: 24px;
   border-top-left-radius: 24px;
   border-bottom-right-radius: 48px;

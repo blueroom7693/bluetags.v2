@@ -24,14 +24,24 @@ const BottomContainerText = styled.Text`
   color: ${(props) => props.theme.Text0dp};
   font-size: 17px;
   font-family: "SpoqaHanSansNeo-Regular";
-  font-weight: 500;
+  font-weight: 700;
 `;
 const TopSection = styled.View`
-  border-bottom-width: 1px;
+  /* border-bottom-width: 1px; */
   border-color: grey;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  height: 42px;
+  margin-bottom: 10px;
+`;
+
+const BluetagsBox = styled.View`
+  max-width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* padding-left: 15px;
+  padding-right: 15px; */
 `;
 
 const BottomFilter = () => {
@@ -83,9 +93,44 @@ const BottomFilter = () => {
       <BottomSheetView style={styles.container}>
         <TopSection>
           <BottomContainerText>BlueTag Filtering</BottomContainerText>
-          <Entypo name="cross" size={36} color="black" />
+          {/* <Entypo name="cross" size={36} color="black" /> */}
         </TopSection>
-        <BottomContainerText>hello</BottomContainerText>
+        <BluetagsBox>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hellohello"></BlueTag>
+          <BlueTag
+            color="#3733FF"
+            isWhite="false"
+            text="hellohellohello"
+          ></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hellohello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag
+            color="#3733FF"
+            isWhite="false"
+            text="hellohellohellohellohello"
+          ></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#af0000" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#c1c0fb" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#9c9bff" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#0400ff" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#020071" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
+          <BlueTag color="#0300bb" isWhite="false" text="hello"></BlueTag>
+        </BluetagsBox>
         {/* <Picker
           selectedValue={chain}
           onValueChange={(itemValue, itemIndex) => setChain(itemValue)}
@@ -113,6 +158,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "rgba(255, 255, 255, 1)",
+    borderRadius: 10,
+    padding: 20,
   },
   picker: {
     height: 20,
