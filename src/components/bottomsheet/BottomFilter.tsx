@@ -21,9 +21,10 @@ import CustomBackdrop from "./customBackdrop";
 
 //CSS
 const BottomContainerText = styled.Text`
-  color: black;
-  font-size: 20px;
-  padding-left: 20px;
+  color: ${(props) => props.theme.Text0dp};
+  font-size: 17px;
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-weight: 500;
 `;
 const TopSection = styled.View`
   border-bottom-width: 1px;
@@ -81,8 +82,8 @@ const BottomFilter = () => {
       {/* <BottomSheetBackdrop></BottomSheetBackdrop> */}
       <BottomSheetView style={styles.container}>
         <TopSection>
-          <BottomContainerText>Filter</BottomContainerText>
-          <Entypo name="cross" size={36} color="white" />
+          <BottomContainerText>BlueTag Filtering</BottomContainerText>
+          <Entypo name="cross" size={36} color="black" />
         </TopSection>
         <BottomContainerText>hello</BottomContainerText>
         {/* <Picker

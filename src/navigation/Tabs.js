@@ -54,7 +54,7 @@ function LogoTitle() {
 const Tabs = () => {
   const theme = useContext(ThemeContext);
   NavigationBar.setBackgroundColorAsync(`${theme.Tabbar}`);
-
+  //ISOPEN
   const isTabBar = useRecoilValue(isBottomFilter);
   return (
     <Tab.Navigator
@@ -84,7 +84,7 @@ const Tabs = () => {
           fontWeight: "700",
           fontFamily: "SpoqaHanSansNeo-Regular",
         },
-        headerShown: true,
+        headerShown: isTabBar ? false : true,
         tabBarShowLabel: true,
       }}
     >
