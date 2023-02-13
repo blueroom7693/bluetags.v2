@@ -227,10 +227,12 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({ fullData }) => {
             bluetags={fullData.bluetags}
             // className={"hi"}
           ></BlueTag>
-          <BtnView>
-            <BtnText>Subscribe</BtnText>
-            <BtnSVG width={40} />
-          </BtnView>
+          {fullData.deadLineStart && fullData.deadLineEnd ? (
+            <BtnView>
+              <BtnText>Add to Calendar</BtnText>
+              <BtnSVG width={40} />
+            </BtnView>
+          ) : null}
         </MainContainer>
         {/* <BlueTags>#SAMPLE</BlueTags> */}
       </Container>
