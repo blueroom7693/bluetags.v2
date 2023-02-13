@@ -80,14 +80,6 @@ const NFTproject: React.FC<ISquareCard> = ({
   // 유저정보가져오기
   const user = useRecoilValue(userData);
 
-  //Subscribe
-  const [subscribedProject, setSubscribeProject] =
-    useRecoilState(allSubscirbeProject);
-  //배열 삭제
-  const onRemove = (id) => {
-    setSubscribeProject(subscribedProject.filter((user) => user !== id));
-  };
-
   //querytitle
   const queryTitle = `${title
     .toLowerCase()
@@ -107,11 +99,6 @@ const NFTproject: React.FC<ISquareCard> = ({
         id: user.id,
       });
       setIsSubscribed((prev) => !prev);
-      // if (subscribedProject.includes(`${queryTitle}`)) {
-      //   onRemove(`${queryTitle}`);
-      // } else {
-      //   setSubscribeProject([...subscribedProject, `${queryTitle}`]);
-      // }
     }
   };
 

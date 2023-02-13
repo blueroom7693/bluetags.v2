@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  allSubscirbeProject,
   chainString,
   isBottomDetail,
   isBottomFilter,
@@ -18,13 +17,11 @@ import {
   userData,
 } from "../atom";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
-import SquareCard from "../components/card/SquareCard";
-import { AllNftNonChain } from "../AllNft";
-import { DataContext } from "../context/DataProvider";
 import axios from "axios";
 import NFTlist from "../components/card/NFTlist";
 import Loader from "../components/Loader";
 import BluecardMedium from "../components/card/BluecardMedium";
+import { useIsFocused } from "@react-navigation/native";
 
 //INTERFACE
 interface HMediaProps {
@@ -92,7 +89,19 @@ const SubHeaderTitle = styled.Text`
 
 // main
 export default function Home() {
-  // console.log(useUser().user.subscribe, 1231654);
+  //유저 정보 확인
+  // 유저정보
+  const [user, setUser] = useState<string>();
+  const isfoucsed = useIsFocused();
+  useEffect(() => {
+    if (isfoucsed) {
+      axios.get("https://www.bluetags.app/api/users").then((res) => {
+        setUser(res.data);
+      });
+    }
+    console.log("홈 페이지 들어옴");
+  }, [isfoucsed]);
+  console.log(user);
 
   //ProjectData
   const [projectData, setProjectData] = useState(null);
@@ -113,33 +122,6 @@ export default function Home() {
     ["homeInfo"],
     getAllBluecards
   );
-  //recoil value
-  const chain = useRecoilValue(chainString);
-  const project = useRecoilValue(projectString);
-  const sns = useRecoilValue(snstString);
-  const today = useRecoilValue(todayString);
-  const past = useRecoilValue(pastString);
-  const subscribe = useRecoilValue(subscirbeProject);
-  //filter
-  const filter = (info: IData) => {
-    let chainBool: boolean = true;
-    let projectBool: boolean = true;
-    let snsBool: boolean = true;
-    let dateBool: boolean = true;
-    const date = new Date(Date.parse(info.createdAt)).getTime();
-    if (chain !== "") {
-      chainBool = info.chain === chain.toUpperCase();
-    }
-
-    if (sns !== "") {
-      snsBool = info.SNS === sns;
-    }
-    if (today.getTime() - date < 0 || date - past.getTime() < 0) {
-      dateBool = false;
-    }
-
-    return chainBool && snsBool && dateBool;
-  };
   //SETDATA
   const [data, setData] = useState<IData[]>();
 
@@ -166,11 +148,6 @@ export default function Home() {
     }
   }, [projectData]);
 
-  // useEffect(() => {
-  //   if (!isLoadingNft) {
-  //     setData(Object.values(NftData?.data).filter(filter));
-  //   }
-  // }, [chain, project, sns, today, past, subscribe, NftData]);
   ////refresh
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
@@ -200,8 +177,11 @@ export default function Home() {
           ItemSeparatorComponent={HListSeparator}
           contentContainerStyle={{ paddingHorizontal: 20 }}
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <BluecardMedium fullData={item}></BluecardMedium>
+          renderItem={({ item, user }) => (
+            <BluecardMedium
+              fullData={item}
+              isBool={user?.data.calendar.includes(item.id)}
+            ></BluecardMedium>
           )}
         />
         {/* RECOMMEDED PROJECT FLATLIST */}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import {
@@ -12,6 +12,9 @@ import { AllNft } from "../../AllNft";
 import MiddleBarSVG from "../../assets/images/misc/middlebar.svg";
 import BtnSVG from "../../assets/images/misc/subscribeWhite.svg";
 import BlueTag from "../Bluetag";
+import useMutation from "../../libs/client/useMutation";
+import { userData } from "../../atom";
+import { useRecoilValue } from "recoil";
 
 //CSS
 const Container = styled.View`
@@ -136,10 +139,14 @@ const BtnText = styled.Text`
 //TYPE
 interface IBluecardMedium {
   fullData: any;
+  isBool?: boolean;
 }
 
 //MAIN
-const BluecardMedium: React.FC<IBluecardMedium> = ({ fullData }) => {
+const BluecardMedium: React.FC<IBluecardMedium> = ({
+  fullData,
+  isBool = false,
+}) => {
   //NAV
   const navigation = useNavigation();
   const goToDetail = () => {
@@ -151,6 +158,25 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({ fullData }) => {
       },
     });
   };
+  // 유저정보가져오기
+  const user = useRecoilValue(userData);
+  //캘린더에 추가
+  const [isCalendar, setIsCalendar] = useState(isBool);
+
+  const [calendar, { loading, status }] = useMutation(
+    "/api/bluecards/add-calendar"
+  );
+
+  const onClickCalendar = (projectId: string, projectTitle: string) => {
+    if (!loading) {
+      calendar({
+        projectId,
+        id: user.id,
+      });
+      setIsCalendar((prev) => !prev);
+    }
+  };
+
   //ALLDATA
   return (
     <TouchableWithoutFeedback onPress={goToDetail}>
@@ -228,7 +254,11 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({ fullData }) => {
             // className={"hi"}
           ></BlueTag>
           {fullData.deadLineStart && fullData.deadLineEnd ? (
-            <BtnView>
+            <BtnView
+              onPress={() => {
+                onClickCalendar(fullData.id, fullData.title);
+              }}
+            >
               <BtnText>Add to Calendar</BtnText>
               <BtnSVG width={40} />
             </BtnView>

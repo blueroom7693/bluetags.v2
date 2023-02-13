@@ -51,13 +51,13 @@ export default function BlueTag({
 }: Props) {
   return bluetags ? (
     <BlueTagsBox>
-      {bluetags.map((tag) => (
+      {bluetags.map((tag, index) => (
         <BlueTags
           color={color}
           isWhite={isWhite}
           className={className ? className : ""}
         >
-          <BlueTagsName>#{tag}</BlueTagsName>
+          <BlueTagsName key={index}>#{tag}</BlueTagsName>
         </BlueTags>
       ))}
     </BlueTagsBox>
