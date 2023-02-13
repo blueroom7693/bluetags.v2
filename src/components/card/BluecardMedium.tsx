@@ -224,6 +224,7 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({ fullData }) => {
             color="#3733FF"
             isWhite="false"
             text="hello"
+            bluetags={fullData.bluetags}
             // className={"hi"}
           ></BlueTag>
           <BtnView>

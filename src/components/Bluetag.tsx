@@ -26,22 +26,40 @@ const BlueTagsName = styled.Text`
   margin-right: 20px;
 `;
 
+const BlueTagsBox = styled.View`
+  max-width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
 interface Props {
   color: string;
   width?: string;
   isWhite: string;
   text: string;
   className?: string;
+  bluetags?: any;
 }
 
-export default function BlueTag({ color, isWhite, text, className }: Props) {
-  return (
-    <BlueTags
-      color={color}
-      isWhite={isWhite}
-      className={className ? className : ""}
-    >
-      <BlueTagsName>{text}</BlueTagsName>
-    </BlueTags>
-  );
+export default function BlueTag({
+  color,
+  isWhite,
+  className,
+  bluetags,
+}: Props) {
+  return bluetags ? (
+    <BlueTagsBox>
+      {bluetags.map((tag) => (
+        <BlueTags
+          color={color}
+          isWhite={isWhite}
+          className={className ? className : ""}
+        >
+          <BlueTagsName>#{tag}</BlueTagsName>
+        </BlueTags>
+      ))}
+    </BlueTagsBox>
+  ) : null;
 }

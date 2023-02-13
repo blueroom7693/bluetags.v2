@@ -185,6 +185,63 @@ const Profile = () => {
           <Title>History</Title>
           <SubTitle>Large</SubTitle>
         </TitleContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faSquareUser}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>내 채널</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faDownToBracket}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>오프라인 저장 콘텐츠</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faClockRotateLeft}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>기록</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon icon={faBackward} color={theme.Text0dp} size={24} />
+          <OptionName>내 Recap</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faCircleDollar}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>유료 멤버십</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon icon={faGear} color={theme.Text0dp} size={24} />
+          <OptionName>설정</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faCircleQuestion}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>고객센터</OptionName>
+        </OptionContainer>
+        <OptionContainer onPress={logoutFun}>
+          <FontAwesomeIcon
+            icon={faRightFromBracket}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>로그아웃</OptionName>
+        </OptionContainer>
+        <ServiceTerms>개인정보처리방침 및 서비스약관</ServiceTerms>
       </Container>
     </SafeAreaView>
   );

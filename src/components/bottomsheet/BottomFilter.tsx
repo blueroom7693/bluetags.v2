@@ -16,8 +16,8 @@ import styled, { ThemeConsumer, useTheme } from "styled-components/native";
 import CustomBackground from "../custom/CustomBackground";
 import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import BlueTag from "../Bluetag";
 import CustomBackdrop from "./customBackdrop";
+import BlueTag from "../Bluetag";
 
 //CSS
 const BottomContainerText = styled.Text`
@@ -62,6 +62,29 @@ const BottomFilter = () => {
   const [project, setProject] = useRecoilState(projectString);
   const [sns, setSns] = useRecoilState(snstString);
 
+  const ARRAY = [
+    "hello",
+    "hello",
+    "helloadsfasdf",
+    "hello",
+    "helloasdfasdf",
+    "hello",
+    "helloasdfasd",
+    "hello",
+    "hello",
+    "heasdfllo",
+    "helasdflo",
+    "hellasdfasdfo",
+    "hello",
+    "hello",
+    "helloasdfasdf",
+    "hellasdfo",
+    "hello",
+    "helasdfasdflo",
+    "hello",
+    "helasdfasdflo",
+  ];
+
   // renders
   // const renderBackdrop = useCallback(
   //   (props) => (
@@ -95,42 +118,12 @@ const BottomFilter = () => {
           <BottomContainerText>BlueTag Filtering</BottomContainerText>
           {/* <Entypo name="cross" size={36} color="black" /> */}
         </TopSection>
-        <BluetagsBox>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hellohello"></BlueTag>
-          <BlueTag
-            color="#3733FF"
-            isWhite="false"
-            text="hellohellohello"
-          ></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hellohello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag
-            color="#3733FF"
-            isWhite="false"
-            text="hellohellohellohellohello"
-          ></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#af0000" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#c1c0fb" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#9c9bff" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#0400ff" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#020071" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#3733FF" isWhite="false" text="hello"></BlueTag>
-          <BlueTag color="#0300bb" isWhite="false" text="hello"></BlueTag>
-        </BluetagsBox>
+        <BlueTag
+          color="#3733FF"
+          isWhite="false"
+          text="hello"
+          bluetags={ARRAY}
+        />
         {/* <Picker
           selectedValue={chain}
           onValueChange={(itemValue, itemIndex) => setChain(itemValue)}
