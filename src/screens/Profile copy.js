@@ -22,27 +22,23 @@ import { useContext } from "react";
 import useMutation from "../libs/client/useMutation";
 import axios from "axios";
 
-const Container = styled.ScrollView`
+const Container = styled.View`
   flex: 1;
+  justify-content: flex-start;
+  align-items: center;
   background-color: ${(props) => props.theme.Bg0dp};
   flex-direction: column;
-  padding-left: 36px;
-  padding-right: 36px;
   width: 100%;
 `;
 
 const ProfileContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
+  width: 100%;
   justify-content: space-between;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-width: 1px;
-  border-color: rgba(25, 31, 40, 0.1);
-  border-radius: 4px;
-  background-color: rgba(25, 31, 40, 0.05);
-  height: 120px;
-  margin-top: 30px;
+  padding: 20px;
+  border-bottom-width: 1px;
+  border-color: ${(props) => props.theme.BgBorder};
 `;
 
 const OptionContainer = styled.TouchableOpacity`
@@ -55,17 +51,16 @@ const OptionContainer = styled.TouchableOpacity`
 `;
 
 const ProfileImage = styled.Image`
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 100px;
-  /* margin-right: 10px; */
+  margin-right: 20px;
 `;
 
 const Name = styled.Text`
-  font-size: 12px;
-  font-weight: 400;
   color: ${(props) => props.theme.Text0dp};
-  font-family: "SpoqaHanSansNeo-Regular";
+  font-size: 18px;
+  font-weight: 400;
 `;
 const OptionName = styled.Text`
   color: ${(props) => props.theme.Text0dp};
@@ -79,37 +74,6 @@ const ServiceTerms = styled.Text`
   margin-top: 250px;
 `;
 
-const SmallContainer = styled.View`
-  align-items: center;
-  margin-left: 15px;
-`;
-const Number = styled.Text`
-  font-size: 13px;
-  font-weight: 700;
-  color: ${(props) => props.theme.Text0dp};
-  font-family: "SpoqaHanSansNeo-Regular";
-  margin-bottom: 5px;
-`;
-const Title = styled.Text`
-  font-size: 26px;
-  font-weight: 300;
-  color: ${(props) => props.theme.Text0dp};
-  font-family: "SpoqaHanSansNeo-Regular";
-  margin-bottom: 5px;
-`;
-const SubTitle = styled.Text`
-  color: ${(props) => props.theme.Text0dp};
-  margin-bottom: 5px;
-  font-family: "SpoqaHanSansNeo-Regular";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  opacity: 0.5;
-`;
-const TitleContainer = styled.View`
-  margin-top: 20px;
-  margin-bottom: 20px;
-`;
 const Profile = () => {
   //
   const theme = useContext(ThemeContext);
@@ -163,28 +127,77 @@ const Profile = () => {
     <SafeAreaView style={styles.container}>
       <Container>
         <ProfileContainer>
-          <ProfileImage
-            source={{
-              uri: "https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?w=2000",
-            }}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <ProfileImage
+              source={{
+                uri: "https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?w=2000",
+              }}
+            />
+            <Name>SANGWAN KIM</Name>
+          </View>
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            color={theme.Text0dp}
+            size={18}
           />
-          <SmallContainer>
-            <Number>50</Number>
-            <Name>NFT owned</Name>
-          </SmallContainer>
-          <SmallContainer>
-            <Number>23</Number>
-            <Name>Subscribe</Name>
-          </SmallContainer>
-          <SmallContainer>
-            <Number>$18.1K</Number>
-            <Name>Subscribe</Name>
-          </SmallContainer>
         </ProfileContainer>
-        <TitleContainer>
-          <Title>History</Title>
-          <SubTitle>Large</SubTitle>
-        </TitleContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faSquareUser}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>내 채널</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faDownToBracket}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>오프라인 저장 콘텐츠</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faClockRotateLeft}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>기록</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon icon={faBackward} color={theme.Text0dp} size={24} />
+          <OptionName>내 Recap</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faCircleDollar}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>유료 멤버십</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon icon={faGear} color={theme.Text0dp} size={24} />
+          <OptionName>설정</OptionName>
+        </OptionContainer>
+        <OptionContainer>
+          <FontAwesomeIcon
+            icon={faCircleQuestion}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>고객센터</OptionName>
+        </OptionContainer>
+        <OptionContainer onPress={logoutFun}>
+          <FontAwesomeIcon
+            icon={faRightFromBracket}
+            color={theme.Text0dp}
+            size={24}
+          />
+          <OptionName>로그아웃</OptionName>
+        </OptionContainer>
+        <ServiceTerms>개인정보처리방침 및 서비스약관</ServiceTerms>
       </Container>
     </SafeAreaView>
   );

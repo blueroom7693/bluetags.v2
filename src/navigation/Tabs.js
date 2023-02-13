@@ -16,6 +16,7 @@ import { ThemeContext } from "styled-components/native";
 import * as NavigationBar from "expo-navigation-bar";
 import NewsPage from "../screens/News";
 import CalendarPage from "../screens/Calendar";
+import { faBell } from "@fortawesome/pro-regular-svg-icons";
 
 DrawerActions;
 
@@ -98,22 +99,18 @@ const Tabs = () => {
           headerTitle: (props) => <LogoTitle {...props} />,
           headerRight: ({ color, size }) => (
             <HeaderRight>
-              {/* <FontAwesomeIcon
-                icon={faFilter}
+              <FontAwesomeIcon
+                icon={faBell}
                 color={theme.Text0dp}
                 size={22}
+                style={{ marginRight: 10 }}
               />
-              <MaterialIcons
-                name={"home-filled"}
-                color={theme.Text0dp}
-                size={24}
-              /> */}
               <Ionicons
                 name="search"
                 // color={theme.Text0dp}
                 // color="rgb(0, 117, 255)"
                 color="grey"
-                style={{ marginRight: 20 }}
+                style={{ marginRight: 10 }}
                 size={24}
                 onPress={() =>
                   navigation.navigate("Stack", {
