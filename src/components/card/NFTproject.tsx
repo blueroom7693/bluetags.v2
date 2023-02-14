@@ -3,11 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { DataContext } from "../../context/DataProvider";
 import { allSubscirbeProject, token, userData } from "../../atom";
-import { axiosInstance } from "../../axiosInstance";
 import { useRecoilState, useRecoilValue } from "recoil";
-import axios from "axios";
 import useMutation from "../../libs/client/useMutation";
 
 //CSS

@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
-import { AllNft } from "../../AllNft";
+import { TouchableWithoutFeedback, View } from "react-native";
 import MiddleBarSVG from "../../assets/images/misc/middlebar.svg";
 import BtnSVG from "../../assets/images/misc/subscribeWhite.svg";
 import BlueTag from "../Bluetag";
@@ -46,15 +39,11 @@ const TitleConatainer = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 0px 0px 0px;
-
   width: 217px;
   height: 40px;
   margin-top: 20px;
   justify-content: space-between;
   margin-bottom: 10px;
-  /* border-bottom-width: 1px;
-  border-bottom-color: rgba(0, 0, 0, 0.1);
-  border-bottom-style: solid; */
 `;
 
 const TimeContaier = styled.View`
@@ -81,7 +70,6 @@ const ProjectLogo = styled.Image`
 const SnsLogo = styled.Image`
   width: 20px;
   height: 20px;
-  /* margin-left: 10px; */
   border-radius: 0px;
 `;
 const CreatedAt = styled.Text`
@@ -164,18 +152,22 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({
   const [isCalendar, setIsCalendar] = useState(isBool);
 
   const [calendar, { loading, status }] = useMutation(
-    "/api/bluecards/add-calendar"
+    "https://www.bluetags.app/api/bluecards/add-calendar"
   );
 
-  const onClickCalendar = (projectId: string, projectTitle: string) => {
+  const onClickCalendar = (bluecardId: string, projectTitle: string) => {
     if (!loading) {
       calendar({
-        projectId,
+        bluecardId,
         id: user.id,
       });
       setIsCalendar((prev) => !prev);
     }
   };
+  console.log(isCalendar);
+  // console.log(fullData.id);
+  // console.log(fullData.id);
+  // console.log(user.id);
 
   //ALLDATA
   return (
@@ -198,7 +190,6 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({
             }}
           ></Thumbnail>
         )}
-        {/* <Thumbnail source={{ uri: thumbnail }}></Thumbnail> */}
         <MainContainer>
           <TitleConatainer>
             <View style={{ width: 180 }}>

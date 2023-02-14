@@ -96,27 +96,19 @@ export default function Home() {
   useEffect(() => {
     if (isfoucsed) {
       axios.get("https://www.bluetags.app/api/users").then((res) => {
+        console.log(res.data.calendar);
         setUser(res.data);
+        // console.log(
+        //   user.calendar.includes("638ef3120ee1a4a8991bf701"),
+        //   12313564
+        // );
       });
     }
     console.log("홈 페이지 들어옴");
   }, [isfoucsed]);
-  console.log(user);
-
   //ProjectData
   const [projectData, setProjectData] = useState(null);
   const [newProjectData, setNewProjectData] = useState(null);
-
-  //BOTTOM FILTER
-  const [bottomFilter, setBottomFilter] = useRecoilState(isBottomFilter);
-  const openFilter = () => {
-    setBottomFilter(true);
-  };
-  //BOTTOM DETAIL
-  const [bottomDetail, setBottomDetail] = useRecoilState(isBottomDetail);
-  const openDetail = () => {
-    setBottomDetail(true);
-  };
   //query
   const { isLoading: isLoadingNft, data: NftData } = useQuery<IInfo>(
     ["homeInfo"],
@@ -131,7 +123,6 @@ export default function Home() {
     }
   }, [isLoadingNft, NftData]);
 
-  //usercheck
   // data 분할
   useEffect(() => {
     axios.get("https://www.bluetags.app/api/projects").then((response) => {
@@ -148,7 +139,7 @@ export default function Home() {
     }
   }, [projectData]);
 
-  ////refresh
+  // 새로고침
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -157,8 +148,7 @@ export default function Home() {
     }, 2000);
   }, []);
   //RETURN
-
-  return isLoadingNft ? null : (
+  return isLoadingNft && !user ? null : (
     <SafeAreaView style={styles.container}>
       <HomeContainer
         refreshControl={
@@ -177,11 +167,11 @@ export default function Home() {
           ItemSeparatorComponent={HListSeparator}
           contentContainerStyle={{ paddingHorizontal: 20 }}
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item, user }) => (
+          renderItem={({ item }) => (
             <BluecardMedium
               fullData={item}
-              isBool={user?.data.calendar.includes(item.id)}
-            ></BluecardMedium>
+              isBool={user?.calendar.includes(item.id)}
+            />
           )}
         />
         {/* RECOMMEDED PROJECT FLATLIST */}
@@ -194,7 +184,6 @@ export default function Home() {
           ItemSeparatorComponent={HListSeparator}
           contentContainerStyle={{ paddingHorizontal: 20 }}
           showsHorizontalScrollIndicator={false}
-          // numColumns="3"
           renderItem={({ item }) => (
             <NFTlist
               fullData={item}

@@ -49,7 +49,9 @@ export function getAllProjects() {
 }
 
 export function getNftInfo(nft: string) {
-  const data = axiosInstance.get(`/api/bluecards/project/${nft}`);
+  const data = axiosInstance.get(
+    `/api/bluecards/project/${nft}?previous=undefined`
+  );
 
   return data;
 }

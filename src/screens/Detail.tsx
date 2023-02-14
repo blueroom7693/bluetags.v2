@@ -13,6 +13,8 @@ import { getNftInfo } from "../axios";
 import SmallHCard from "../components/card/SmallHCard";
 import SquareCard from "../components/card/SquareCard";
 import { LinearGradient } from "expo-linear-gradient";
+import { useIsFocused } from "@react-navigation/native";
+import axios from "axios";
 
 //INTERFACE
 interface IData {
@@ -124,11 +126,24 @@ const HistorySubText = styled.Text`
 //MAIN
 const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   //GETDATA
-  const search = params.title
-    .toLowerCase()
-    .replace(/ /gi, "")
-    .replace(/-/gi, "")
-    .replace(/`/gi, "");
+  const search = params.key;
+  // .toLowerCase()
+  // .replace(/ /gi, "")
+  // .replace(/-/gi, "")
+  // .replace(/`/gi, "");
+
+  //isFocused
+  const isfoucsed = useIsFocused();
+  useEffect(() => {
+    axios
+      .get(
+        "https://www.bluetags.app/api/bluecards/project/azuki?previous=undefined"
+      )
+      .then((res) => {
+        setData(res.data.bluecards);
+      });
+  });
+
   const { isLoading: isLoadingNft, data: searchedData } = useQuery<IInfo>(
     ["searchedData"],
     () => getNftInfo(search)
@@ -137,7 +152,8 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   const [data, setData] = useState<IData[]>();
   useEffect(() => {
     if (!isLoadingNft) {
-      setData(Object.values(searchedData?.data.bluecards));
+      // setData(Object.values(searchedData?.data.bluecards));
+      // setData(searchedData?.data.bluecards);
     }
   }, [isLoadingNft, searchedData]);
   //RETURN
@@ -224,17 +240,7 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
       data={data}
       keyExtractor={(item) => item.id}
       // contentContainerStyle={{ paddingHorizontal: 20 }}
-      renderItem={({ item }) => (
-        <SmallHCard
-          createdAt={item.createdAt}
-          nft={item.project.title}
-          thumbnail={item.thumbnail}
-          title={item.title}
-          chain={item.project.chain}
-          SNS={item.sns}
-          fullData={item}
-        ></SmallHCard>
-      )}
+      renderItem={({ item }) => <SmallHCard fullData={item}></SmallHCard>}
     />
   );
 };

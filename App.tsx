@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { Text, useColorScheme, View, Appearance } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
-// import Root from "./navigation/Root";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme, Pallet } from "./src/utils/styled";
 import {

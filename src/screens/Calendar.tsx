@@ -259,13 +259,7 @@ const CalendarPage = () => {
         renderItem={(item, firstItemInDay) => (
           <CalendarCard fullData={item.fullData}></CalendarCard>
         )}
-        // onMonthChange={(month) => {
-        //   console.log("month changed", month);
-        //   setMonth(month.month);
-        //   setYear(month.year);
-        // }}
         onDayChange={(day) => {
-          // console.log("day changed", day.month);
           setMonth(day.month);
           setYear(day.year);
         }}
@@ -279,25 +273,6 @@ const CalendarPage = () => {
         }}
         pastScrollRange={24}
         futureScrollRange={24}
-        //   showOnlySelectedDayItems
-        //   markingType={"period"}
-        //   markingType="multi-period"
-        //   markedDates={{
-        //     "2023-02-07": {
-        //       periods: [
-        //         { startingDay: false, endingDay: true, color: "#5f9ea0" },
-        //         { startingDay: false, endingDay: true, color: "#ffa500" },
-        //         { startingDay: true, endingDay: false, color: "#f0e68c" },
-        //       ],
-        //     },
-        //     "2023-02-08": {
-        //       periods: [
-        //         { startingDay: true, endingDay: false, color: "#ffa500" },
-        //         { color: "transparent" },
-        //         { startingDay: false, endingDay: false, color: "#f0e68c" },
-        //       ],
-        //     },
-        //   }}
         theme={{}}
         rowHasChanged={(r1, r2) => {
           return r1.text !== r2.text;

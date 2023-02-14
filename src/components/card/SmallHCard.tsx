@@ -79,6 +79,8 @@ const SubscribeContainer = styled.View`
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  margin-bottom: 20px;
+  margin-top: 10px;
 `;
 const Subscribe = styled.Text`
   font-weight: 700;
@@ -86,16 +88,7 @@ const Subscribe = styled.Text`
   color: ${(props) => props.theme.BtnInner};
 `;
 
-const SmallHCard: React.FC<ICircleProject> = ({
-  fullData,
-  nft,
-  chain,
-  title,
-  thumbnail,
-  description,
-  createdAt,
-  SNS,
-}) => {
+const SmallHCard: React.FC<ICircleProject> = ({ fullData }) => {
   //NAV
   const navigation = useNavigation();
   // const goToDetail = () => {
@@ -111,7 +104,7 @@ const SmallHCard: React.FC<ICircleProject> = ({
     <ListContainer>
       <Container>
         <TextContainer>
-          <Title>{title}</Title>
+          <Title>{fullData.title}</Title>
           <View
             style={{
               flexDirection: "row",
@@ -124,7 +117,13 @@ const SmallHCard: React.FC<ICircleProject> = ({
             <Date>22.09.24</Date>
           </View>
         </TextContainer>
-        <ProjectLogo source={{ uri: thumbnail }}></ProjectLogo>
+        {fullData.thumbnail ? (
+          <ProjectLogo source={{ uri: fullData.thumbnail }}></ProjectLogo>
+        ) : (
+          <ProjectLogo
+            source={require("../../assets/images/azukiWall.webp")}
+          ></ProjectLogo>
+        )}
       </Container>
       <View style={{ height: 51 }}>
         <Description>
@@ -132,8 +131,7 @@ const SmallHCard: React.FC<ICircleProject> = ({
           velit eget lacus finibus lobortis. Integer felis turpis, dapibus a mi
           ut, placerat tincidunt dolor. Suspendisse dui nibh, placerat at
           elementum vel, malesuada in urna. Cras ante lectus, cursus quis dui
-          eget, scelerisque porta orci. Fusce cursus nunc sed justo pretium
-          suscipit. Vivamus et ex eget lac
+          eget, scelerisque porta orci.
         </Description>
       </View>
       {/* <Description>{fullData.description}</Description> */}

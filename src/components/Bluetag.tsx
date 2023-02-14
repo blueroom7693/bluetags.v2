@@ -56,8 +56,9 @@ export default function BlueTag({
           color={color}
           isWhite={isWhite}
           className={className ? className : ""}
+          key={index}
         >
-          <BlueTagsName key={index}>#{tag}</BlueTagsName>
+          <BlueTagsName>#{tag}</BlueTagsName>
         </BlueTags>
       ))}
     </BlueTagsBox>

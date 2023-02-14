@@ -70,7 +70,6 @@ const NFT = () => {
     ["userData"],
     getUser
   );
-  ////////////////////////////
   // 구독리스트
   const [subscribeProject, setSubscribeProject] = useState<string[]>();
   //유저정보 업데이트
