@@ -106,7 +106,7 @@ const ProjectTitle = styled.Text`
   color: ${(props) => props.theme.Text0dp};
   margin-right: 10px;
 `;
-const BtnView = styled.TouchableOpacity`
+const BtnView = styled.TouchableOpacity<{ OnOff: boolean }>`
   width: 217px;
   height: 40px;
   background: #191f28;
@@ -115,6 +115,8 @@ const BtnView = styled.TouchableOpacity`
   border-radius: 5px;
   margin-top: 15px;
   flex-direction: row;
+  opacity: ${(props) => (props.OnOff ? 1 : 0.2)};
+  /* opacity: 0.1; */
 `;
 const BtnText = styled.Text`
   font-family: "SpoqaHanSansNeo-Regular";
@@ -246,14 +248,25 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({
           ></BlueTag>
           {fullData.deadLineStart && fullData.deadLineEnd ? (
             <BtnView
+              OnOff={isCalendar}
               onPress={() => {
                 onClickCalendar(fullData.id, fullData.title);
               }}
             >
-              <BtnText>Add to Calendar</BtnText>
+              {isBool ? (
+                <BtnText>Delete the Schedule</BtnText>
+              ) : (
+                <BtnText>Add to Calendar</BtnText>
+              )}
+              {/* <BtnText>detach Calendar</BtnText> */}
               <BtnSVG width={40} />
             </BtnView>
-          ) : null}
+          ) : (
+            <BtnView onPress={() => {}}>
+              <BtnText>No timeline</BtnText>
+              <BtnSVG width={40} />
+            </BtnView>
+          )}
         </MainContainer>
         {/* <BlueTags>#SAMPLE</BlueTags> */}
       </Container>
