@@ -1,16 +1,44 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { BLACK_COLOR, LIGHT_GREY } from "../colors";
-import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import Detail from "../screens/Detail";
 import Profile from "../screens/Profile";
 import Search from "../screens/Search";
 import DetailArticle from "../screens/DetailArticle";
 import { useContext } from "react";
 import styled, { ThemeContext } from "styled-components/native";
+import Notification from "../screens/Notification";
+import { BlurView } from "expo-blur";
 
 const NativeStack = createNativeStackNavigator();
 const HeaderLogo = styled.Image``;
+
+//test
+function LogoTitle() {
+  return (
+    <View
+      style={{
+        width: 200,
+        height: 100,
+        backgroundColor: "black",
+        opacity: 0.5,
+      }}
+    >
+      <Image
+        style={{ width: 50, height: 50 }}
+        source={{ uri: "https://cdn.logo.com/hotlink-ok/logo-social.png" }}
+      />
+    </View>
+  );
+}
 
 const Stack = () => {
   const theme = useContext(ThemeContext);
@@ -22,16 +50,18 @@ const Stack = () => {
         headerBackTitleVisible: false,
         headerStyle: {
           backgroundColor: `${theme.Bg0dp}`,
+          // backgroundColor: "transparent",
           height: 48,
           justifyContent: "center",
           alignItems: "center",
+          opacity: 0,
         },
         headerTitleStyle: {
           color: `${theme.Text0dp}`,
           fontSize: 18,
           fontWeight: "400",
         },
-        headerTitleAlign: "center",
+        headerTitleAlign: "left",
         headerShown: true,
         headerTintColor: `${theme.Text0dp}`,
         // headerBackImageSource: {
@@ -43,9 +73,10 @@ const Stack = () => {
         name="DetailArticle"
         component={DetailArticle}
         options={({ navigation, route }) => ({
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name={"home-filled"} color={color} size={30} />
-          ),
+          // tabBarIcon: ({ color, size }) => (
+          //   <MaterialIcons name={"home-filled"} color={color} size={30} />
+          // ),
+          // headerTitle: (props) => <LogoTitle {...props} />,
           headerRight: ({ color, size }) => (
             <View>
               <HeaderLogo
@@ -57,6 +88,19 @@ const Stack = () => {
               />
             </View>
           ),
+          //찾았다
+          // headerTransparent: true,
+          // headerBackground: () => (
+          //   <View style={{ backgroundColor: "black", height: 100 }}>
+          //     <Text>hihihihi</Text>
+          //     <Text>hihihihi</Text>
+          //     <Text>hihihihi</Text>
+          //     <Text>hihihihi</Text>
+          //   </View>
+          // ),
+          // headerBackground: () => {
+          //   (props) => <LogoTitle {...props} />;
+          // },
         })}
       />
       <NativeStack.Screen
@@ -84,6 +128,7 @@ const Stack = () => {
         component={Search}
         options={{ headerShown: false }}
       />
+      <NativeStack.Screen name="Notification" component={Notification} />
     </NativeStack.Navigator>
   );
 };

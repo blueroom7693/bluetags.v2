@@ -32,6 +32,7 @@ const BlueTagsBox = styled.View`
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 5px;
 `;
 
 interface Props {

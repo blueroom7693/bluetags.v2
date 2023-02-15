@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { Text, TouchableOpacity, View } from "react-native";
+import BlueTag from "../Bluetag";
 
 //CSS
 const TotalContainer = styled.View`
@@ -16,6 +17,7 @@ const ProjectLogo = styled.Image`
   width: 30px;
   height: 30px;
   border-radius: 10px;
+  margin-right: 10px;
 `;
 const TopContainer = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
@@ -44,6 +46,7 @@ const Description = styled.Text`
   font-weight: 400;
   margin-top: 15px;
   font-family: "SpoqaHanSansNeo-Regular";
+  height: 70px;
 `;
 const BtnView = styled.TouchableOpacity`
   width: 295px;
@@ -61,13 +64,6 @@ const BtnText = styled.Text`
   font-weight: 700;
   font-size: 12px;
   color: ${(props) => props.theme.Bg0dp};
-`;
-const Bluetags = styled.Text`
-  font-family: "SpoqaHanSansNeo-Regular";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 12px;
-  color: ${(props) => props.theme.Text0dp};
 `;
 //type
 interface ICalendarCard {
@@ -97,7 +93,13 @@ const CalendarCard: React.FC<ICalendarCard> = ({ fullData }) => {
         {fullData.deadLineStart.slice(0, 10)} -{" "}
         {fullData.deadLineEnd.slice(0, 10)}
       </EventDate>
-      <Bluetags>{fullData.bluetags[0]}</Bluetags>
+      {/* <Bluetags>{fullData.bluetags[0]}</Bluetags> */}
+      <BlueTag
+        color="rgba(0, 117, 255, 0.5)"
+        isWhite="false"
+        text="hello"
+        bluetags={fullData.bluetags}
+      ></BlueTag>
       <Description>{fullData.description.slice(0, 150)}</Description>
       <BtnView onPress={goToDetail}>
         <BtnText>go to detail</BtnText>

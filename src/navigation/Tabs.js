@@ -17,6 +17,7 @@ import * as NavigationBar from "expo-navigation-bar";
 import NewsPage from "../screens/News";
 import CalendarPage from "../screens/Calendar";
 import { faBell } from "@fortawesome/pro-regular-svg-icons";
+import { TouchableOpacity } from "react-native";
 
 DrawerActions;
 
@@ -99,12 +100,21 @@ const Tabs = () => {
           headerTitle: (props) => <LogoTitle {...props} />,
           headerRight: ({ color, size }) => (
             <HeaderRight>
-              <FontAwesomeIcon
-                icon={faBell}
-                color={theme.Text0dp}
-                size={22}
-                style={{ marginRight: 10 }}
-              />
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Stack", {
+                    screen: "Notification",
+                    params: {},
+                  })
+                }
+              >
+                <FontAwesomeIcon
+                  icon={faBell}
+                  color={theme.Text0dp}
+                  size={22}
+                  style={{ marginRight: 10 }}
+                />
+              </TouchableOpacity>
               <Ionicons
                 name="search"
                 // color={theme.Text0dp}

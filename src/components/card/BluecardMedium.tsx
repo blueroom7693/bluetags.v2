@@ -254,7 +254,7 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({
               }}
             >
               {isBool ? (
-                <BtnText>Delete the Schedule</BtnText>
+                <BtnText>Remove from Calendar</BtnText>
               ) : (
                 <BtnText>Add to Calendar</BtnText>
               )}

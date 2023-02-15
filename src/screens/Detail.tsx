@@ -137,7 +137,7 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   useEffect(() => {
     axios
       .get(
-        "https://www.bluetags.app/api/bluecards/project/azuki?previous=undefined"
+        `https://www.bluetags.app/api/bluecards/project/${params.key}?previous=undefined`
       )
       .then((res) => {
         setData(res.data.bluecards);
