@@ -6,7 +6,6 @@ import styled from "styled-components/native";
 import NotificationCard from "../components/card/NotificationCard";
 
 const NotificationList = styled.FlatList``;
-
 export default function Notification() {
   //유저정보 업데이트
   const isfoucsed = useIsFocused();
@@ -14,6 +13,8 @@ export default function Notification() {
   const [user, setUser] = useState<string>();
   const [notificationData, setNotificationData] = useState();
   const [isLoading, setIsLoading] = useState(true);
+
+  console.log(new Date());
 
   useEffect(() => {
     if (isfoucsed) {
@@ -39,7 +40,6 @@ export default function Notification() {
   ) : (
     <NotificationList
       data={notificationData}
-      //   keyExtractor={(item) => item}
       renderItem={({ item }) => (
         <NotificationCard fullData={item}></NotificationCard>
       )}

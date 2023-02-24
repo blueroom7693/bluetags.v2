@@ -1,21 +1,8 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import MiddleBarSVG from "../../assets/images/misc/middlebar.svg";
 import { View } from "react-native";
-import SubscribeSVG from "../../assets/images/misc/subscribeWhite.svg";
 
-//TYPE
-interface ICircleProject {
-  fullData: any;
-  nft: string;
-  chain: string;
-  title: string;
-  thumbnail: string;
-  description: string;
-  createdAt: string;
-  SNS: string;
-}
 //CSS
 const Title = styled.Text`
   color: ${(props) => props.theme.Text0dp};
@@ -28,7 +15,7 @@ const ProjectTitle = styled.Text`
   font-size: 12px;
   font-weight: 700;
 `;
-const Date = styled.Text`
+const DateText = styled.Text`
   color: ${(props) => props.theme.Text0dp};
   font-size: 12px;
   font-weight: 500;
@@ -58,35 +45,27 @@ const TextContainer = styled.View`
   height: 80px;
 `;
 const ProjectLogo = styled.Image`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+`;
+const Thumbnail = styled.Image`
   width: 80px;
   height: 80px;
   border-radius: 10px;
 `;
-const BlueTags = styled.Text`
-  color: ${(props) => props.theme.Text0dp};
-  font-size: 14px;
-`;
-const Description = styled.Text`
-  color: ${(props) => props.theme.Text0dp};
-  font-size: 12px;
-  font-weight: 500;
-`;
-const SubscribeContainer = styled.View`
-  width: 336px;
-  height: 40px;
-  background-color: #191f28;
-  border-radius: 5px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  margin-bottom: 20px;
-  margin-top: 10px;
-`;
-const Subscribe = styled.Text`
-  font-weight: 700;
-  font-size: 12px;
-  color: ${(props) => props.theme.BtnInner};
-`;
+
+//TYPE
+interface ICircleProject {
+  fullData: any;
+  nft: string;
+  chain: string;
+  title: string;
+  thumbnail: string;
+  description: string;
+  createdAt: string;
+  SNS: string;
+}
 
 const NotificationCard: React.FC<ICircleProject> = ({ fullData }) => {
   //NAV
@@ -100,11 +79,16 @@ const NotificationCard: React.FC<ICircleProject> = ({ fullData }) => {
       },
     });
   };
+  //today
+
   return (
     <ListContainer>
       <Container>
+        <ProjectLogo source={{ uri: fullData.projectLogo }}></ProjectLogo>
         <TextContainer>
-          <Title>{fullData.title}</Title>
+          <Title>
+            {fullData.projectTitle} uploads the post : {fullData.title}
+          </Title>
           <View
             style={{
               flexDirection: "row",
@@ -112,34 +96,51 @@ const NotificationCard: React.FC<ICircleProject> = ({ fullData }) => {
               width: 146,
             }}
           >
-            <ProjectTitle>{fullData.projectkey}</ProjectTitle>
-            <MiddleBarSVG width={11} />
-            <Date>22.09.24</Date>
+            <DateText>
+              {(new Date().getTime() - new Date(fullData.createdAt).getTime()) /
+                (1000 * 60 * 60 * 24) <
+              1
+                ? Math.floor(
+                    (new Date().getTime() -
+                      new Date(fullData.createdAt).getTime()) /
+                      (1000 * 60 * 60)
+                  ) <= 1
+                  ? `${Math.floor(
+                      (new Date().getTime() -
+                        new Date(fullData.createdAt).getTime()) /
+                        (1000 * 60 * 60)
+                    )} hour ago`
+                  : `${Math.floor(
+                      (new Date().getTime() -
+                        new Date(fullData.createdAt).getTime()) /
+                        (1000 * 60 * 60)
+                    )} hours ago`
+                : Math.floor(
+                    (new Date().getTime() -
+                      new Date(fullData.createdAt).getTime()) /
+                      (1000 * 60 * 60 * 24)
+                  ) === 1
+                ? `${Math.floor(
+                    (new Date().getTime() -
+                      new Date(fullData.createdAt).getTime()) /
+                      (1000 * 60 * 60 * 24)
+                  )} day ago`
+                : `${Math.floor(
+                    (new Date().getTime() -
+                      new Date(fullData.createdAt).getTime()) /
+                      (1000 * 60 * 60 * 24)
+                  )} days ago`}
+            </DateText>
           </View>
         </TextContainer>
         {fullData.thumbnail ? (
-          <ProjectLogo source={{ uri: fullData.thumbnail }}></ProjectLogo>
+          <Thumbnail source={{ uri: fullData.thumbnail }}></Thumbnail>
         ) : (
-          <ProjectLogo
+          <Thumbnail
             source={require("../../assets/images/azukiWall.webp")}
-          ></ProjectLogo>
+          ></Thumbnail>
         )}
       </Container>
-      <View style={{ height: 51 }}>
-        <Description>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas
-          velit eget lacus finibus lobortis. Integer felis turpis, dapibus a mi
-          ut, placerat tincidunt dolor. Suspendisse dui nibh, placerat at
-          elementum vel, malesuada in urna. Cras ante lectus, cursus quis dui
-          eget, scelerisque porta orci.
-        </Description>
-      </View>
-      {/* <Description>{fullData.description}</Description> */}
-      <BlueTags>#SAMPLE #SAMPLE</BlueTags>
-      <SubscribeContainer>
-        <Subscribe>Subscribe</Subscribe>
-        <SubscribeSVG />
-      </SubscribeContainer>
     </ListContainer>
   );
 };
