@@ -33,7 +33,7 @@ const Container = styled.TouchableOpacity`
   background-color: ${(props) => props.theme.Bg0dp};
   align-items: flex-start;
   flex-direction: row;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   /* justify-content: center; */
   padding-top: 30px;
   /* width: 316px; */

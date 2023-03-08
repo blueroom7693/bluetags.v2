@@ -1,7 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import styled from "styled-components/native";
 import NotificationCard from "../components/card/NotificationCard";
 
@@ -34,15 +34,25 @@ export default function Notification() {
     console.log("알림 페이지 들어옴");
   }, [isfoucsed]);
   return isLoading ? (
-    <View>
+    <SafeAreaView style={styles.container}>
       <Text>isLoading</Text>
-    </View>
+    </SafeAreaView>
   ) : (
-    <NotificationList
-      data={notificationData}
-      renderItem={({ item }) => (
-        <NotificationCard fullData={item}></NotificationCard>
-      )}
-    />
+    <SafeAreaView style={styles.container}>
+      <NotificationList
+        data={notificationData}
+        renderItem={({ item }) => (
+          <NotificationCard fullData={item}></NotificationCard>
+        )}
+      />
+    </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
+    backgroundColor: "white",
+  },
+});

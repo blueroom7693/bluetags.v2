@@ -13,19 +13,6 @@ import { Calendar, CalendarList, Agenda } from "react-native-calendars"; // impo
 import styled from "styled-components/native";
 import CalendarCard from "../components/card/CalendarCard";
 
-// const events = [
-//   {
-//     title: "Meeting",
-//     start: new Date(2020, 1, 11, 10, 0),
-//     end: new Date(2020, 1, 11, 10, 30),
-//   },
-//   {
-//     title: "Coffee break",
-//     start: new Date(2020, 1, 11, 15, 45),
-//     end: new Date(2020, 1, 11, 16, 30),
-//   },
-// ];
-
 const LegendContainer = styled.View`
   width: 100%;
   height: 60px;
@@ -82,9 +69,11 @@ const CalendarPage = () => {
   const [myBlucards, setMyBluecards] = useState();
   //유저정보 업데이트
   const isfoucsed = useIsFocused();
+  console.log(isfoucsed);
   useEffect(() => {
     if (isfoucsed) {
       axios.get("https://www.bluetags.app/api/users").then((res) => {
+        console.log(res);
         setUser(res.data);
         if (user) {
           //   axios
@@ -95,7 +84,6 @@ const CalendarPage = () => {
           //     });
         }
       });
-
       axios.get(`https://www.bluetags.app/api/bluecards`).then((respose) => {
         setallBluecards(respose.data.bluecards);
       });
@@ -120,11 +108,6 @@ const CalendarPage = () => {
       setFilteredData(Object.values(allBluecards).filter(filter));
     }
   }, [allBluecards]);
-
-  //범례 만들기 2
-  // const addLegend = (data) =>{
-  //   data.deadLineStart data
-  // }
 
   //범례(legend) 만들기
   const [legend, setLegend] = useState({});
@@ -204,23 +187,6 @@ const CalendarPage = () => {
     return;
   };
 
-  //빈 날짜 채우기
-  //   const fillEmptyDate = () => {
-  //     const today = new Date();
-  //     // const past = new Date(today.setDate(today.getDate() - 90));
-  //     // const future = new Date(today.setDate(today.getDate() + 90));
-  //     const past = new Date(today.setDate(today.getDate() - 90));
-  //     const future = new Date(today.setDate(today.getDate() + 180));
-  //     while (past <= future) {
-  //       if (past.toISOString().split("T")[0] in calendarObject) {
-  //         past.setDate(past.getDate() + 1);
-  //       } else {
-  //         calendarObject[past.toISOString().split("T")[0]] = [];
-  //         past.setDate(past.getDate() + 1);
-  //       }
-  //     }
-  //   };
-
   //데이터 정리(비동기화)
   function recap() {
     if (filterdData) {
@@ -240,6 +206,10 @@ const CalendarPage = () => {
   useEffect(() => {
     recap();
   }, [filterdData]);
+
+  // console.log(user);
+  // console.log(loading);
+  // console.log(allBluecards, 123131);
 
   return user && allBluecards && loading ? (
     <View style={{ width: "100%", height: "100%" }}>

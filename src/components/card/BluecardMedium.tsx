@@ -13,11 +13,10 @@ import { useRecoilValue } from "recoil";
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
   width: 247px;
-  height: 350px;
+  height: 370px;
   margin-top: 20px;
   align-items: center;
   border-radius: 10px;
-  margin-bottom: 20px;
   margin: 10px;
   /* justify-content: center; */
   /* border: 1px solid rgba(0, 0, 0, 0.1); */
@@ -27,9 +26,6 @@ const MainContainer = styled.View`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* padding: 0px 24px 24px; */
-  gap: 16px;
-
   width: 217px;
   height: 200px;
 `;
@@ -53,7 +49,8 @@ const TimeContaier = styled.View`
   justify-content: flex-start;
   /* border-bottom-width: 1px; */
   border-color: rgba(0, 0, 0, 0.1);
-  padding-left: 5px;
+  flex-wrap: wrap;
+  /* padding-left: 5px; */
 `;
 
 const Thumbnail = styled.Image`
@@ -115,7 +112,7 @@ const BtnView = styled.TouchableOpacity<{ OnOff: boolean }>`
   border-radius: 5px;
   margin-top: 15px;
   flex-direction: row;
-  opacity: ${(props) => (props.OnOff ? 1 : 0.2)};
+  opacity: ${(props) => (props.OnOff ? 1 : 1)};
   /* opacity: 0.1; */
 `;
 const BtnText = styled.Text`
@@ -178,7 +175,6 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({
         style={{
           shadowColor: "#000000",
           shadowOffset: { width: 0, height: 4 },
-          // shadowOpacity: 0.1,
           shadowRadius: 8,
           elevation: 3,
         }}
@@ -233,7 +229,7 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({
                 source={{ uri: fullData.project.logoUrl }}
               ></ProjectLogo>
             </View>
-            <ProjectTitle>{fullData.project.title}</ProjectTitle>
+            <ProjectTitle>{fullData.project.title.slice(0, 8)}</ProjectTitle>
             <MiddleBarSVG width={11} />
             <CreatedAt>{`${new Date(
               fullData.createdAt
@@ -253,22 +249,21 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({
                 onClickCalendar(fullData.id, fullData.title);
               }}
             >
-              {isBool ? (
+              {isCalendar ? (
                 <BtnText>Remove from Calendar</BtnText>
               ) : (
                 <BtnText>Add to Calendar</BtnText>
               )}
-              {/* <BtnText>detach Calendar</BtnText> */}
               <BtnSVG width={40} />
             </BtnView>
-          ) : (
-            <BtnView onPress={() => {}}>
-              <BtnText>No timeline</BtnText>
-              <BtnSVG width={40} />
-            </BtnView>
-          )}
+          ) : // (
+          //   <BtnView onPress={() => {}}>
+          //     <BtnText>No timeline</BtnText>
+          //     <BtnSVG width={40} />
+          //   </BtnView>
+          // )
+          null}
         </MainContainer>
-        {/* <BlueTags>#SAMPLE</BlueTags> */}
       </Container>
     </TouchableWithoutFeedback>
   );

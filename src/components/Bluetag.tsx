@@ -27,12 +27,13 @@ const BlueTagsName = styled.Text`
 `;
 
 const BlueTagsBox = styled.View`
-  max-width: 100%;
+  /* max-width: 100%; */
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
   margin-top: 5px;
+  width: 100%;
 `;
 
 interface Props {
