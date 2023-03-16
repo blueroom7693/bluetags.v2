@@ -27,6 +27,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { getAllNft } from "../axios";
 import { useQuery } from "@tanstack/react-query";
+import { useIsFocused } from "@react-navigation/native";
 
 const SubText = styled.Text`
   font-size: 12px;
@@ -60,19 +61,21 @@ const SNSloginBox = styled.View`
 const SNSlogo = styled.TouchableOpacity`
   margin: 10px;
 `;
-
+interface IForm {
+  email: string;
+  password: string;
+}
+interface LoginResponse {
+  error?: string;
+  auth?: string;
+}
 const LoginScreen = ({ navigation }) => {
   //themeprovider
   const theme = useContext(ThemeContext);
-  //typescript
-  interface IForm {
-    email: string;
-    password: string;
-  }
-  interface LoginResponse {
-    error?: string;
-    auth?: string;
-  }
+  //isfocused
+  const isfoucsed = useIsFocused();
+  //login Token
+  // const [isLogin, setIsLogin] = useRecoilState(isLogined);
 
   //Google Auth
   //setUser,setToken
@@ -88,8 +91,6 @@ const LoginScreen = ({ navigation }) => {
     // androidClientId: "GOOGLE_GUID.apps.googleusercontent.com",
     // webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
   });
-  // console.log(response);
-  // console.log(request);
 
   //Response
   React.useEffect(() => {
@@ -97,8 +98,6 @@ const LoginScreen = ({ navigation }) => {
       const { authentication } = response;
       setAccessToken(response.authentication.accessToken);
       accessToken && fetchUserInfo();
-      console.log("okay");
-      console.log(accessToken);
     }
   }, [response]);
 
@@ -108,7 +107,6 @@ const LoginScreen = ({ navigation }) => {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     const userInfo = await response.json();
-    console.log(userInfo);
     setUser(userInfo);
   }
 
@@ -127,13 +125,6 @@ const LoginScreen = ({ navigation }) => {
       status: socialStatus,
     },
   ] = useMutation("https://www.bluetags.app/api/users/sign-in/social/google");
-  //--logout
-
-  const [
-    logOut,
-    { data: logoutData, loading: logoutLoading, status: logoutStatus },
-  ] = useMutation("https://www.bluetags.app/api/users/sign-out");
-
   //*setError
   const [errorMessage, setErrorMessage] = useState("");
   //*useRecoil
@@ -170,7 +161,6 @@ const LoginScreen = ({ navigation }) => {
     if (user && !socialLoading) {
       socialLogin({ name: user.name, email: user.email, image: user.picutre });
     }
-    console.log(socialData);
   }, [user]);
 
   // reference
@@ -197,26 +187,13 @@ const LoginScreen = ({ navigation }) => {
       console.log(response.data);
       if (response.data) {
         console.log("user ON");
-        // console.log(response.data.email);
-        // console.log(response.data);
         setIsLogin(true);
       } else {
         console.log("user OFF");
         setIsLogin(false);
       }
     });
-  }, [status, socialStatus, socialData]);
-
-  //
-  const { isLoading: isLoadingNft, data: NftData } = useQuery(
-    ["homeInfo"],
-    getAllNft
-  );
-  if (!isLoadingNft) {
-    // console.log(Object.values(NftData.data.bluecards)[2].id);
-    // console.log(Object.values(NftData.data));
-    // console.log(Object.values(NftData.data.bluecards)[2].project.chain);
-  }
+  }, [status, socialStatus, socialData, socialLoading, user]);
 
   //RETURN
   return (
@@ -278,9 +255,6 @@ const LoginScreen = ({ navigation }) => {
       >
         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
           <RegisterText> Sign up +</RegisterText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => logoutFun()}>
-          <RegisterText> logout</RegisterText>
         </TouchableOpacity>
         <DetailText>Not a member? </DetailText>
       </View>

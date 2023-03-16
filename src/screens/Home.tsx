@@ -1,21 +1,8 @@
 import { RefreshControl, SafeAreaView, StyleSheet } from "react-native";
 import styled from "styled-components/native";
-import useUser, { getAllBluecards, getUser, UpdateUser } from "../axios";
+import { getAllBluecards } from "../axios";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  chainString,
-  isBottomDetail,
-  isBottomFilter,
-  isLogined,
-  pastString,
-  projectString,
-  snstString,
-  subscirbeProject,
-  todayString,
-  userData,
-} from "../atom";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
 import axios from "axios";
 import NFTlist from "../components/card/NFTlist";
@@ -110,19 +97,18 @@ export default function Home() {
   const [projectData, setProjectData] = useState(null);
   const [newProjectData, setNewProjectData] = useState(null);
   //query
-  const { isLoading: isLoadingNft, data: NftData } = useQuery<IInfo>(
-    ["homeInfo"],
-    getAllBluecards
-  );
+  const {
+    isLoading: isLoadingNft,
+    data: NftData,
+    refetch: refetchHomeInfo,
+  } = useQuery<IInfo>(["homeInfo"], getAllBluecards);
   //SETDATA
   const [data, setData] = useState<IData[]>();
-
   useEffect(() => {
     if (!isLoadingNft) {
       setData(Object.values(NftData.data.bluecards));
     }
   }, [isLoadingNft, NftData]);
-
   // data 분할
   useEffect(() => {
     axios.get("https://www.bluetags.app/api/projects").then((response) => {
@@ -138,21 +124,14 @@ export default function Home() {
       setNewProjectData(arr);
     }
   }, [projectData]);
-
   // 새로고침
   const [refreshing, setRefreshing] = React.useState(false);
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
   //RETURN
   return isLoadingNft && !user ? null : (
     <SafeAreaView style={styles.container}>
       <HomeContainer
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={refreshing} onRefresh={refetchHomeInfo} />
         }
       >
         {/* HEADER */}

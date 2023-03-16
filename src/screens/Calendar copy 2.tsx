@@ -9,8 +9,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import { Calendar, CalendarList, Agenda } from "react-native-calendars"; // import { Calendar } from "react-native-big-calendar";
 import styled from "styled-components/native";
+import { IData } from "../axios";
 import CalendarCard from "../components/card/CalendarCard";
 
 const LegendContainer = styled.View`
@@ -56,15 +57,9 @@ const CalendarPage = () => {
   const [user, setUser] = useState<string>();
   // 전체 블루카드
   const [allBluecards, setallBluecards] = useState<string[]>();
-  ///////////////////////
-  // 캘린더 오브젝트
-  const [calendarObject, setCalendarObject] = useState({});
-  // 전체 로딩
-  const [loading, setLoading] = useState(false);
-  ///////////////////////
   // 알림 받는 블루카드
   const [myBlucards, setMyBluecards] = useState();
-  // 정보 업데이트
+  //유저정보 업데이트
   const isfoucsed = useIsFocused();
   useEffect(() => {
     if (isfoucsed) {
@@ -81,14 +76,15 @@ const CalendarPage = () => {
           //   });
         }
       });
-      axios
-        .get(`https://www.bluetags.app/api/bluecards?calendar=true&year=2023`)
-        .then((res) => {
-          console.log("여기서 오류나");
-          // setallBluecards(res.data.bluecards);
-          // console.log(res.data.bluecards);
-          setallBluecards(res.data.bluecards);
-        });
+      // axios
+      // .get(
+      //   `https://www.bluetags.app/api/bluecards?calendar=true&year=${year}`
+      // )
+      // .get(`https://www.bluetags.app/api/bluecards`)
+      // .then((respose) => {
+      //   console.log(respose.data.bluecards, 456489979);
+      //   setallBluecards(respose.data.bluecards);
+      // });
       setCalendarObject({});
       setLegend({});
       setLoading(false);
@@ -98,7 +94,7 @@ const CalendarPage = () => {
 
   // 필터링 및 데이터 정리 => deadline이 있는 블루카드만 추출
   const [filterdData, setFilteredData] = useState<IData[]>();
-  const filtered = (info) => {
+  const filter = (info) => {
     let isDeadLineBool: boolean = false;
     if (info.deadLineStart && info.deadLineEnd) {
       isDeadLineBool = true;
@@ -107,7 +103,7 @@ const CalendarPage = () => {
   };
   useEffect(() => {
     if (allBluecards) {
-      setFilteredData(Object.values(allBluecards).filter(filtered));
+      setFilteredData(Object.values(allBluecards).filter(filter));
     }
   }, [allBluecards]);
 
@@ -166,6 +162,8 @@ const CalendarPage = () => {
   }, [month]);
 
   // 시작과 끝 날짜 구하기 함수
+  const [loading, setLoading] = useState(false);
+  const [calendarObject, setCalendarObject] = useState({});
   const getDatesStartToLast = (startDate, lastDate, FullData) => {
     makeLegend(startDate, lastDate, FullData);
     while (startDate <= lastDate) {
@@ -190,12 +188,14 @@ const CalendarPage = () => {
   //데이터 정리(비동기화)
   function recap() {
     if (filterdData) {
-      filterdData.map((e, index) =>
-        getDatesStartToLast(
-          new Date(e.deadLineStart),
-          new Date(e.deadLineEnd),
-          e
-        )
+      filterdData.map(
+        (e, index) =>
+          getDatesStartToLast(
+            new Date(e.deadLineStart),
+            new Date(e.deadLineEnd),
+            e
+          )
+        // fillEmptyDate()
       );
       setLoading(true);
     }
@@ -204,10 +204,6 @@ const CalendarPage = () => {
   useEffect(() => {
     recap();
   }, [filterdData]);
-
-  useEffect(() => {
-    console.log(calendarObject);
-  }, [calendarObject]);
 
   return user && allBluecards && loading ? (
     <View style={{ width: "100%", height: "100%" }}>
@@ -305,6 +301,15 @@ const CalendarPage = () => {
     </View>
   ) : (
     <Calendar />
+  );
+};
+
+//render empty
+const renderEmptyDate = () => {
+  return (
+    <View style={styles.emptyDate}>
+      <Text>This is empty date!</Text>
+    </View>
   );
 };
 

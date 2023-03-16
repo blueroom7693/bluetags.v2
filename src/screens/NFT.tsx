@@ -1,4 +1,4 @@
-import { SafeAreaView, View } from "react-native";
+import { RefreshControl, SafeAreaView, View } from "react-native";
 import styled from "styled-components/native";
 import { Dimensions, FlatList } from "react-native";
 import NFTproject from "../components/card/NFTproject";
@@ -62,10 +62,11 @@ const ProjectList = styled.FlatList`
 
 const NFT = () => {
   //query
-  const { isLoading: isLoadingProjectData, data: ProjectData } = useQuery(
-    ["subscribeInfo"],
-    getAllProjects
-  );
+  const {
+    isLoading: isLoadingProjectData,
+    data: ProjectData,
+    refetch: refetchSubscribeInfo,
+  } = useQuery(["subscribeInfo"], getAllProjects);
   const { isLoading: isLoadingUser, data: User } = useQuery(
     ["userData"],
     getUser
@@ -89,9 +90,11 @@ const NFT = () => {
     }
   }, []);
 
+  // 새로고침
+  const [refreshing, setRefreshing] = useState(false);
+
   //SETDATA
   const [allProjectData, setAllProjectData] = useState(null);
-
   useEffect(() => {
     if (!isLoadingProjectData) {
       setAllProjectData(ProjectData.data.projects);
@@ -106,6 +109,12 @@ const NFT = () => {
     <SafeAreaView>
       {isLoadingUser ? null : (
         <ProjectList
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={refetchSubscribeInfo}
+            />
+          }
           ListHeaderComponent={
             <View>
               <HeaderView>
