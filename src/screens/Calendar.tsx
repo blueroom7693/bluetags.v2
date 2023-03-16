@@ -44,10 +44,9 @@ const LegendDetailContainer = styled.View`
   margin-right: 5px;
   margin-left: 5px;
 `;
-
 const CalendarPage = () => {
-  const [month, setMonth] = useState();
-  const [year, setYear] = useState();
+  const [month, setMonth] = useState<any>();
+  const [year, setYear] = useState<any>();
   const [event, setEvent] = useState();
   const [voting, setVoting] = useState();
   const [minting, setMinting] = useState();
@@ -56,7 +55,7 @@ const CalendarPage = () => {
   const [user, setUser] = useState<string>();
   // 전체 블루카드
   const [allBluecards, setallBluecards] = useState<string[]>();
-  ///////////////////////
+  //
   // 캘린더 오브젝트
   const [calendarObject, setCalendarObject] = useState({});
   // 전체 로딩
@@ -68,6 +67,10 @@ const CalendarPage = () => {
   const isfoucsed = useIsFocused();
   useEffect(() => {
     if (isfoucsed) {
+      setCalendarObject({});
+      setLegend({});
+      setLoading(false);
+
       axios.get("https://www.bluetags.app/api/users").then((res) => {
         console.log(res.data.calendar);
         setUser(res.data);
@@ -80,36 +83,34 @@ const CalendarPage = () => {
           //     // setMyBluecards(response.data);
           //   });
         }
+        axios
+          .get(`https://www.bluetags.app/api/bluecards?calendar=true&year=2023`)
+          .then((res) => {
+            // setallBluecards(res.data.bluecards);
+            // console.log(Object.values(res.data.bluecards));
+            setallBluecards(Object.values(res.data.bluecards));
+
+            // setallBluecards(res.data.bluecards);
+          });
       });
-      axios
-        .get(`https://www.bluetags.app/api/bluecards?calendar=true&year=2023`)
-        .then((res) => {
-          console.log("여기서 오류나");
-          // setallBluecards(res.data.bluecards);
-          // console.log(res.data.bluecards);
-          setallBluecards(res.data.bluecards);
-        });
-      setCalendarObject({});
-      setLegend({});
-      setLoading(false);
     }
     console.log("캘린더 페이지 들어옴");
   }, [isfoucsed]);
 
   // 필터링 및 데이터 정리 => deadline이 있는 블루카드만 추출
-  const [filterdData, setFilteredData] = useState<IData[]>();
-  const filtered = (info) => {
-    let isDeadLineBool: boolean = false;
-    if (info.deadLineStart && info.deadLineEnd) {
-      isDeadLineBool = true;
-    }
-    return isDeadLineBool;
-  };
-  useEffect(() => {
-    if (allBluecards) {
-      setFilteredData(Object.values(allBluecards).filter(filtered));
-    }
-  }, [allBluecards]);
+  // const [filterdData, setFilteredData] = useState();
+  // const filtered = (info) => {
+  //   let isDeadLineBool: boolean = false;
+  //   if (info.deadLineStart && info.deadLineEnd) {
+  //     isDeadLineBool = true;
+  //   }
+  //   return isDeadLineBool;
+  // };
+  // useEffect(() => {
+  //   if (allBluecards) {
+  //     setFilteredData(Object.values(allBluecards).filter(filtered));
+  //   }
+  // }, [allBluecards]);
 
   //범례(legend) 만들기
   const [legend, setLegend] = useState({});
@@ -123,7 +124,7 @@ const CalendarPage = () => {
       console.log("출력되면 안돼");
     }
     while (startdateMonth <= lastdateMonth) {
-      if ([`${startdate.getFullYear()}-${startdateMonth}`] in legend) {
+      if (`${startdate.getFullYear()}-${startdateMonth}` in legend) {
         legend[`${startdateYear}-${startdateMonth}`] = [
           ...legend[`${startdate.getFullYear()}-${startdateMonth}`],
           { bluetags: data.bluetags[0], fulldata: data.id },
@@ -170,7 +171,7 @@ const CalendarPage = () => {
     makeLegend(startDate, lastDate, FullData);
     while (startDate <= lastDate) {
       //new method
-      if ([startDate.toISOString().split("T")[0]] in calendarObject) {
+      if (startDate.toISOString().split("T")[0] in calendarObject) {
         calendarObject[startDate.toISOString().split("T")[0]] = [
           ...calendarObject[startDate.toISOString().split("T")[0]],
           { fullData: FullData },
@@ -189,8 +190,8 @@ const CalendarPage = () => {
 
   //데이터 정리(비동기화)
   function recap() {
-    if (filterdData) {
-      filterdData.map((e, index) =>
+    if (allBluecards) {
+      allBluecards.map((e, index) =>
         getDatesStartToLast(
           new Date(e.deadLineStart),
           new Date(e.deadLineEnd),
@@ -202,12 +203,20 @@ const CalendarPage = () => {
   }
   //데이터 출력준비 완료
   useEffect(() => {
-    recap();
-  }, [filterdData]);
+    if (allBluecards) {
+      recap();
+    }
+  }, [allBluecards]);
 
   useEffect(() => {
     console.log(calendarObject);
   }, [calendarObject]);
+  console.log(calendarObject);
+
+  // useEffect(() => {
+  //   console.log(allBluecards);
+  // }, [allBluecards]);
+  // console.log(allBluecards);
 
   return user && allBluecards && loading ? (
     <View style={{ width: "100%", height: "100%" }}>

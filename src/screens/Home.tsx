@@ -126,6 +126,24 @@ export default function Home() {
   }, [projectData]);
   // 새로고침
   const [refreshing, setRefreshing] = React.useState(false);
+
+  // const [calendarObject, setCalendarObject] = useState({});
+  // useEffect(() => {
+  //   calendarObject[`0222-020-2`] = [{ fullData: "FullData" }];
+  //   console.log(calendarObject);
+  // }, []);
+  // console.log(calendarObject);
+
+  // axios
+  //   .get(`https://www.bluetags.app/api/bluecards?calendar=true&year=2023`)
+  //   .then((res) => {
+  //     res.data.bluecards.map((e) => {
+  //       console.log(new Date(e.deadLineStart).toISOString().split("T")[0]);
+  //       console.log(e);
+  //     });
+  //     // console.log(res.data.bluecards[1]);
+  //   });
+
   //RETURN
   return isLoadingNft && !user ? null : (
     <SafeAreaView style={styles.container}>
