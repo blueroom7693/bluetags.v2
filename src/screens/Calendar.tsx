@@ -44,17 +44,48 @@ const LegendDetailContainer = styled.View`
   margin-right: 5px;
   margin-left: 5px;
 `;
+
+interface Bluecard {
+  id: string;
+  title: string;
+  thumbnail: string;
+  summary: string;
+  description: string;
+  bluetags: string[];
+  sns: string;
+  createdAt: Date;
+  deadLineStart: Date | null;
+  deadLineEnd: Date | null;
+  projectId: string;
+  imgURL: string[];
+  isUpload: boolean;
+}
+interface Project {
+  id: string;
+  key: string;
+  chain: string;
+  title: string;
+  logoUrl: string;
+  description: string | null;
+  backGround: string;
+}
+
+interface BluecardWithProject extends Bluecard {
+  project: Project;
+  deadLineStart: Date;
+  deadLineEnd: Date;
+}
 const CalendarPage = () => {
-  const [month, setMonth] = useState<any>();
-  const [year, setYear] = useState<any>();
-  const [event, setEvent] = useState();
-  const [voting, setVoting] = useState();
-  const [minting, setMinting] = useState();
-  const [lang, setLang] = useState();
+  const [month, setMonth] = useState<number>();
+  const [year, setYear] = useState<number>();
+  const [event, setEvent] = useState<number>();
+  const [voting, setVoting] = useState<number>();
+  const [minting, setMinting] = useState<number>();
+  const [lang, setLang] = useState<number>();
   // 유저정보
   const [user, setUser] = useState<string>();
   // 전체 블루카드
-  const [allBluecards, setallBluecards] = useState<string[]>();
+  const [allBluecards, setallBluecards] = useState<BluecardWithProject[]>();
   //
   // 캘린더 오브젝트
   const [calendarObject, setCalendarObject] = useState({});
@@ -67,10 +98,6 @@ const CalendarPage = () => {
   const isfoucsed = useIsFocused();
   useEffect(() => {
     if (isfoucsed) {
-      setCalendarObject({});
-      setLegend({});
-      setLoading(false);
-
       axios.get("https://www.bluetags.app/api/users").then((res) => {
         console.log(res.data.calendar);
         setUser(res.data);
@@ -88,11 +115,15 @@ const CalendarPage = () => {
           .then((res) => {
             // setallBluecards(res.data.bluecards);
             // console.log(Object.values(res.data.bluecards));
-            setallBluecards(Object.values(res.data.bluecards));
+            // console.log(res.data.bluecards);
+            setallBluecards(res.data.bluecards);
 
             // setallBluecards(res.data.bluecards);
           });
       });
+      setCalendarObject({});
+      setLegend({});
+      setLoading(false);
     }
     console.log("캘린더 페이지 들어옴");
   }, [isfoucsed]);
@@ -115,14 +146,12 @@ const CalendarPage = () => {
   //범례(legend) 만들기
   const [legend, setLegend] = useState({});
   const makeLegend = (startdate, lastdate, data) => {
-    let bluetags = data.bluetags[0];
+    // let bluetags = data.bluetags[0];
     let startdateYear = startdate.getFullYear();
     let startdateMonth = startdate.getMonth() + 1;
     let lastdateYear = lastdate.getFullYear();
     let lastdateMonth = lastdate.getMonth() + 1;
-    while (startdateYear < lastdateYear) {
-      console.log("출력되면 안돼");
-    }
+
     while (startdateMonth <= lastdateMonth) {
       if (`${startdate.getFullYear()}-${startdateMonth}` in legend) {
         legend[`${startdateYear}-${startdateMonth}`] = [
@@ -167,6 +196,7 @@ const CalendarPage = () => {
   }, [month]);
 
   // 시작과 끝 날짜 구하기 함수
+
   const getDatesStartToLast = (startDate, lastDate, FullData) => {
     makeLegend(startDate, lastDate, FullData);
     while (startDate <= lastDate) {
@@ -191,6 +221,7 @@ const CalendarPage = () => {
   //데이터 정리(비동기화)
   function recap() {
     if (allBluecards) {
+      console.log(allBluecards.length);
       allBluecards.map((e, index) =>
         getDatesStartToLast(
           new Date(e.deadLineStart),
@@ -208,15 +239,10 @@ const CalendarPage = () => {
     }
   }, [allBluecards]);
 
-  useEffect(() => {
-    console.log(calendarObject);
-  }, [calendarObject]);
-  console.log(calendarObject);
-
   // useEffect(() => {
-  //   console.log(allBluecards);
-  // }, [allBluecards]);
-  // console.log(allBluecards);
+  //   console.log(calendarObject);
+  // }, [calendarObject]);
+  // console.log(calendarObject);
 
   return user && allBluecards && loading ? (
     <View style={{ width: "100%", height: "100%" }}>
@@ -251,9 +277,9 @@ const CalendarPage = () => {
         pastScrollRange={24}
         futureScrollRange={24}
         theme={{}}
-        rowHasChanged={(r1, r2) => {
-          return r1.text !== r2.text;
-        }}
+        // rowHasChanged={(r1, r2) => {
+        //   return r1.text !== r2.text;
+        // }}
       />
 
       <LegendContainer>

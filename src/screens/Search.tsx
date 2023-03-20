@@ -11,7 +11,7 @@ import { axiosInstance } from "../axiosInstance";
 import NFTproject from "../components/card/NFTproject";
 
 const Container = styled.FlatList`
-  background-color: ${(props) => props.theme.Bg0dp}; ;
+  background-color: ${(props) => props.theme.Bg0dp};
 `;
 const BigContainer = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
@@ -54,16 +54,17 @@ const Search = ({ navigation }) => {
     if (query === "") {
       return;
     }
-    searchNFT();
+    searchProject();
+    searchBluecards();
   };
   //프로젝트 검색
   const {
     isLoading,
     error,
     data: searchedProject,
-    refetch: searchNFT,
+    refetch: searchProject,
   } = useQuery(
-    ["Searched", query],
+    ["SearchedProject", query],
     async () => {
       const { data } = await axios.get(
         `https://www.bluetags.app/api/search/projects?q=${query}`
@@ -75,28 +76,27 @@ const Search = ({ navigation }) => {
     }
   );
 
-  // const {
-  //   isLoading,
-  //   data: searchedProject,
-  //   refetch: searchNFT,
-  // } = useQuery("searchedProject", getSearchProjects);
+  // 블루카드 검색
+  const {
+    isLoading: isLoadingBluecards,
+    data: searchedBluecards,
+    refetch: searchBluecards,
+  } = useQuery(
+    ["SearchedBluecards", query],
+    async () => {
+      const { data } = await axios.get(
+        `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=undefined`
+      );
+      return data;
+    },
+    {
+      enabled: false,
+    }
+  );
 
-  // console.log(searchedProject);
-  // console.log(isLoading, 45464546);
+  console.log(searchedBluecards);
 
-  // axios.get("https://www.bluetags.app/api/search/bluecards?q=azu").then((e) => {
-  //   if (e.data) {
-  //     console.log(e.data);
-  //   }
-  // });
-  // axios
-  //   .get("https://www.bluetags.app/api/search/projects?q=bor")
-  //   .then((e) => console.log(e.data));
-  // const azu = "azu";
-  // const data = getSearchProjects(azu);
-  // console.log(data.data);
-
-  return isLoading && !searchedProject ? (
+  return isLoading || !searchedProject ? (
     <SafeAreaView style={styles.container}>
       <BigContainer>
         <HeaderContainer>
@@ -142,7 +142,7 @@ const Search = ({ navigation }) => {
                 />
               </HeaderContainer>
               <View>
-                <SearchedResult>searched Proejects</SearchedResult>
+                <SearchedResult>Projects</SearchedResult>
               </View>
             </View>
           }
@@ -160,7 +160,6 @@ const Search = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "black",
   },
 });
 
