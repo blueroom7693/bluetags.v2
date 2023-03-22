@@ -1,21 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  FlatList,
-  Text,
-  TouchableOpacity,
   useColorScheme,
-  View,
-  Image,
-  ViewBase,
   SafeAreaView,
   StyleSheet,
+  Animated,
+  Text,
 } from "react-native";
 import styled from "styled-components/native";
-import HeaderScroller from "../components/HeaderScroller";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { axiosInstance } from "../axiosInstance";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   allSubscirbeProject,
@@ -31,6 +24,7 @@ import SmallCircleCard from "../components/card/SmallCircleCard";
 import { useIsFocused } from "@react-navigation/native";
 import BluecardLarge from "../components/card/BluecardLarge";
 import LogoBlueSVG from "../assets/images/misc/LogoBlue.svg";
+import CustomScrollHeader from "../components/custom/CustomScrollHeader";
 
 //CSS
 const ContentsList = styled.FlatList`
@@ -83,6 +77,8 @@ const BluetagsBtn = styled.TouchableOpacity`
 `;
 
 const Watchlist = ({ navigation, router }) => {
+  //scroll
+  const scrollY = useRef(new Animated.Value(0)).current;
   //THEME
   const isDark = useColorScheme() === "dark";
   // 유저정보
@@ -168,6 +164,9 @@ const Watchlist = ({ navigation, router }) => {
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
+      <CustomScrollHeader animatedValue={scrollY}>
+        <Text>hisadhgihasdoig</Text>
+      </CustomScrollHeader>
       {subscribeProject ? (
         <ProjectScroller
           data={subscribeProject}
@@ -182,6 +181,12 @@ const Watchlist = ({ navigation, router }) => {
         />
       ) : null}
       <ContentsList
+        //headrscroller
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        //
         showsVerticalScrollIndicator={false}
         data={NftData}
         keyExtractor={(item) => item.id}
