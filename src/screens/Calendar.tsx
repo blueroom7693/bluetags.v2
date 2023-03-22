@@ -274,8 +274,8 @@ const CalendarPage = () => {
           setMonth(months.month);
           setYear(months.year);
         }}
-        pastScrollRange={24}
-        futureScrollRange={24}
+        pastScrollRange={12}
+        futureScrollRange={12}
         theme={{}}
         // rowHasChanged={(r1, r2) => {
         //   return r1.text !== r2.text;

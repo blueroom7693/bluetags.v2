@@ -220,7 +220,7 @@ const BluecardLarge: React.FC<ISquareCard> = ({ fullData }) => {
             ).toDateString()}`}</CreatedAt>
           </TimeContaier>
           <Description>
-            {fullData.description.slice(0, 180)}
+            {fullData.description.slice(0, 60)}
             {fullData.description.length > 45 ? "..." : null}
           </Description>
           <BtnView>

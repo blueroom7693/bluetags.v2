@@ -27,24 +27,10 @@ import {
   todayString,
   token,
 } from "../atom";
-import { IUser } from "../context/DataProvider";
-import useUser, {
-  getAllBluecards,
-  getAllNft,
-  getSubscribeBlucard,
-  getSubscribeBluecard,
-  getUser,
-  IData,
-} from "../axios";
-import { IInfo } from "./Detail";
-import MiddleVCard from "../components/card/MiddleVCard";
-import { AllNftNonChain } from "../AllNft";
-import CircleCard from "../components/card/CircleCard";
 import SmallCircleCard from "../components/card/SmallCircleCard";
-import SquareCard from "../components/card/SquareCard";
 import { useIsFocused } from "@react-navigation/native";
 import BluecardLarge from "../components/card/BluecardLarge";
-import Overlay from "../components/Overlay";
+import LogoBlueSVG from "../assets/images/misc/LogoBlue.svg";
 
 //CSS
 const ContentsList = styled.FlatList`
@@ -57,29 +43,10 @@ const ProjectScroller = styled.FlatList`
   border-color: ${(props) => props.theme.BgBorder};
   height: 80px;
   margin-top: 20px;
-  /* flex: 0.23; */
-  /* border-bottom-width: 1px; */
-  /* width: 100%; */
 `;
 const HListSeparator = styled.View`
   width: 15px;
   background-color: ${(props) => props.theme.Bg0dp};
-`;
-
-//CSS FIRST COMPONENTS
-const AllProject = styled.TouchableOpacity`
-  width: 48px;
-  height: 66px;
-  border-radius: 40px;
-  background-color: ${(props) => props.theme.Bg0dp};
-  justify-content: center;
-  align-items: center;
-  /* margin-top: 20px; */
-  margin-right: 30px;
-`;
-
-const AllProjectText = styled.Text`
-  font-size: 15px;
 `;
 
 const HeaderView = styled.View``;
@@ -100,6 +67,19 @@ const SubHeaderTitle = styled.Text`
   opacity: 0.5;
   margin-bottom: 16px;
   font-family: "SpoqaHanSansNeo-Regular";
+`;
+
+const BluetagsBtn = styled.TouchableOpacity`
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  border-radius: 8px;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  bottom: 60px;
+  right: 30px;
+  /* border-width: 1px; */
 `;
 
 const Watchlist = ({ navigation, router }) => {
@@ -196,17 +176,6 @@ const Watchlist = ({ navigation, router }) => {
           ItemSeparatorComponent={HListSeparator}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 15 }}
-          // ListHeaderComponent={
-          //   <AllProject>
-          //     <AllProjectText
-          //       onPress={() => {
-          //         setProject("");
-          //       }}
-          //     >
-          //       All
-          //     </AllProjectText>
-          //   </AllProject>
-          // }
           renderItem={({ item }) => (
             <SmallCircleCard title={item}></SmallCircleCard>
           )}
@@ -218,9 +187,6 @@ const Watchlist = ({ navigation, router }) => {
         keyExtractor={(item) => item.id}
         ListHeaderComponent={
           <HeaderView>
-            <TouchableOpacity onPress={() => setIsOpen(true)}>
-              <Text>hiihi</Text>
-            </TouchableOpacity>
             <HeaderTitle>Main title</HeaderTitle>
             <SubHeaderTitle>Sub Event</SubHeaderTitle>
           </HeaderView>
@@ -229,6 +195,18 @@ const Watchlist = ({ navigation, router }) => {
           <BluecardLarge fullData={item}></BluecardLarge>
         )}
       />
+      <BluetagsBtn
+        onPress={() => setIsOpen(true)}
+        style={{
+          shadowColor: "#000000",
+          shadowOffset: { width: 0, height: 4 },
+          // shadowOpacity: 0.1,
+          shadowRadius: 8,
+          elevation: 3,
+        }}
+      >
+        <LogoBlueSVG height={25} width={25} />
+      </BluetagsBtn>
       <BottomFilter />
       {/* {isOpen ? (
         <Overlay
