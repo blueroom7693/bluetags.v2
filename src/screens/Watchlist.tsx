@@ -164,21 +164,23 @@ const Watchlist = ({ navigation, router }) => {
   return isLoadingNft ? null : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
-      <CustomScrollHeader animatedValue={scrollY}>
+      {/* <CustomScrollHeader animatedValue={scrollY}>
         <Text>hisadhgihasdoig</Text>
-      </CustomScrollHeader>
+      </CustomScrollHeader> */}
       {subscribeProject ? (
-        <ProjectScroller
-          data={subscribeProject}
-          keyExtractor={(item) => item}
-          horizontal={true}
-          ItemSeparatorComponent={HListSeparator}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 15 }}
-          renderItem={({ item }) => (
-            <SmallCircleCard title={item}></SmallCircleCard>
-          )}
-        />
+        <CustomScrollHeader animatedValue={scrollY}>
+          <ProjectScroller
+            data={subscribeProject}
+            keyExtractor={(item) => item}
+            horizontal={true}
+            ItemSeparatorComponent={HListSeparator}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 15 }}
+            renderItem={({ item }) => (
+              <SmallCircleCard title={item}></SmallCircleCard>
+            )}
+          />
+        </CustomScrollHeader>
       ) : null}
       <ContentsList
         //headrscroller
@@ -186,7 +188,7 @@ const Watchlist = ({ navigation, router }) => {
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: false }
         )}
-        //
+        contentContainerStyle={{ paddingTop: 100 }}
         showsVerticalScrollIndicator={false}
         data={NftData}
         keyExtractor={(item) => item.id}

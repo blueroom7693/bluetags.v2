@@ -1,23 +1,23 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Animated, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const CustomScrollHeader = ({ animatedValue, children }) => {
-  const diff_Clamp = Animated.diffClamp(animatedValue, 0, 50);
+  const diff_Clamp = Animated.diffClamp(animatedValue, 0, 100);
   const headerHeight = diff_Clamp.interpolate({
-    inputRange: [0, 50],
-    outputRange: [50, 0],
+    inputRange: [0, 100],
+    outputRange: [100, 0],
     extrapolate: "clamp",
   });
 
   const opacity = diff_Clamp.interpolate({
-    inputRange: [0, 50],
-    outputRange: [1, 0],
+    inputRange: [0, 100],
+    outputRange: [1, 1],
     extrapolate: "clamp",
   });
 
   const headerTransform = diff_Clamp.interpolate({
-    inputRange: [0, 50],
-    outputRange: [0, -50],
+    inputRange: [0, 100],
+    outputRange: [0, -100],
     extrapolate: "clamp",
   });
 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   header: {
-    backgroundColor: "blue",
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
