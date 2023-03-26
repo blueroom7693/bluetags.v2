@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Animated,
   Text,
+  View,
 } from "react-native";
 import styled from "styled-components/native";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
@@ -214,14 +215,17 @@ const Watchlist = ({ navigation, router }) => {
       >
         <LogoBlueSVG height={25} width={25} />
       </BluetagsBtn>
+      {/* <Animated.View
+        style={[
+          styles.overlay,
+          {
+            opacity: animatedBackgroundOpacity,
+          },
+        ]}
+        pointerEvents="none"
+      /> */}
+      {/* <View style={styles.overlay}></View> */}
       <BottomFilter />
-      {/* {isOpen ? (
-        <Overlay
-          hideModal={() => {
-            setIsOpen(false);
-          }}
-        />
-      ) : null} */}
     </SafeAreaView>
   );
 };
@@ -231,6 +235,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "grey",
+    position: "absolute",
+    zIndex: 1,
   },
 });
 

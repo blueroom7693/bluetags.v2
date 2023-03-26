@@ -52,7 +52,7 @@ export default function App() {
         }
         await Font.loadAsync(Entypo.font);
         // async storage 토큰 확인
-        const token = JSON.parse(await AsyncStorage.getItem("sangwan"));
+        const token = JSON.parse(await AsyncStorage.getItem("bluetags"));
         if (token !== (undefined || null)) {
           setIsLogin(true);
           setUserToken(token);

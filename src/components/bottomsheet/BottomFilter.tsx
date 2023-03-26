@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useMemo, useState } from "react";
-import { StyleSheet, View, Text, Button, Image } from "react-native";
+import { StyleSheet, View, Text, Button, Image, Animated } from "react-native";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetFlatList,
@@ -85,20 +85,6 @@ const BottomFilter = () => {
     "helasdfasdflo",
   ];
 
-  // renders
-  // const renderBackdrop = useCallback(
-  //   (props) => (
-  //     <BottomSheetBackdrop
-  //       {...props}
-  //       pressBehavior="close"
-  //       // disappearsOnIndex={1}
-  //       appearsOnIndex={0}
-  //       opacity={0.5}
-  //     />
-  //   ),
-  //   []
-  // );
-
   return isOpen ? (
     <BottomSheet
       ref={sheetRef}
@@ -109,7 +95,7 @@ const BottomFilter = () => {
       onClose={() => setIsOpen(false)}
       // backdropComponent
       // backgroundComponent={CustomBackground}
-      backgroundStyle={styles.container}
+      // backgroundStyle={styles.container}
       backdropComponent={CustomBackdrop}
     >
       {/* <BottomSheetBackdrop></BottomSheetBackdrop> */}
@@ -124,24 +110,6 @@ const BottomFilter = () => {
           text="hello"
           bluetags={ARRAY}
         />
-        {/* <Picker
-          selectedValue={chain}
-          onValueChange={(itemValue, itemIndex) => setChain(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="ALL" value="" />
-          <Picker.Item label="ETH" value="ETH" />
-          <Picker.Item label="SOL" value="SOL" />
-          <Picker.Item label="KLAY" value="KLAY" />
-        </Picker>
-        <Picker
-          selectedValue={sns}
-          onValueChange={(itemValue, itemIndex) => setSns(itemValue)}
-        >
-          <Picker.Item label="ALL" value="" />
-          <Picker.Item label="twitter" value="twitter" />
-          <Picker.Item label="discord" value="discord" />
-        </Picker> */}
       </BottomSheetView>
     </BottomSheet>
   ) : null;
@@ -153,6 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 1)",
     borderRadius: 10,
     padding: 20,
+    zIndex: 5,
   },
   picker: {
     height: 20,

@@ -7,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useRecoilState } from "recoil";
 import { isBottomFilter } from "../../atom";
-import { TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
   //바털필터 제거
@@ -48,3 +48,10 @@ const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
 };
 
 export default CustomBackdrop;
+
+// const styles = StyleSheet.create({
+//   overlay: {
+//     ...StyleSheet.absoluteFillObject,
+//     backgroundColor: "black",
+//   },
+// });

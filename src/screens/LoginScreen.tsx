@@ -1,11 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  // TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { View, TouchableOpacity } from "react-native";
 
 import { isLogined } from "../atom";
 import { useRecoilState } from "recoil";

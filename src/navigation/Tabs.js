@@ -57,7 +57,7 @@ const Tabs = () => {
   const theme = useContext(ThemeContext);
   NavigationBar.setBackgroundColorAsync(`${theme.Tabbar}`);
   //ISOPEN
-  const isTabBar = useRecoilValue(isBottomFilter);
+  // const isTabBar = useRecoilValue(isBottomFilter);
   return (
     <Tab.Navigator
       sceneContainerStyle={{
@@ -71,7 +71,7 @@ const Tabs = () => {
           position: "absolute",
           borderTopWidth: 0,
           // borderTopColor: LIGHT_GREY,
-          display: isTabBar ? "none" : "flex",
+          // display: isTabBar ? "none" : "flex",
         },
         tabBarActiveTintColor: `${theme.TabbarActive}`,
         tabBarInactiveTintColor: `${theme.TabbarInactive}`,
@@ -86,7 +86,7 @@ const Tabs = () => {
           fontWeight: "700",
           fontFamily: "SpoqaHanSansNeo-Regular",
         },
-        headerShown: isTabBar ? false : true,
+        // headerShown: isTabBar ? false : true,
         tabBarShowLabel: true,
       }}
     >

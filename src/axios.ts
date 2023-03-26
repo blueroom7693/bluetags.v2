@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userData } from "./atom";
@@ -62,12 +63,21 @@ export function getUser() {
   return data;
 }
 
-export function useUser() {
-  const { isLoading: isLoadingUser, data: User } = useQuery(
-    ["userData"],
-    getUser
-  );
-  return { user: User?.data, isLoading: !User && !isLoadingUser };
+// export function useUser() {
+//   const { isLoading: isLoadingUser, data: User } = useQuery(
+//     ["userData"],
+//     getUser
+//   );
+//   return { user: User?.data, isLoading: !User && !isLoadingUser };
+// }
+
+export default function useUser() {
+  const { data, error } = useQuery(["userData"], async () => {
+    const { data } = await axios.get(`https://www.bluetags.app/api/users/`);
+    return data;
+  });
+
+  return { user: data?.data, isLoading: !data && !error };
 }
 
 export function getSubscribeBluecard(userId: string) {
