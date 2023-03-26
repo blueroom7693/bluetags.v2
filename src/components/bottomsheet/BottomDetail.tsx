@@ -4,7 +4,7 @@ import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { isBottomFilter } from "../../atom";
 
-const BottomFilter = () => {
+const BottomDetail = () => {
   // hooks
   const sheetRef = useRef<BottomSheet>(null);
   // DATA
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomFilter;
+export default BottomDetail;

@@ -102,7 +102,6 @@ const BottomFilter = () => {
       <BottomSheetView style={styles.container}>
         <TopSection>
           <BottomContainerText>BlueTag Filtering</BottomContainerText>
-          {/* <Entypo name="cross" size={36} color="black" /> */}
         </TopSection>
         <BlueTag
           color="#3733FF"
@@ -121,16 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 1)",
     borderRadius: 10,
     padding: 20,
-    zIndex: 5,
-  },
-  picker: {
-    height: 20,
-    width: 100,
-    backgroundColor: "grey",
-    borderWidth: 50,
-    borderColor: "white",
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 100,
+    zIndex: 100,
   },
 });
 

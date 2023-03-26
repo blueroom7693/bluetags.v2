@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { Text, useColorScheme, View, Appearance } from "react-native";
+import {
+  Text,
+  useColorScheme,
+  View,
+  Appearance,
+  SafeAreaView,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme, Pallet } from "./src/utils/styled";
@@ -11,7 +17,6 @@ import {
 import MyDrawer from "./src/navigation/Drawer";
 import AuthStack from "./src/navigation/AuthStack";
 import { RecoilRoot, useRecoilState } from "recoil";
-import { useCookies } from "react-cookie";
 import { isLogined, token } from "./src/atom";
 import DataProvider from "./src/context/DataProvider";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -20,9 +25,8 @@ import * as Font from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUserStored } from "./src/async";
 import { getAllNft, IData } from "./src/axios";
-import * as NavigationBar from "expo-navigation-bar";
-import { ThemeContext } from "styled-components/native";
 import { useFonts } from "expo-font";
+import BottomFilter from "./src/components/bottomsheet/BottomFilter";
 
 // NavigationBar.setBackgroundColorAsync("#1f1f1f");
 
@@ -87,6 +91,7 @@ export default function App() {
             {isLogin ? <MyDrawer /> : <AuthStack />}
             {/* <AuthStack /> */}
             {/* <MyDrawer /> */}
+            <BottomFilter />
           </NavigationContainer>
         </ThemeProvider>
       </QueryClientProvider>

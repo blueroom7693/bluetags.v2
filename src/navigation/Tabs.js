@@ -18,6 +18,7 @@ import NewsPage from "../screens/News";
 import CalendarPage from "../screens/Calendar";
 import { faBell } from "@fortawesome/pro-regular-svg-icons";
 import { TouchableOpacity } from "react-native";
+import BottomFilter from "../components/bottomsheet/BottomFilter";
 
 DrawerActions;
 
@@ -38,7 +39,6 @@ const Tab = createBottomTabNavigator();
 const HeaderLogo = styled.Image`
   width: 120px;
   height: 30px;
-  /* border-radius: 30px; */
 `;
 
 function LogoTitle() {
@@ -200,6 +200,7 @@ const Tabs = () => {
         name="Watchlist"
         component={Watchlist}
         options={({ navigation, route }) => ({
+          // headerShown: false,
           // tabBarBadge: 2,
           // tabBarBadgeStyle: { backgroundColor: "red" },
           tabBarIcon: ({ color, size }) => (

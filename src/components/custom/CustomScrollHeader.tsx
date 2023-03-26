@@ -1,7 +1,39 @@
 import React, { useEffect, useRef } from "react";
-import { Animated, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Animated,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import styled from "styled-components/native";
+import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { faBell } from "@fortawesome/pro-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useNavigation } from "@react-navigation/native";
+
+const DefaultHeader = styled.View`
+  height: 40px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+//HEADER LOGO
+const HeaderLogo = styled.Image`
+  width: 120px;
+  height: 30px;
+`;
+const HeaderRight = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
 
 const CustomScrollHeader = ({ animatedValue, children }) => {
+  const navigation = useNavigation();
+
+  //
   const diff_Clamp = Animated.diffClamp(animatedValue, 0, 100);
   const headerHeight = diff_Clamp.interpolate({
     inputRange: [0, 100],
@@ -29,6 +61,64 @@ const CustomScrollHeader = ({ animatedValue, children }) => {
         { transform: [{ translateY: headerTransform }] },
       ]}
     >
+      {/* <DefaultHeader>
+        <HeaderLogo
+          source={require("../../assets/images/Frame.png")}
+          style={{
+            width: 104,
+            resizeMode: "contain",
+            marginLeft: 20,
+          }}
+        />
+        <HeaderRight>
+          <TouchableOpacity
+          // onPress={() =>
+          //   navigation.navigate("Stack", {
+          //     screen: "Notification",
+          //     params: {},
+          //   })
+          // }
+          >
+            <FontAwesomeIcon
+              icon={faBell}
+              color="rgb(0, 117, 255)"
+              size={22}
+              style={{ marginRight: 10 }}
+            />
+          </TouchableOpacity>
+          <Ionicons
+            name="search"
+            // color="rgb(0, 117, 255)"
+            color="grey"
+            style={{ marginRight: 10 }}
+            size={24}
+            onPress={() =>
+              navigation.navigate("Stack", {
+                screen: "Search",
+                params: {
+                  // ...fullData,
+                },
+              })
+            }
+          />
+          <Ionicons
+            name={"person"}
+            // color={theme.Text0dp}
+            // color="rgb(0, 117, 255)"
+            color="grey"
+            style={{ marginRight: 30 }}
+            size={24}
+            onPress={() =>
+              navigation.navigate("Stack", {
+                screen: "Profile",
+                params: {
+                  // ...fullData,
+                },
+              })
+            }
+          />
+        </HeaderRight>
+      </DefaultHeader> */}
       {children}
       {/* <Text style={styles.headerText}>Header</Text> */}
     </Animated.View>
@@ -51,24 +141,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1,
-  },
-  headerText: {
-    color: "white",
-    fontSize: 24,
-  },
-  scrollView: {
-    marginTop: 100,
-  },
-  contentContainer: {
-    padding: 16,
-  },
-  listItem: {
-    backgroundColor: "lightgray",
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-  },
-  listItemText: {
-    fontSize: 18,
   },
 });

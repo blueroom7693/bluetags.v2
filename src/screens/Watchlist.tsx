@@ -162,15 +162,26 @@ const Watchlist = ({ navigation, router }) => {
   //   }
   // }, [chain, project, sns, today, past, subscribe, NftData]);
   const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
+  //스크롤러 높이 전달
+  // const [childrenHeight, setChildrenHeight] = useState(null);
+  // const onLayoutCallback = (event) => {
+  //   const { height } = event.nativeEvent.layout;
+  //   setChildrenHeight(height);
+  // };
+
+  // const onLayoutCallback = (event) => {
+  //   const newHeight = event.nativeEvent.layout.height;
+  //   if (childrenHeight !== newHeight) {
+  //     setChildrenHeight(newHeight + 100);
+  //     console.log("Component height:", childrenHeight);
+  //   }
+  // };
 
   return isLoadingNft ? (
     <Loader />
   ) : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
-      {/* <CustomScrollHeader animatedValue={scrollY}>
-        <Text>hisadhgihasdoig</Text>
-      </CustomScrollHeader> */}
       {subscribeProject ? (
         <CustomScrollHeader animatedValue={scrollY}>
           <ProjectScroller
@@ -228,7 +239,7 @@ const Watchlist = ({ navigation, router }) => {
         pointerEvents="none"
       /> */}
       {/* <View style={styles.overlay}></View> */}
-      <BottomFilter />
+      {/* <BottomFilter /> */}
     </SafeAreaView>
   );
 };
