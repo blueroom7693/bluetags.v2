@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import styled from "styled-components/native";
+import Loader from "../utils/loader";
 
 //css
 const HeaderView = styled.View``;
@@ -44,7 +45,9 @@ const NewsPage = () => {
     console.log("와치리스트 페이지 들어옴");
   }, [isfoucsed]);
 
-  return (
+  return true ? (
+    <Loader />
+  ) : (
     <SafeAreaView style={styles.container}>
       <HeaderView>
         <HeaderTitle>Trending News</HeaderTitle>

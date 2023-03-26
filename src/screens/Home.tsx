@@ -1,6 +1,6 @@
 import { RefreshControl, SafeAreaView, StyleSheet } from "react-native";
 import styled from "styled-components/native";
-import { getAllBluecards } from "../axios";
+import useUser, { getAllBluecards } from "../axios";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
@@ -126,6 +126,11 @@ export default function Home() {
   }, [projectData]);
   // 새로고침
   const [refreshing, setRefreshing] = React.useState(false);
+  const userSANGWAN = useUser();
+  console.log(userSANGWAN);
+  useEffect(() => {
+    console.log(userSANGWAN.user);
+  }, [userSANGWAN]);
 
   // const [calendarObject, setCalendarObject] = useState({});
   // useEffect(() => {
@@ -145,7 +150,9 @@ export default function Home() {
   //   });
 
   //RETURN
-  return isLoadingNft && !user ? null : (
+  return isLoadingNft && !user ? (
+    <Loader />
+  ) : (
     <SafeAreaView style={styles.container}>
       <HomeContainer
         refreshControl={

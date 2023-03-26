@@ -26,6 +26,7 @@ import { useIsFocused } from "@react-navigation/native";
 import BluecardLarge from "../components/card/BluecardLarge";
 import LogoBlueSVG from "../assets/images/misc/LogoBlue.svg";
 import CustomScrollHeader from "../components/custom/CustomScrollHeader";
+import Loader from "../utils/loader";
 
 //CSS
 const ContentsList = styled.FlatList`
@@ -162,7 +163,9 @@ const Watchlist = ({ navigation, router }) => {
   // }, [chain, project, sns, today, past, subscribe, NftData]);
   const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
 
-  return isLoadingNft ? null : (
+  return isLoadingNft ? (
+    <Loader />
+  ) : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
       {/* <CustomScrollHeader animatedValue={scrollY}>

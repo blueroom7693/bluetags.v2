@@ -72,12 +72,11 @@ export function getUser() {
 // }
 
 export default function useUser() {
-  const { data, error } = useQuery(["userData"], async () => {
+  const { data, isLoading, error } = useQuery(["userData"], async () => {
     const { data } = await axios.get(`https://www.bluetags.app/api/users/`);
     return data;
   });
-
-  return { user: data?.data, isLoading: !data && !error };
+  return { user: data?.data, isLoading: !data && !isLoading };
 }
 
 export function getSubscribeBluecard(userId: string) {
