@@ -182,54 +182,55 @@ const Watchlist = ({ navigation, router }) => {
   ) : (
     <SafeAreaView style={styles.container}>
       {/* <HeaderScroller /> */}
-      {subscribeProject ? (
-        <CustomScrollHeader animatedValue={scrollY}>
-          <ProjectScroller
-            data={subscribeProject}
-            keyExtractor={(item) => item}
-            horizontal={true}
-            ItemSeparatorComponent={HListSeparator}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 15 }}
-            renderItem={({ item }) => (
-              <SmallCircleCard title={item}></SmallCircleCard>
-            )}
-          />
-        </CustomScrollHeader>
-      ) : null}
-      <ContentsList
-        //headrscroller
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false }
-        )}
-        contentContainerStyle={{ paddingTop: 100 }}
-        showsVerticalScrollIndicator={false}
-        data={NftData}
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={
-          <HeaderView>
-            <HeaderTitle>Main title</HeaderTitle>
-            <SubHeaderTitle>Sub Event</SubHeaderTitle>
-          </HeaderView>
-        }
-        renderItem={({ item }) => (
-          <BluecardLarge fullData={item}></BluecardLarge>
-        )}
-      />
-      <BluetagsBtn
-        onPress={() => setIsOpen(true)}
-        style={{
-          shadowColor: "#000000",
-          shadowOffset: { width: 0, height: 4 },
-          // shadowOpacity: 0.1,
-          shadowRadius: 8,
-          elevation: 3,
-        }}
-      >
-        <LogoBlueSVG height={25} width={25} />
-      </BluetagsBtn>
-      {/* <Animated.View
+      <View>
+        {subscribeProject ? (
+          <CustomScrollHeader animatedValue={scrollY}>
+            <ProjectScroller
+              data={subscribeProject}
+              keyExtractor={(item) => item}
+              horizontal={true}
+              ItemSeparatorComponent={HListSeparator}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingHorizontal: 15 }}
+              renderItem={({ item }) => (
+                <SmallCircleCard title={item}></SmallCircleCard>
+              )}
+            />
+          </CustomScrollHeader>
+        ) : null}
+        <ContentsList
+          //headrscroller
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: false }
+          )}
+          contentContainerStyle={{ paddingTop: 100 }}
+          showsVerticalScrollIndicator={false}
+          data={NftData}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={
+            <HeaderView>
+              <HeaderTitle>Main title</HeaderTitle>
+              <SubHeaderTitle>Sub Event</SubHeaderTitle>
+            </HeaderView>
+          }
+          renderItem={({ item }) => (
+            <BluecardLarge fullData={item}></BluecardLarge>
+          )}
+        />
+        <BluetagsBtn
+          onPress={() => setIsOpen(true)}
+          style={{
+            shadowColor: "#000000",
+            shadowOffset: { width: 0, height: 4 },
+            // shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 3,
+          }}
+        >
+          <LogoBlueSVG height={25} width={25} />
+        </BluetagsBtn>
+        {/* <Animated.View
         style={[
           styles.overlay,
           {
@@ -238,8 +239,9 @@ const Watchlist = ({ navigation, router }) => {
         ]}
         pointerEvents="none"
       /> */}
-      {/* <View style={styles.overlay}></View> */}
-      {/* <BottomFilter /> */}
+        {/* <View style={styles.overlay}></View> */}
+      </View>
+      <BottomFilter />
     </SafeAreaView>
   );
 };

@@ -27,6 +27,9 @@ import { getUserStored } from "./src/async";
 import { getAllNft, IData } from "./src/axios";
 import { useFonts } from "expo-font";
 import BottomFilter from "./src/components/bottomsheet/BottomFilter";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import BottomSheetModalComponent from "./src/components/bottomsheet/BottomSheetModal";
+import MyBottomSheetModal from "./src/components/bottomsheet/BottomSheetModal copy";
 
 // NavigationBar.setBackgroundColorAsync("#1f1f1f");
 
@@ -88,10 +91,12 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isLight ? lightTheme : darkTheme}>
           <NavigationContainer>
-            {isLogin ? <MyDrawer /> : <AuthStack />}
-            {/* <AuthStack /> */}
-            {/* <MyDrawer /> */}
-            <BottomFilter />
+            <View style={{ flex: 1 }}>
+              {isLogin ? <MyDrawer /> : <AuthStack />}
+              {/* <AuthStack /> */}
+              {/* <MyDrawer /> */}
+              {/* <BottomFilter /> */}
+            </View>
           </NavigationContainer>
         </ThemeProvider>
       </QueryClientProvider>

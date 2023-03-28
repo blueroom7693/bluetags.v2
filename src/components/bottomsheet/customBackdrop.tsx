@@ -39,19 +39,6 @@ const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
   return (
     <Animated.View style={containerStyle} onTouchEnd={() => setIsOpen(false)} />
   );
-  //   return (
-  //     <AnimatedTouchable
-  //       style={containerStyle}
-  //       onPress={() => setIsOpen(false)}
-  //     />
-  //   );
 };
 
 export default CustomBackdrop;
-
-// const styles = StyleSheet.create({
-//   overlay: {
-//     ...StyleSheet.absoluteFillObject,
-//     backgroundColor: "black",
-//   },
-// });

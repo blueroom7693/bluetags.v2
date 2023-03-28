@@ -1,10 +1,6 @@
 import React, { useCallback, useRef, useMemo, useState } from "react";
 import { StyleSheet, View, Text, Button, Image, Animated } from "react-native";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetFlatList,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   chainString,
@@ -13,9 +9,6 @@ import {
   snstString,
 } from "../../atom";
 import styled, { ThemeConsumer, useTheme } from "styled-components/native";
-import CustomBackground from "../custom/CustomBackground";
-import { Entypo } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
 import CustomBackdrop from "./customBackdrop";
 import BlueTag from "../Bluetag";
 
@@ -97,6 +90,7 @@ const BottomFilter = () => {
       // backgroundComponent={CustomBackground}
       // backgroundStyle={styles.container}
       backdropComponent={CustomBackdrop}
+      style={styles.sheet}
     >
       {/* <BottomSheetBackdrop></BottomSheetBackdrop> */}
       <BottomSheetView style={styles.container}>
@@ -120,7 +114,13 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 1)",
     borderRadius: 10,
     padding: 20,
-    zIndex: 100,
+    // zIndex: 0,
+    // position: "absolute",
+    // zIndex: 1,
+  },
+  sheet: {
+    position: "absolute",
+    zIndex: 1,
   },
 });
 

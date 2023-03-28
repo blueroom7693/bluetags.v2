@@ -17,6 +17,7 @@ import { useContext } from "react";
 import styled, { ThemeContext } from "styled-components/native";
 import Notification from "../screens/Notification";
 import { BlurView } from "expo-blur";
+import MyBottomSheetModal from "../components/bottomsheet/BottomSheetModal copy";
 
 const NativeStack = createNativeStackNavigator();
 const HeaderLogo = styled.Image``;
@@ -129,6 +130,10 @@ const Stack = () => {
         options={{ headerShown: false }}
       />
       <NativeStack.Screen name="Notification" component={Notification} />
+      <NativeStack.Screen
+        name="MyBottomSheetModal"
+        component={MyBottomSheetModal}
+      />
     </NativeStack.Navigator>
   );
 };

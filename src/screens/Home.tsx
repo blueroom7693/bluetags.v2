@@ -1,4 +1,9 @@
-import { RefreshControl, SafeAreaView, StyleSheet } from "react-native";
+import {
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import styled from "styled-components/native";
 import useUser, { getAllBluecards } from "../axios";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +13,8 @@ import axios from "axios";
 import NFTlist from "../components/card/NFTlist";
 import Loader from "../components/Loader";
 import BluecardMedium from "../components/card/BluecardMedium";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { Text } from "react-native";
 
 //INTERFACE
 interface HMediaProps {
@@ -75,8 +81,7 @@ const SubHeaderTitle = styled.Text`
 `;
 
 // main
-export default function Home() {
-  //유저 정보 확인
+export default function Home({}) {
   // 유저정보
   const [user, setUser] = useState<string>();
   const isfoucsed = useIsFocused();
