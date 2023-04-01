@@ -78,11 +78,11 @@ const NFTproject: React.FC<ISquareCard> = ({
   const user = useRecoilValue(userData);
 
   //querytitle
-  const queryTitle = `${title
-    .toLowerCase()
-    .replace(/ /gi, "")
-    .replace(/-/gi, "")
-    .replace(/`/gi, "")}`;
+  // const queryTitle = `${title
+  //   .toLowerCase()
+  //   .replace(/ /gi, "")
+  //   .replace(/-/gi, "")
+  //   .replace(/`/gi, "")}`;
 
   //subscribe Post
   const [subscribe, { loading, error, status }] = useMutation(

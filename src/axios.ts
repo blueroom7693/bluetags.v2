@@ -58,7 +58,8 @@ export function getNftInfo(nft: string) {
 }
 
 export function getUser() {
-  const data = axiosInstance.get(`/api/users/`);
+  // const data = axiosInstance.get(`/api/users/`);
+  const data = axios.get("https://www.bluetags.app/api/users");
 
   return data;
 }

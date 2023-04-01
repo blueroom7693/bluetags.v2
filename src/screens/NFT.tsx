@@ -7,6 +7,7 @@ import { getAllProjects, getUser } from "../axios";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
+import Loader from "../utils/loader";
 
 //css
 const HeaderView = styled.View``;
@@ -61,12 +62,13 @@ const ProjectList = styled.FlatList`
 `;
 
 const NFT = () => {
-  //query
+  //query-data
   const {
     isLoading: isLoadingProjectData,
     data: ProjectData,
     refetch: refetchSubscribeInfo,
   } = useQuery(["subscribeInfo"], getAllProjects);
+  //query-user
   const { isLoading: isLoadingUser, data: User } = useQuery(
     ["userData"],
     getUser
@@ -80,15 +82,16 @@ const NFT = () => {
       axios
         .get("https://www.bluetags.app/api/users")
         .then((res) => setSubscribeProject(res.data.subscribe));
-      console.log("페이지 들어옴");
+      // .then((res) => console.log(res.data.subscribe));
     }
+    console.log("페이지 들어옴");
   }, [isfoucsed]);
 
-  useEffect(() => {
-    if (!isLoadingUser) {
-      console.log(User.data.subscribe);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!isLoadingUser) {
+  //     console.log(User.data.subscribe);
+  //   }
+  // }, []);
 
   // 새로고침
   const [refreshing, setRefreshing] = useState(false);
@@ -105,7 +108,7 @@ const NFT = () => {
   useEffect(() => {
     console.log(User);
   }, [User]);
-  return (
+  return allProjectData ? (
     <SafeAreaView>
       {isLoadingUser ? null : (
         <ProjectList
@@ -142,6 +145,8 @@ const NFT = () => {
         />
       )}
     </SafeAreaView>
+  ) : (
+    <Loader />
   );
 };
 export default NFT;

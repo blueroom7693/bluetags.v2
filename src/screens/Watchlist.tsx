@@ -6,6 +6,7 @@ import {
   Animated,
   Text,
   View,
+  TouchableOpacity,
 } from "react-native";
 import styled from "styled-components/native";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
@@ -27,6 +28,7 @@ import BluecardLarge from "../components/card/BluecardLarge";
 import LogoBlueSVG from "../assets/images/misc/LogoBlue.svg";
 import CustomScrollHeader from "../components/custom/CustomScrollHeader";
 import Loader from "../utils/loader";
+import UpperSVG from "../assets/images/misc/upper.svg";
 
 //CSS
 const ContentsList = styled.FlatList`
@@ -74,8 +76,19 @@ const BluetagsBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   bottom: 60px;
-  right: 30px;
+  right: 50px;
   /* border-width: 1px; */
+`;
+const UpperBtn = styled.TouchableOpacity`
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  border-radius: 40px;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  bottom: 60px;
+  right: 0px;
 `;
 
 const Watchlist = ({ navigation, router }) => {
@@ -177,6 +190,13 @@ const Watchlist = ({ navigation, router }) => {
   //   }
   // };
 
+  //Flatlist upper
+  const flatListRef = useRef(null);
+
+  const scrollToTop = () => {
+    flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+  };
+
   return isLoadingNft ? (
     <Loader />
   ) : (
@@ -204,6 +224,7 @@ const Watchlist = ({ navigation, router }) => {
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
             { useNativeDriver: false }
           )}
+          ref={flatListRef}
           contentContainerStyle={{ paddingTop: 100 }}
           showsVerticalScrollIndicator={false}
           data={NftData}
@@ -230,16 +251,19 @@ const Watchlist = ({ navigation, router }) => {
         >
           <LogoBlueSVG height={25} width={25} />
         </BluetagsBtn>
-        {/* <Animated.View
-        style={[
-          styles.overlay,
-          {
-            opacity: animatedBackgroundOpacity,
-          },
-        ]}
-        pointerEvents="none"
-      /> */}
-        {/* <View style={styles.overlay}></View> */}
+        <UpperBtn
+          style={{
+            shadowColor: "#000000",
+            shadowOffset: { width: 0, height: 4 },
+            // shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 3,
+          }}
+          onPress={scrollToTop}
+        >
+          {/* <Text style={styles.buttonText}>Scroll to Top</Text> */}
+          <UpperSVG height={20} width={20} fill={"#1c1b1b"} />
+        </UpperBtn>
       </View>
       <BottomFilter />
     </SafeAreaView>
@@ -257,6 +281,23 @@ const styles = StyleSheet.create({
     backgroundColor: "grey",
     position: "absolute",
     zIndex: 1,
+  },
+  button: {
+    position: "absolute",
+    bottom: 60,
+    right: 80,
+    // backgroundColor: "#007AFF",
+    backgroundColor: "white",
+
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    width: 30,
+    height: 30,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });
 

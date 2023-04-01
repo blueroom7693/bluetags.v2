@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import React, { useContext, useState } from "react";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import { getSearch, getSearchBluecards, getSearchProjects } from "../axios";
@@ -16,6 +16,12 @@ const Container = styled.FlatList`
 const BigContainer = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
   flex: 1;
+  padding-left: 10px;
+  padding-right: 10px;
+`;
+const ProjectContainer = styled.View`
+  background-color: ${(props) => props.theme.Bg0dp};
+  height: auto;
 `;
 
 const BackButton = styled.TouchableOpacity``;
@@ -45,11 +51,18 @@ const SearchedResult = styled.Text`
   color: ${(props) => props.theme.Text0dp};
 `;
 
+const SafeArea = styled.SafeAreaView`
+  flex: 1;
+  background-color: ${(props) => props.theme.Bg0dp};
+`;
+
 const Search = ({ navigation }) => {
   //set query
   const [query, setQuery] = useState("");
   const onChangeText = (text: string) => setQuery(text);
-  //onsubmit
+  //버튼 누를때만 실행
+  const [submitted, setSubmitted] = useState(false);
+  //버튼 제출
   const onSubmit = () => {
     if (query === "") {
       return;
@@ -57,9 +70,10 @@ const Search = ({ navigation }) => {
     searchProject();
     searchBluecards();
   };
+
   //프로젝트 검색
   const {
-    isLoading,
+    isLoading: isLoadingProjects,
     error,
     data: searchedProject,
     refetch: searchProject,
@@ -77,16 +91,20 @@ const Search = ({ navigation }) => {
   );
 
   // 블루카드 검색
+
+  const [previousBluecardId, setPreviousBluecardId] = useState("undefined");
   const {
     isLoading: isLoadingBluecards,
     data: searchedBluecards,
     refetch: searchBluecards,
-  } = useQuery(
-    ["SearchedBluecards", query],
+  } = useInfiniteQuery(
+    ["SearchedBluecards", query, previousBluecardId],
     async () => {
       const { data } = await axios.get(
-        `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=undefined`
+        // `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=undefined`
+        `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=${previousBluecardId}`
       );
+      console.log("hi");
       return data;
     },
     {
@@ -94,73 +112,58 @@ const Search = ({ navigation }) => {
     }
   );
 
-  console.log(searchedBluecards);
+  useEffect(() => {
+    if (searchedBluecards) {
+      console.log(searchedBluecards);
+    }
+  }, [searchedBluecards]);
 
-  return isLoading || !searchedProject ? (
-    <SafeAreaView style={styles.container}>
-      <BigContainer>
-        <HeaderContainer>
-          <BackButton>
-            <Ionicons
-              name="arrow-back"
-              size={24}
-              color="#0075ff"
-              onPress={() => navigation.goBack()}
-            />
-          </BackButton>
-          <SearchBar
-            placeholder="Search for NFT Project"
-            placeholderTextColor="grey"
-            returnKeyType="search"
-            onChangeText={onChangeText}
-            onSubmitEditing={onSubmit}
+  return (
+    <SafeArea>
+      <HeaderContainer>
+        <BackButton>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color="#0075ff"
+            onPress={() => navigation.goBack()}
           />
-        </HeaderContainer>
-      </BigContainer>
-    </SafeAreaView>
-  ) : (
-    <SafeAreaView style={styles.container}>
-      <BigContainer>
-        <Container
-          ListHeaderComponent={
-            <View>
-              <HeaderContainer>
-                <BackButton>
-                  <Ionicons
-                    name="arrow-back"
-                    size={22}
-                    color="black"
-                    onPress={() => navigation.goBack()}
-                  />
-                </BackButton>
-                <SearchBar
-                  placeholder="Search for NFT Project"
-                  placeholderTextColor="grey"
-                  returnKeyType="search"
-                  onChangeText={onChangeText}
-                  onSubmitEditing={onSubmit}
-                />
-              </HeaderContainer>
-              <View>
-                <SearchedResult>Projects</SearchedResult>
-              </View>
-            </View>
-          }
-          data={searchedProject.projects}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <NFTproject fullData={item} title={item.title} />
-          )}
+        </BackButton>
+        <SearchBar
+          placeholder="Search for NFT Project"
+          placeholderTextColor="grey"
+          returnKeyType="search"
+          onChangeText={onChangeText}
+          onSubmitEditing={onSubmit}
         />
-      </BigContainer>
-    </SafeAreaView>
+      </HeaderContainer>
+      {!isLoadingProjects && !isLoadingBluecards ? (
+        // {!isLoadingProjects && searchedProject ? (
+        <BigContainer>
+          <Container
+            showsVerticalScrollIndicator={false}
+            ListHeaderComponent={
+              <ProjectContainer>
+                <SearchedResult>Projects</SearchedResult>
+                {!isLoadingProjects && searchedProject
+                  ? searchedProject.projects.map((project, index) => (
+                      <NFTproject fullData={project} key={index} />
+                    ))
+                  : null}
+
+                <SearchedResult>Bluecards</SearchedResult>
+              </ProjectContainer>
+            }
+            data={searchedBluecards.bluecards}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <SmallHCard fullData={item}></SmallHCard>}
+            // onEndReached={loadMore}
+            onEndReachedThreshold={0.5}
+          />
+        </BigContainer>
+      ) : null}
+    </SafeArea>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default Search;

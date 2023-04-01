@@ -153,6 +153,7 @@ export default function Home({}) {
   //     });
   //     // console.log(res.data.bluecards[1]);
   //   });
+  console.log(user);
 
   //RETURN
   return isLoadingNft && !user ? (
