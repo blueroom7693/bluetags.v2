@@ -69,6 +69,7 @@ const Search = ({ navigation }) => {
     }
     searchProject();
     searchBluecards();
+    console.log("nonono");
   };
 
   //프로젝트 검색
@@ -93,10 +94,16 @@ const Search = ({ navigation }) => {
   // 블루카드 검색
 
   const [previousBluecardId, setPreviousBluecardId] = useState("undefined");
+  const [previousBluecardLength, setPreviousBluecardLength] = useState(10);
+
   const {
     isLoading: isLoadingBluecards,
     data: searchedBluecards,
     refetch: searchBluecards,
+    fetchNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
   } = useInfiniteQuery(
     ["SearchedBluecards", query, previousBluecardId],
     async () => {
@@ -104,17 +111,37 @@ const Search = ({ navigation }) => {
         // `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=undefined`
         `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=${previousBluecardId}`
       );
-      console.log("hi");
       return data;
     },
+
     {
+      getNextPageParam: (currentPage) => {
+        console.log(isFetching, isFetchingNextPage, status);
+        // console.log(
+        //   currentPage?.bluecards[currentPage?.bluecards.length - 1].id
+        // );
+        // if (!isFetching) {
+        //   setPreviousBluecardId(
+        //     currentPage?.bluecards[currentPage?.bluecards.length - 1].id
+        //   );
+        // }
+        return;
+      },
       enabled: false,
     }
   );
 
+  const loadMore = () => {
+    if (previousBluecardLength === 10) {
+      fetchNextPage();
+    }
+    alert("load more!");
+  };
+
   useEffect(() => {
     if (searchedBluecards) {
       console.log(searchedBluecards);
+      console.log("start");
     }
   }, [searchedBluecards]);
 
@@ -138,7 +165,6 @@ const Search = ({ navigation }) => {
         />
       </HeaderContainer>
       {!isLoadingProjects && !isLoadingBluecards ? (
-        // {!isLoadingProjects && searchedProject ? (
         <BigContainer>
           <Container
             showsVerticalScrollIndicator={false}
@@ -154,10 +180,11 @@ const Search = ({ navigation }) => {
                 <SearchedResult>Bluecards</SearchedResult>
               </ProjectContainer>
             }
-            data={searchedBluecards.bluecards}
+            data={searchedBluecards?.pages.map((page) => page.bluecards).flat()}
+            // data={searchedBluecards.bluecards}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <SmallHCard fullData={item}></SmallHCard>}
-            // onEndReached={loadMore}
+            onEndReached={loadMore}
             onEndReachedThreshold={0.5}
           />
         </BigContainer>
