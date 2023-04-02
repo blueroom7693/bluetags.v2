@@ -92,6 +92,8 @@ const UpperBtn = styled.TouchableOpacity`
 `;
 
 const Watchlist = ({ navigation, router }) => {
+  //scroll
+  const scrollY = useRef(new Animated.Value(0)).current;
   //THEME
   const isDark = useColorScheme() === "dark";
   // 유저정보
@@ -114,6 +116,8 @@ const Watchlist = ({ navigation, router }) => {
           )
           .then((respose) => {
             setNftData(Object.values(respose.data.bluecards));
+
+            // console.log(Object.values(respose.data.bluecards));
             setIsLoadingNft(false);
           });
       });
@@ -121,19 +125,56 @@ const Watchlist = ({ navigation, router }) => {
     console.log("와치리스트 페이지 들어옴");
   }, [isfoucsed]);
 
-  //데이터 API 주소 메이커
-  const [projectSelected, setProjectSelected] = useState("");
-  const ApiAddressMaker = (projectKey, userId) => {
-    if (projectKey !== "") {
-      return `https://www.bluetags.app//api/bluecards?watchlist=true&project=${projectKey}&previous=undefined`;
-    } else {
-      return `https://www.bluetags.app//api/bluecards?watchlist=true&user=${userId}&previous=undefined`;
-    }
-  };
-  const requestUrl = ApiAddressMaker(projectSelected, "12");
-  console.log(requestUrl);
+  //RECOILVALUE
+  const chain = useRecoilValue(chainString);
+  const [project, setProject] = useRecoilState(projectString);
+  const sns = useRecoilValue(snstString);
+  const today = useRecoilValue(todayString);
+  const past = useRecoilValue(pastString);
+  const subscribe = useRecoilValue(allSubscirbeProject);
+  //Filter
+  // const Watchlistfilter = (info: IData) => {
+  //   let chainBool: boolean = true;
+  //   let projectBool: boolean = true;
+  //   let snsBool: boolean = true;
+  //   let dateBool: boolean = true;
+  //   let subscribeBool: boolean = true;
+  //   const date = new Date(Date.parse(info.createdAt)).getTime();
+  //   if (chain !== "") {
+  //     chainBool = info.project.chain === chain.toUpperCase();
+  //   }
+  //   if (project !== "") {
+  //     projectBool =
+  //       info.project.title ===
+  //       project
+  //         .toLowerCase()
+  //         .replace(/ /gi, "")
+  //         .replace(/-/gi, "")
+  //         .replace(/`/gi, "");
+  //   }
+  //   if (sns !== "") {
+  //     snsBool = info.sns === sns;
+  //   }
+  //   if (today.getTime() - date < 0 || date - past.getTime() < 0) {
+  //     dateBool = false;
+  //   }
+  //   if (subscribe.length !== 0) {
+  //     subscribeBool = subscribe.includes(
+  //       info.project.title
+  //         .toLowerCase()
+  //         .replace(/ /gi, "")
+  //         .replace(/-/gi, "")
+  //         .replace(/`/gi, "")
+  //     );
+  //   }
+  //   return chainBool && projectBool && snsBool && dateBool && subscribeBool;
+  // };
 
-  //바텀시트
+  // useEffect(() => {
+  //   if (!isLoadingNft) {
+  //     setData(Object.values(NftData?.data.bluecards).filter(Watchlistfilter));
+  //   }
+  // }, [chain, project, sns, today, past, subscribe, NftData]);
   const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
   //스크롤러 높이 전달
   // const [childrenHeight, setChildrenHeight] = useState(null);
@@ -150,14 +191,13 @@ const Watchlist = ({ navigation, router }) => {
   //   }
   // };
 
-  //Flatlist UPPER
-  const scrollY = useRef(new Animated.Value(0)).current;
+  //Flatlist upper
   const flatListRef = useRef(null);
+
   const scrollToTop = () => {
     flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
   };
 
-  //RETURN
   return isLoadingNft ? (
     <Loader />
   ) : (
