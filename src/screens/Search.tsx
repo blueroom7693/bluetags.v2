@@ -93,7 +93,6 @@ const Search = ({ navigation }) => {
 
   // 블루카드 검색
 
-  const [previousBluecardId, setPreviousBluecardId] = useState("undefined");
   const [previousBluecardLength, setPreviousBluecardLength] = useState(10);
 
   const {
@@ -105,45 +104,33 @@ const Search = ({ navigation }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery(
-    ["SearchedBluecards", query, previousBluecardId],
-    async () => {
+    ["SearchedBluecards", query],
+    async ({ pageParam }) => {
+      const previous = pageParam || "undefined";
       const { data } = await axios.get(
-        // `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=undefined`
-        `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=${previousBluecardId}`
+        `https://www.bluetags.app/api/search/bluecards?q=${query}&previous=${previous}`
       );
       return data;
     },
-
     {
       getNextPageParam: (currentPage) => {
-        console.log(isFetching, isFetchingNextPage, status);
-        // console.log(
-        //   currentPage?.bluecards[currentPage?.bluecards.length - 1].id
-        // );
-        // if (!isFetching) {
-        //   setPreviousBluecardId(
-        //     currentPage?.bluecards[currentPage?.bluecards.length - 1].id
-        //   );
-        // }
-        return;
+        const nextPageId =
+          currentPage.bluecards[currentPage.bluecards.length - 1]?.id;
+        return nextPageId || undefined;
       },
       enabled: false,
     }
   );
 
   const loadMore = () => {
-    if (previousBluecardLength === 10) {
+    if (
+      searchedBluecards.pages[searchedBluecards.pages.length - 1].bluecards
+        .length === 10
+    ) {
       fetchNextPage();
     }
-    alert("load more!");
+    // alert("load more!");
   };
-
-  useEffect(() => {
-    if (searchedBluecards) {
-      console.log(searchedBluecards);
-      console.log("start");
-    }
-  }, [searchedBluecards]);
 
   return (
     <SafeArea>
@@ -186,6 +173,7 @@ const Search = ({ navigation }) => {
             renderItem={({ item }) => <SmallHCard fullData={item}></SmallHCard>}
             onEndReached={loadMore}
             onEndReachedThreshold={0.5}
+            disableVirtualization={false}
           />
         </BigContainer>
       ) : null}
