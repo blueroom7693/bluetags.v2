@@ -88,12 +88,7 @@ export default function Home({}) {
   useEffect(() => {
     if (isfoucsed) {
       axios.get("https://www.bluetags.app/api/users").then((res) => {
-        console.log(res.data.calendar);
         setUser(res.data);
-        // console.log(
-        //   user.calendar.includes("638ef3120ee1a4a8991bf701"),
-        //   12313564
-        // );
       });
     }
     console.log("홈 페이지 들어옴");
@@ -132,28 +127,9 @@ export default function Home({}) {
   // 새로고침
   const [refreshing, setRefreshing] = React.useState(false);
   const userSANGWAN = useUser();
-  console.log(userSANGWAN);
   useEffect(() => {
     console.log(userSANGWAN.user);
   }, [userSANGWAN]);
-
-  // const [calendarObject, setCalendarObject] = useState({});
-  // useEffect(() => {
-  //   calendarObject[`0222-020-2`] = [{ fullData: "FullData" }];
-  //   console.log(calendarObject);
-  // }, []);
-  // console.log(calendarObject);
-
-  // axios
-  //   .get(`https://www.bluetags.app/api/bluecards?calendar=true&year=2023`)
-  //   .then((res) => {
-  //     res.data.bluecards.map((e) => {
-  //       console.log(new Date(e.deadLineStart).toISOString().split("T")[0]);
-  //       console.log(e);
-  //     });
-  //     // console.log(res.data.bluecards[1]);
-  //   });
-  console.log(user);
 
   //RETURN
   return isLoadingNft && !user ? (
@@ -165,8 +141,6 @@ export default function Home({}) {
           <RefreshControl refreshing={refreshing} onRefresh={refetchHomeInfo} />
         }
       >
-        {/* HEADER */}
-        {/* <HeaderScroller /> */}
         {/* RECOMMEDED ARTICLE FLATLIST */}
         <SubHeaderTitle>BlueCard</SubHeaderTitle>
         <HeaderTitle>Large</HeaderTitle>

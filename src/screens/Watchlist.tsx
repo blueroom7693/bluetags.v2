@@ -1,27 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  useColorScheme,
-  SafeAreaView,
-  StyleSheet,
-  Animated,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, StyleSheet, Animated, View } from "react-native";
 import styled from "styled-components/native";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  allSubscirbeProject,
-  chainString,
-  isBottomFilter,
-  pastString,
-  projectString,
-  snstString,
-  todayString,
-  token,
-} from "../atom";
+import { isBottomFilter, projectString } from "../atom";
 import SmallCircleCard from "../components/card/SmallCircleCard";
 import { useIsFocused } from "@react-navigation/native";
 import BluecardLarge from "../components/card/BluecardLarge";
@@ -34,7 +17,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 //CSS
 const ContentsList = styled.FlatList`
   background-color: ${(props) => props.theme.Bg0dp};
-  /* width: 100%; */
 `;
 
 const ProjectScroller = styled.FlatList`
@@ -93,14 +75,10 @@ const UpperBtn = styled.TouchableOpacity`
 `;
 
 const Watchlist = ({ navigation, router }) => {
-  //THEME
-  const isDark = useColorScheme() === "dark";
   // 유저정보
   const [user, setUser] = useState<string>();
   // 구독프로젝트 리스트
   const [subscribeProject, setSubscribeProject] = useState<string[]>();
-  // 구독리스트 기반 블루카드 받아오기!
-  const [NftData, setNftData] = useState();
   const [isLoadingNft, setIsLoadingNft] = useState(true);
   //유저정보 업데이트
   const isfoucsed = useIsFocused();
@@ -109,20 +87,12 @@ const Watchlist = ({ navigation, router }) => {
       axios.get("https://www.bluetags.app/api/users").then((res) => {
         setSubscribeProject(res.data.subscribe);
         setUser(res.data.id);
-        axios
-          .get(
-            `https://www.bluetags.app/api/bluecards?watchlist=true&user=${res.data.id}&previous=undefined`
-          )
-          .then((respose) => {
-            setNftData(Object.values(respose.data.bluecards));
-            setIsLoadingNft(false);
-          });
+        setIsLoadingNft(false);
       });
     }
     console.log("와치리스트 페이지 들어옴");
   }, [isfoucsed]);
 
-  //데이터 API 주소 메이커
   // 와치리스트 블루카드
   const [projectSelected, setProject] = useRecoilState(projectString);
 
@@ -168,8 +138,6 @@ const Watchlist = ({ navigation, router }) => {
     }
   };
 
-  /////////////////////////////////////////////
-
   //바텀시트
   const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
 
@@ -211,7 +179,6 @@ const Watchlist = ({ navigation, router }) => {
           ref={flatListRef}
           contentContainerStyle={{ paddingTop: 100 }}
           showsVerticalScrollIndicator={false}
-          // data={NftData}
           data={watchlistBluecards?.pages.map((page) => page.bluecards).flat()}
           keyExtractor={(item) => item.id}
           ListHeaderComponent={
@@ -260,29 +227,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "grey",
-    position: "absolute",
-    zIndex: 1,
-  },
-  button: {
-    position: "absolute",
-    bottom: 60,
-    right: 80,
-    // backgroundColor: "#007AFF",
-    backgroundColor: "white",
-
-    borderRadius: 30,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    width: 30,
-    height: 30,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
   },
 });
 

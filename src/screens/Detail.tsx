@@ -126,14 +126,7 @@ const HistorySubText = styled.Text`
 //MAIN
 const Detail = ({ navigation: { setOptions }, route: { params } }) => {
   //GETDATA
-  const search = params.key;
-  // .toLowerCase()
-  // .replace(/ /gi, "")
-  // .replace(/-/gi, "")
-  // .replace(/`/gi, "");
-
-  //isFocused
-  const isfoucsed = useIsFocused();
+  // const isfoucsed = useIsFocused();
   useEffect(() => {
     axios
       .get(
@@ -144,26 +137,19 @@ const Detail = ({ navigation: { setOptions }, route: { params } }) => {
       });
   });
 
-  const { isLoading: isLoadingNft, data: searchedData } = useQuery<IInfo>(
-    ["searchedData"],
-    () => getNftInfo(search)
-  );
   //SETDATA
   const [data, setData] = useState<IData[]>();
-  useEffect(() => {
-    if (!isLoadingNft) {
-      // setData(Object.values(searchedData?.data.bluecards));
-      // setData(searchedData?.data.bluecards);
-    }
-  }, [isLoadingNft, searchedData]);
   //RETURN
   return (
     <Container
       ListHeaderComponent={
         <>
           {/* HEADER */}
+
           <ProjectLogo
-            source={require("../assets/images/azukiWall.webp")}
+            source={{
+              uri: params?.backGround ? params?.backGround : params.logoUrl,
+            }}
           ></ProjectLogo>
           <LinearGradient
             // Background Linear Gradient
