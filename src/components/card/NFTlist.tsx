@@ -16,13 +16,20 @@ interface INFTProject {
   forthCard: any;
 }
 //CSS
-const ProjectLogo = styled.Image`
+const ProjectLogoView = styled.View`
   width: 40px;
   height: 40px;
   border-radius: 6px;
   margin-left: 10px;
   margin-right: 21px;
+  overflow: hidden;
 `;
+
+const ProjectLogo = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
   /* justify-content: center; */
@@ -94,7 +101,9 @@ const NFTlist: React.FC<INFTProject> = ({
             shadowRadius: 10,
           }}
         >
-          <ProjectLogo source={{ uri: firstCard.logoUrl }}></ProjectLogo>
+          <ProjectLogoView>
+            <ProjectLogo source={{ uri: firstCard.logoUrl }}></ProjectLogo>
+          </ProjectLogoView>
           <View>
             <View
               style={{
@@ -131,7 +140,9 @@ const NFTlist: React.FC<INFTProject> = ({
               shadowRadius: 10,
             }}
           >
-            <ProjectLogo source={{ uri: secondCard.logoUrl }}></ProjectLogo>
+            <ProjectLogoView>
+              <ProjectLogo source={{ uri: secondCard.logoUrl }}></ProjectLogo>
+            </ProjectLogoView>
             <View>
               <View
                 style={{
@@ -169,7 +180,9 @@ const NFTlist: React.FC<INFTProject> = ({
               shadowRadius: 10,
             }}
           >
-            <ProjectLogo source={{ uri: thirdCard.logoUrl }}></ProjectLogo>
+            <ProjectLogoView>
+              <ProjectLogo source={{ uri: thirdCard.logoUrl }}></ProjectLogo>
+            </ProjectLogoView>
             <View>
               <View
                 style={{
@@ -207,7 +220,9 @@ const NFTlist: React.FC<INFTProject> = ({
               shadowRadius: 10,
             }}
           >
-            <ProjectLogo source={{ uri: forthCard.logoUrl }}></ProjectLogo>
+            <ProjectLogoView>
+              <ProjectLogo source={{ uri: forthCard.logoUrl }}></ProjectLogo>
+            </ProjectLogoView>
             <View>
               <View
                 style={{
