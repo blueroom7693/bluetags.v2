@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { AllNftNonChain } from "../../AllNft";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { projectString } from "../../atom";
@@ -11,12 +11,15 @@ interface ICircleProject {
   title: string;
 }
 //CSS
-const ProjectLogo = styled.Image`
+const ProjectLogo = styled.View<{ isSelected: boolean }>`
   width: 40px;
   height: 40px;
   border-radius: 4px;
-  background-color: black;
   margin-bottom: 12px;
+  overflow: hidden;
+  border-width: ${(props) => (props.isSelected ? "2px" : "0px")};
+
+  border-color: rgba(48, 121, 246, 0.6);
 `;
 const Container = styled.View`
   background-color: ${(props) => props.theme.Bg0dp};
@@ -48,15 +51,20 @@ const SmallCircleCard: React.FC<ICircleProject> = ({ title }) => {
   return projectInfo ? (
     <TouchableOpacity
       onPress={() => {
-        setProject(title);
+        if (project === title) {
+          setProject("");
+        } else {
+          setProject(title);
+        }
       }}
     >
       <Container>
-        <ProjectLogo
-          // source={{ uri: AllNftNonChain[title].logourl }}
-          source={{ uri: `${projectInfo.logoUrl}` }}
-        ></ProjectLogo>
-        {/* <ProjectName>{title}</ProjectName> */}
+        <ProjectLogo isSelected={project === title ? true : false}>
+          <Image
+            source={{ uri: `${projectInfo.logoUrl}` }}
+            style={{ width: "100%", height: "100%" }}
+          ></Image>
+        </ProjectLogo>
         <ProjectName>{projectInfo.title}</ProjectName>
       </Container>
     </TouchableOpacity>

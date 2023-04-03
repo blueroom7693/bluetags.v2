@@ -93,16 +93,11 @@ const Search = ({ navigation }) => {
 
   // 블루카드 검색
 
-  const [previousBluecardLength, setPreviousBluecardLength] = useState(10);
-
   const {
     isLoading: isLoadingBluecards,
     data: searchedBluecards,
     refetch: searchBluecards,
     fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
   } = useInfiniteQuery(
     ["SearchedBluecards", query],
     async ({ pageParam }) => {

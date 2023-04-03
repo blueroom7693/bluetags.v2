@@ -29,6 +29,7 @@ import LogoBlueSVG from "../assets/images/misc/LogoBlue.svg";
 import CustomScrollHeader from "../components/custom/CustomScrollHeader";
 import Loader from "../utils/loader";
 import UpperSVG from "../assets/images/misc/upper.svg";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 //CSS
 const ContentsList = styled.FlatList`
@@ -122,33 +123,55 @@ const Watchlist = ({ navigation, router }) => {
   }, [isfoucsed]);
 
   //데이터 API 주소 메이커
-  const [projectSelected, setProjectSelected] = useState("");
-  const ApiAddressMaker = (projectKey, userId) => {
-    if (projectKey !== "") {
-      return `https://www.bluetags.app//api/bluecards?watchlist=true&project=${projectKey}&previous=undefined`;
-    } else {
-      return `https://www.bluetags.app//api/bluecards?watchlist=true&user=${userId}&previous=undefined`;
+  // 와치리스트 블루카드
+  const [projectSelected, setProject] = useRecoilState(projectString);
+
+  const {
+    isLoading: isLoadingWatchlistBluecards,
+    data: watchlistBluecards,
+    refetch: searchBluecards,
+    fetchNextPage,
+  } = useInfiniteQuery(
+    ["WatchlistBluecards", projectSelected, user],
+    async ({ pageParam }) => {
+      if (projectSelected) {
+        const previous = pageParam || "undefined";
+        const { data } = await axios.get(
+          `https://www.bluetags.app//api/bluecards?watchlist=true&project=${projectSelected}&previous=${previous}`
+        );
+        return data;
+      } else {
+        const previous = pageParam || "undefined";
+        const { data } = await axios.get(
+          `https://www.bluetags.app//api/bluecards?watchlist=true&user=${user}&previous=${previous}`
+        );
+        return data;
+      }
+    },
+    {
+      getNextPageParam: (currentPage) => {
+        const nextPageId =
+          currentPage.bluecards[currentPage.bluecards.length - 1]?.id;
+        return nextPageId || undefined;
+      },
+      // enabled: false,
+    }
+  );
+
+  const loadMore = () => {
+    if (
+      watchlistBluecards &&
+      watchlistBluecards.pages[watchlistBluecards.pages.length - 1].bluecards
+        .length === 10
+    ) {
+      fetchNextPage();
     }
   };
-  const requestUrl = ApiAddressMaker(projectSelected, "12");
-  console.log(requestUrl);
+
+  /////////////////////////////////////////////
 
   //바텀시트
   const [isOpen, setIsOpen] = useRecoilState(isBottomFilter);
-  //스크롤러 높이 전달
-  // const [childrenHeight, setChildrenHeight] = useState(null);
-  // const onLayoutCallback = (event) => {
-  //   const { height } = event.nativeEvent.layout;
-  //   setChildrenHeight(height);
-  // };
-
-  // const onLayoutCallback = (event) => {
-  //   const newHeight = event.nativeEvent.layout.height;
-  //   if (childrenHeight !== newHeight) {
-  //     setChildrenHeight(newHeight + 100);
-  //     console.log("Component height:", childrenHeight);
-  //   }
-  // };
 
   //Flatlist UPPER
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -188,7 +211,8 @@ const Watchlist = ({ navigation, router }) => {
           ref={flatListRef}
           contentContainerStyle={{ paddingTop: 100 }}
           showsVerticalScrollIndicator={false}
-          data={NftData}
+          // data={NftData}
+          data={watchlistBluecards?.pages.map((page) => page.bluecards).flat()}
           keyExtractor={(item) => item.id}
           ListHeaderComponent={
             <HeaderView>
@@ -199,6 +223,7 @@ const Watchlist = ({ navigation, router }) => {
           renderItem={({ item }) => (
             <BluecardLarge fullData={item}></BluecardLarge>
           )}
+          onEndReached={loadMore}
         />
         <BluetagsBtn
           onPress={() => setIsOpen(true)}
@@ -222,7 +247,6 @@ const Watchlist = ({ navigation, router }) => {
           }}
           onPress={scrollToTop}
         >
-          {/* <Text style={styles.buttonText}>Scroll to Top</Text> */}
           <UpperSVG height={20} width={20} fill={"#1c1b1b"} />
         </UpperBtn>
       </View>
