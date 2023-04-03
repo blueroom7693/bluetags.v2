@@ -8,7 +8,8 @@
     "splash": {
       "image": "./src/assets/images/splash3.png"
     },
-    "scheme": "exp://"
+    "scheme": "exp://",
+    "permissions": ["NOTIFICATIONS"]
   },
   "name": "langApp"
 }
