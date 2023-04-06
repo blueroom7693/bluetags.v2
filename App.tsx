@@ -56,14 +56,13 @@ export default function App() {
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
+        console.log(notification, 12312313);
       });
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
       });
-
-    console.log(expoPushToken, 546446546546);
 
     return () => {
       Notifications.removeNotificationSubscription(
@@ -72,6 +71,7 @@ export default function App() {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
+
   useEffect(() => {
     // registerForPushNotificationsAsync().then((token) =>
     //   console.log(token, 1213123545646)
@@ -101,7 +101,6 @@ export default function App() {
       websocket.close();
     };
   }, []);
-
   //////push
 
   // 쿠키 확인 및 로그인 토큰
@@ -223,6 +222,8 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+    // const token = (await Notifications.getDevicePushTokenAsync()).data;
   } else {
     alert("Must use physical device for Push Notifications");
   }

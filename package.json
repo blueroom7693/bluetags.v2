@@ -56,7 +56,7 @@
     "react-cookie": "^4.1.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.34.2",
-    "react-native": "0.71.3",
+    "react-native": "0.71.6",
     "react-native-big-calendar": "^3.4.0",
     "react-native-calendars": "^1.1293.0",
     "react-native-date-picker": "^4.2.5",
