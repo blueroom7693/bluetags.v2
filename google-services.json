@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "31805506652",
+    "project_id": "pushnotification-95cc5",
+    "storage_bucket": "pushnotification-95cc5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31805506652:android:0e0a47be779d7d22f45299",
+        "android_client_info": {
+          "package_name": "app.bluetags.bluetags"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31805506652-v73nmmrj68p36gasr8mrvocft7t6l637.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjSl3gX31mWXiD4DW4L0jMKE0sXtNFq-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31805506652-v73nmmrj68p36gasr8mrvocft7t6l637.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

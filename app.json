@@ -1,5 +1,7 @@
 {
   "expo": {
+    "plugin": [["expo-notifications"]],
+    "permissions": ["NOTIFICATIONS"],
     "name": "langApp",
     "slug": "langApp",
     "version": "1.0.0",
@@ -9,7 +11,22 @@
       "image": "./src/assets/images/splash3.png"
     },
     "scheme": "exp://",
-    "permissions": ["NOTIFICATIONS"]
+    "android": {
+      "permissions": [
+        "NOTIFICATIONS",
+        "ACCESS_NETWORK_STATE",
+        "WAKE_LOCK",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "SYSTEM_ALERT_WINDOW",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "SCHEDULE_EXACT_ALARM"
+      ],
+      "package": "app.bluetags.bluetags",
+      "googleServicesFile": "./google-services.json"
+    },
+    "ios": {}
   },
   "name": "langApp"
 }
