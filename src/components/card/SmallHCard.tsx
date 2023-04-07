@@ -34,7 +34,8 @@ const Date = styled.Text`
   font-weight: 500;
 `;
 const ListContainer = styled.View`
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding-left: 20px;
   padding-right: 20px;
   border-width: 1px;

@@ -75,12 +75,11 @@ const UpperBtn = styled.TouchableOpacity`
 `;
 
 const Watchlist = ({ navigation, router }) => {
-  // 유저정보
-  const [user, setUser] = useState<string>();
   // 구독프로젝트 리스트
   const [subscribeProject, setSubscribeProject] = useState<string[]>();
   const [isLoadingNft, setIsLoadingNft] = useState(true);
   //유저정보 업데이트
+  const [user, setUser] = useState<string>();
   const isfoucsed = useIsFocused();
   useEffect(() => {
     if (isfoucsed) {

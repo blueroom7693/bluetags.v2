@@ -4,7 +4,7 @@ export const TextInput = styled.TextInput`
   background-color: ${(props) => props.theme.Bg0dp};
   border-radius: 4px;
   border-width: 1px;
-  width: 350px;
+  width: 100%;
   height: 40px;
   border-color: ${(props) => props.theme.Text0dp};
   color: ${(props) => props.theme.Text0dp};

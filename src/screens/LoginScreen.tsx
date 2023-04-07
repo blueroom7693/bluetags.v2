@@ -43,7 +43,7 @@ const DetailText = styled.Text`
 `;
 
 const SNSlogo = styled.TouchableOpacity`
-  margin-left: 10px;
+  margin-: 10px;
 `;
 const SignupBox = styled.TouchableOpacity`
   border-width: 1px;
@@ -86,8 +86,6 @@ interface LoginResponse {
   auth?: string;
 }
 const LoginScreen = ({ navigation }) => {
-  //themeprovider
-  const theme = useContext(ThemeContext);
   //isfocused
   const isfoucsed = useIsFocused();
   //login Token
@@ -96,7 +94,6 @@ const LoginScreen = ({ navigation }) => {
   //Google Auth
   //setUser,setToken
   const [user, setUser] = React.useState(null);
-  const [accessToken, setAccessToken] = React.useState(null);
   //
   WebBrowser.maybeCompleteAuthSession();
   //Request
@@ -111,16 +108,15 @@ const LoginScreen = ({ navigation }) => {
   //Response
   React.useEffect(() => {
     if (response?.type === "success") {
-      const { authentication } = response;
-      setAccessToken(response.authentication.accessToken);
-      accessToken && fetchUserInfo();
+      response.authentication.accessToken &&
+        fetchUserInfo(response.authentication.accessToken);
     }
   }, [response]);
 
   //FetchUserInfo
-  async function fetchUserInfo() {
+  async function fetchUserInfo(token: any) {
     let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     const userInfo = await response.json();
     setUser(userInfo);
@@ -199,6 +195,7 @@ const LoginScreen = ({ navigation }) => {
 
   //usercheck
   useEffect(() => {
+    console.log(socialStatus);
     axios.get("https://www.bluetags.app/api/users/check").then((response) => {
       console.log(response.data);
       if (response.data) {

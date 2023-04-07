@@ -12,7 +12,8 @@ const Container = styled.ScrollView`
   /* align-items: center; */
   /* justify-content: center; */
   background-color: ${(props) => props.theme.Bg0dp};
-  padding: 40px 20px;
+  padding: 0px 20px;
+  padding-top: 50px;
 `;
 
 const Logo = styled.Image`
@@ -39,9 +40,11 @@ export default function AuthLayoutScroll({ children }) {
     >
       <Container>
         <KeyboardAvoidingView
-          style={{
-            width: "95%",
-          }}
+          style={
+            {
+              // width: "95%",
+            }
+          }
           behavior="position"
           keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -200}
         >

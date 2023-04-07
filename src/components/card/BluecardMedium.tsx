@@ -163,11 +163,6 @@ const BluecardMedium: React.FC<IBluecardMedium> = ({
       setIsCalendar((prev) => !prev);
     }
   };
-  console.log(isCalendar);
-  // console.log(fullData.id);
-  // console.log(fullData.id);
-  // console.log(user.id);
-
   //ALLDATA
   return (
     <TouchableWithoutFeedback onPress={goToDetail}>

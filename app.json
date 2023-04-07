@@ -8,8 +8,8 @@
     "assetBundlePatterns": ["**/*"],
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./src/assets/images/AppIcon.png",
-      "resizeMode": "contain"
+      "image": "./src/assets/images/appsplash.png",
+      "backgroundColor": "#257CFF"
     },
     "scheme": "exp://",
     "android": {
