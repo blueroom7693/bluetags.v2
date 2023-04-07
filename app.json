@@ -1,6 +1,14 @@
 {
   "expo": {
-    "plugin": [["expo-notifications"]],
+    "plugin": [
+      ["expo-notifications"],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
     "permissions": ["NOTIFICATIONS"],
     "name": "langApp",
     "slug": "langApp",

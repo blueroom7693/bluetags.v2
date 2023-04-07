@@ -1,6 +1,12 @@
 import styled, { ThemeContext } from "styled-components/native";
 import React, { useEffect, useRef, useState } from "react";
-import { Text, StyleSheet, SafeAreaView, View } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faBackward,
@@ -25,13 +31,12 @@ import Loader from "../utils/loader";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import SmallHCard from "../components/card/SmallHCard";
 import UpperSVG from "../assets/images/misc/upper.svg";
+import * as ImagePicker from "expo-image-picker";
 
 const Container = styled.FlatList`
   flex: 1;
   background-color: ${(props) => props.theme.Bg0dp};
   flex-direction: column;
-  padding-left: 20px;
-  padding-right: 20px;
   width: 100%;
 `;
 
@@ -125,6 +130,12 @@ const UpperBtn = styled.TouchableOpacity`
   bottom: 20px;
   right: 20px;
 `;
+const SafeArea = styled.SafeAreaView`
+  flex: 1;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: ${(props) => props.theme.Bg0dp};
+`;
 
 const Profile = () => {
   const theme = useContext(ThemeContext);
@@ -134,7 +145,7 @@ const Profile = () => {
   useEffect(() => {
     if (isfoucsed) {
       axios.get("https://www.bluetags.app/api/users").then((res) => {
-        setUser(res.data.id);
+        setUser(res.data);
       });
     }
     console.log("와치리스트 페이지 들어옴");
@@ -158,7 +169,6 @@ const Profile = () => {
       });
     });
   }
-  console.log(user);
   //LOGOUT - Async
   const signOut = async () => {
     try {
@@ -178,17 +188,10 @@ const Profile = () => {
       if (user) {
         const previous = pageParam || "undefined";
         const { data } = await axios.get(
-          `https://www.bluetags.app//api/bluecards?user=${user}&read=true&previous=${previous}`
+          `https://www.bluetags.app//api/bluecards?user=${user.id}&read=true&previous=${previous}`
         );
         return data;
       }
-      // } else {
-      //   const previous = pageParam || "undefined";
-      //   const { data } = await axios.get(
-      //     `https://www.bluetags.app//api/bluecards?user=${user}&read=true&previous=${previous}`
-      //   );
-      //   return data;
-      // }
     },
     {
       getNextPageParam: (currentPage) => {
@@ -214,33 +217,97 @@ const Profile = () => {
   const scrollToTop = () => {
     flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
   };
+  //
 
-  ///historydata
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].uri.split("/").pop());
+      console.log(result.assets[0].uri.split("/").pop());
+      // uploadImage(result.assets[0], user);
+    }
+  };
+
+  const uploadImageImage = async({ result }) => {
+    const localUri = result.uri;
+    const filename = localUri.split("/").pop();
+    const match = /\.(\w+)$/.exec(filename ?? "");
+    const type = match ? `image/${match[1]}` : `image`;
+    const formData = new FormData();
+    formData.append("image", { uri: localUri, name: filename, type });
+    console.log(formData);
+    fetch(result.data.uploadURL, {
+      method: "POST",
+      body: form,
+    }
+  };
+
+  const uploadImage = ({ file, user }) => {
+    axios.get("https://www.bluetags.app/api/upload/image").then((result) => {
+      console.log(result, 123);
+
+      const form = new FormData();
+      form.append("file", file, user?.id + "");
+      fetch(result.data.uploadURL, {
+        method: "POST",
+        body: form,
+      }).then((result) => {
+        console.log(result, 123);
+        result.json().then((res) => {
+          console.log(res, 456);
+          // setAvatarPreview(res.result.id);
+          axios.post("https://www.bluetags.app/api/users/edit", {
+            id: user?.id,
+            avatarId: res.result.id,
+          });
+        });
+      });
+    });
+  };
 
   return !user || !HistoryBluecards ? (
     <Loader></Loader>
   ) : (
-    <SafeAreaView style={styles.container}>
+    <SafeArea>
       <Container
         ListHeaderComponent={
           <>
             <View>
               <ProfileContainer>
-                <ProfileImage
-                  source={{
-                    uri: "https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?w=2000",
-                  }}
-                />
+                <TouchableOpacity onPress={pickImage}>
+                  {user ? (
+                    <ProfileImage
+                      source={{
+                        uri: `https://imagedelivery.net/o9OxHWpSBsqZquvzmxx1bQ/${user.profile}/avatar`,
+                      }}
+                    />
+                  ) : (
+                    <ProfileImage
+                      source={{
+                        uri: "https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?w=2000",
+                      }}
+                    />
+                  )}
+                </TouchableOpacity>
+
                 <SmallContainer>
-                  <Number>50</Number>
-                  <Name>NFT owned</Name>
+                  <Number>{user?.readBlueCard.length}</Number>
+                  <Name>Bluecards</Name>
                 </SmallContainer>
                 <SmallContainer>
                   <Number>23</Number>
                   <Name>Subscribe</Name>
                 </SmallContainer>
                 <SmallContainer>
-                  <Number>$18.1K</Number>
+                  <Number>{user?.subscribe.length}</Number>
                   <Name>Subscribe</Name>
                 </SmallContainer>
               </ProfileContainer>
@@ -269,17 +336,9 @@ const Profile = () => {
       >
         <UpperSVG height={20} width={20} fill={"#1c1b1b"} />
       </UpperBtn>
-    </SafeAreaView>
+    </SafeArea>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default Profile;
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { SafeAreaView, StyleSheet, Animated, View } from "react-native";
+import { SafeAreaView, StyleSheet, Animated, View, Text } from "react-native";
 import styled from "styled-components/native";
 import BottomFilter from "../components/bottomsheet/BottomFilter";
 import axios from "axios";
@@ -74,6 +74,14 @@ const UpperBtn = styled.TouchableOpacity`
   right: 0px;
 `;
 
+const SafeArea = styled.SafeAreaView`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+`;
+
 const Watchlist = ({ navigation, router }) => {
   // 구독프로젝트 리스트
   const [subscribeProject, setSubscribeProject] = useState<string[]>();
@@ -126,6 +134,7 @@ const Watchlist = ({ navigation, router }) => {
       // enabled: false,
     }
   );
+  console.log(watchlistBluecards?.pages.map((page) => page.bluecards).flat());
 
   const loadMore = () => {
     if (
@@ -151,9 +160,14 @@ const Watchlist = ({ navigation, router }) => {
   return isLoadingNft ? (
     <Loader />
   ) : (
-    <SafeAreaView style={styles.container}>
+    <SafeArea>
       {/* <HeaderScroller /> */}
-      <View>
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      >
         {subscribeProject ? (
           <CustomScrollHeader animatedValue={scrollY}>
             <ProjectScroller
@@ -191,6 +205,12 @@ const Watchlist = ({ navigation, router }) => {
           )}
           onEndReached={loadMore}
         />
+        {watchlistBluecards ? (
+          <View style={{ flex: 1 }}>
+            <Text>no bluecards</Text>
+          </View>
+        ) : null}
+
         <BluetagsBtn
           onPress={() => setIsOpen(true)}
           style={{
@@ -217,16 +237,8 @@ const Watchlist = ({ navigation, router }) => {
         </UpperBtn>
       </View>
       <BottomFilter />
-    </SafeAreaView>
+    </SafeArea>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default Watchlist;
