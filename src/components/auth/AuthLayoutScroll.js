@@ -12,7 +12,7 @@ const Container = styled.ScrollView`
   /* align-items: center; */
   /* justify-content: center; */
   background-color: ${(props) => props.theme.Bg0dp};
-  padding: 0px 20px;
+  padding: 40px 20px;
 `;
 
 const Logo = styled.Image`
@@ -30,7 +30,6 @@ export default function AuthLayoutScroll({ children }) {
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
-  const theme = useContext(ThemeContext);
 
   return (
     <TouchableWithoutFeedback
@@ -46,10 +45,10 @@ export default function AuthLayoutScroll({ children }) {
           behavior="position"
           keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -200}
         >
-          <Logo
+          {/* <Logo
             resizeMode="contain"
             source={require("../../assets/images/icon.png")}
-          />
+          /> */}
           {children}
         </KeyboardAvoidingView>
       </Container>

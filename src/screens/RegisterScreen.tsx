@@ -26,7 +26,7 @@ const SubText = styled.Text`
 
 const ErrorText = styled.Text`
   color: ${(props) => props.theme.Text0dp};
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 `;
 
 const TermBox = styled.View`
@@ -79,23 +79,13 @@ export default function CreateAccount({ navigation }) {
     ErrorResponse
   >("https://www.bluetags.app/api/users/sign-up");
 
-  const [
-    socialLogin,
-    {
-      loading: socialLoading,
-      data: socialData,
-      error: socialError,
-      status: socialStatus,
-    },
-  ] = useMutation("https://www.bluetags.app/api/users/sign-in/social/google");
-
   const [auth, {}] = useMutation("/api/users/sign-up/auth");
 
   //isChecked
-  const [isChecked1, setChecked1] = useState(false);
-  const [isChecked2, setChecked2] = useState(false);
-  //themeprovider
-  const theme = useContext(ThemeContext);
+  const [checkBox1, setChecked1] = useState(false);
+  const [checkBox2, setChecked2] = useState(false);
+  const [checkBoxError, setCheckBoxError] = useState("");
+
   //useform
   const {
     register,
@@ -105,9 +95,8 @@ export default function CreateAccount({ navigation }) {
     setError,
     formState: { errors },
   } = useForm<EnterForm>();
-  console.log(errors);
+
   //error
-  // const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     if (error) {
       if (error.confirm_password) {
@@ -137,13 +126,53 @@ export default function CreateAccount({ navigation }) {
   const onNext = (nextOne) => {
     nextOne?.current?.focus();
   };
+  // 연습과정
+  // const emailValidation = (email: string) => {
+  //   let regex = new RegExp(
+  //     "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+  //   );
+  //   if (!regex.test(email))
+  //     setError("email", { message: "이메일 양식 이상함" });
+  //   return regex.test(email);
+  // };
+  // const passwordValidation = (password: string) => {
+  //   let reg = new RegExp(
+  //     "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/"
+  //   );
+  //   if (password.length < 8 || password.length > 20) {
+  //     setError("password", { message: "8자리 ~ 20자리 이내로 입력해주세요." });
+  //     return false;
+  //   } else if (password.search(/\s/) != -1) {
+  //     setError("password", { message: "비밀번호는 공백 없이 입력해주세요." });
+  //     return false;
+  //   } else if (
+  //     password.search(/[0-9]/g) < 0 ||
+  //     password.search(/[a-z]/gi) < 0
+  //   ) {
+  //     setError("password", {
+  //       message: "영문,숫자,특수문자를 혼합하여 입력해주세요.",
+  //     });
+  //     return false;
+  //   }
+  //   return true;
+  // };
+  // const onValid = async (validForm: EnterForm) => {
+  //   const validation =
+  //     emailValidation(validForm.email) &&
+  //     passwordValidation(validForm.password);
+  //   if (!checkBox1 || !checkBox2) {
+  //     setCheckBoxError("Please check");
+  //     return;
+  //   }
+  //   if (loading) return;
+  //   if (validation) enter({ ...validForm });
+  // };
+  // 연습 과정
+
   //submit
   const onValid = (validForm: EnterForm) => {
     if (loading) return;
     enter(validForm);
-    console.log(data);
-    console.log(status);
-    console.log(loading);
   };
   //register
   useEffect(() => {
@@ -160,58 +189,72 @@ export default function CreateAccount({ navigation }) {
       required: true,
     });
   }, [register]);
+  //
+  const CustomTextInput = React.forwardRef(
+    ({ onChangeText, ...props }, ref) => (
+      <>
+        <TextInput
+          {...props}
+          ref={ref}
+          placeholderTextColor={"rgba(255, 255, 255, 0.6)"}
+          onChangeText={onChangeText}
+        />
+        <ErrorText>{errors[props.name]?.message}</ErrorText>
+      </>
+    )
+  );
+
+  //
+
   //return
+
   return (
     <AuthLayoutScroll>
       <MainText>Sign up</MainText>
       <SubText>E-mail</SubText>
-      <TextInput
+      <CustomTextInput
+        name="email"
         placeholder="email"
         returnKeyType="next"
         onSubmitEditing={() => onNext(name)}
-        placeholderTextColor={"rgba(255, 255, 255, 0.6)"}
         onChangeText={(text) => setValue("email", text)}
       />
-      <ErrorText>{errors.email?.message}</ErrorText>
       <SubText>Name</SubText>
-      <TextInput
+      <CustomTextInput
         ref={name}
+        name="name"
         placeholder="name"
         returnKeyType="next"
         onSubmitEditing={() => onNext(passwordRef)}
-        placeholderTextColor={"rgba(255, 255, 255, 0.6)"}
         onChangeText={(text) => setValue("name", text)}
       />
-      <ErrorText>{errors.name?.message}</ErrorText>
       <SubText>Password</SubText>
-      <TextInput
+      <CustomTextInput
         ref={passwordRef}
+        name="password"
         placeholder="password"
         autoCapitalize="none"
         returnKeyType="next"
         onSubmitEditing={() => onNext(confirmPasswordRef)}
-        placeholderTextColor={"rgba(255, 255, 255, 0.6)"}
         onChangeText={(text) => setValue("password", text)}
       />
-      <ErrorText>{errors.password?.message}</ErrorText>
       <SubText>Confirm Password</SubText>
-      <TextInput
+      <CustomTextInput
         ref={confirmPasswordRef}
+        name="confirm_password"
         placeholder="Confirm password"
         secureTextEntry
         returnKeyType="done"
         lastOne={true}
-        placeholderTextColor={"rgba(255, 255, 255, 0.6)"}
         onChangeText={(text) => setValue("confirm_password", text)}
         onSubmitEditing={handleSubmit(onValid)}
       />
-      <ErrorText>{errors.confirm_password?.message}</ErrorText>
       <TermBox>
         <Checkbox
           style={styles.checkbox}
-          value={isChecked1}
+          value={checkBox1}
           onValueChange={setChecked1}
-          color={isChecked1 ? "#0075ff" : undefined}
+          color={checkBox1 ? "#0075ff" : undefined}
         />
         <TermText>
           This site is protected by reCAPTCHA and the Google Privacy Policy and
@@ -221,15 +264,17 @@ export default function CreateAccount({ navigation }) {
       <TermBox>
         <Checkbox
           style={styles.checkbox}
-          value={isChecked2}
+          value={checkBox2}
           onValueChange={setChecked2}
-          color={isChecked2 ? "#0075ff" : undefined}
+          color={checkBox2 ? "#0075ff" : undefined}
         />
         <TermText>
           Creating an account means you are okay with our Terms of Service,
           Privacy Policy, and our default Notification Settings.
         </TermText>
       </TermBox>
+      <ErrorText>{checkBoxError ? checkBoxError : null}</ErrorText>
+
       <AuthButton
         text="Create Account"
         disabled={false}

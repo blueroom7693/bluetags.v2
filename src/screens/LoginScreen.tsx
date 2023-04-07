@@ -19,8 +19,6 @@ import useMutation from "../libs/client/useMutation";
 
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import { getAllNft } from "../axios";
-import { useQuery } from "@tanstack/react-query";
 import { useIsFocused } from "@react-navigation/native";
 
 const SubText = styled.Text`
@@ -39,22 +37,46 @@ const DetailText = styled.Text`
   font-size: 12px;
   font-weight: 700;
   text-decoration-line: underline;
+  text-align: right;
+  font-family: "SpoqaHanSansNeo-Regular";
+  margin-top: 15px;
 `;
-const RegisterText = styled.Text`
-  color: ${(props) => props.theme.Primary1dp};
-  font-size: 16px;
-  font-weight: 700;
-`;
-const SNSloginBox = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
-  margin-top: 40px;
-`;
+
 const SNSlogo = styled.TouchableOpacity`
-  margin: 10px;
+  margin-left: 10px;
 `;
+const SignupBox = styled.TouchableOpacity`
+  border-width: 1px;
+  border-color: ${(props) => props.theme.Primary1dp};
+  height: 40px;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 15px;
+`;
+const SignupText = styled.Text`
+  color: ${(props) => props.theme.Primary1dp};
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "SpoqaHanSansNeo-Regular";
+`;
+const SignupGoogleBox = styled.TouchableOpacity`
+  border-width: 1px;
+  height: 40px;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 30px;
+`;
+const SignupGoogleText = styled.Text`
+  color: ${(props) => props.theme.Text0dp};
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "SpoqaHanSansNeo-Regular";
+`;
+
 interface IForm {
   email: string;
   password: string;
@@ -214,6 +236,17 @@ const LoginScreen = ({ navigation }) => {
         onChangeText={(text) => setValue("password", text)}
       />
       <ErrorText>{errorMessage}</ErrorText>
+      <SignupGoogleBox
+        disabled={!request}
+        onPress={() => {
+          promptAsync();
+        }}
+      >
+        <SignupGoogleText>Sign in with google</SignupGoogleText>
+        <SNSlogo>
+          <GoogleSVG height={20} width={20} />
+        </SNSlogo>
+      </SignupGoogleBox>
 
       <AuthButton
         text="Log In"
@@ -221,37 +254,10 @@ const LoginScreen = ({ navigation }) => {
         disabled={!watch("email") || !watch("password")}
         onPress={handleSubmit(onValid)}
       />
-
-      <SNSloginBox>
-        <SNSlogo
-          disabled={!request}
-          onPress={() => {
-            promptAsync();
-          }}
-        >
-          <GoogleSVG height={30} width={30} />
-        </SNSlogo>
-        <SNSlogo onPress={() => {}}>
-          <FacebookSVG height={30} width={30} />
-        </SNSlogo>
-        <SNSlogo onPress={() => {}}>
-          <TwitterSVG height={30} width={30} />
-        </SNSlogo>
-      </SNSloginBox>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingLeft: 70,
-          paddingRight: 70,
-          paddingTop: 30,
-        }}
-      >
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <RegisterText> Sign up +</RegisterText>
-        </TouchableOpacity>
-        <DetailText>Not a member? </DetailText>
-      </View>
+      <DetailText>Forgot your password ?</DetailText>
+      <SignupBox onPress={() => navigation.navigate("Register")}>
+        <SignupText> Sign up</SignupText>
+      </SignupBox>
     </AuthLayout>
   );
 };

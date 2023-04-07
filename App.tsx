@@ -155,10 +155,10 @@ export default function App() {
         <ThemeProvider theme={isLight ? lightTheme : darkTheme}>
           <NavigationContainer>
             <View style={{ flex: 1 }}>
-              {/* {isLogin ? <MyDrawer /> : <AuthStack />} */}
+              {isLogin ? <MyDrawer /> : <AuthStack />}
               {/* <AuthStack /> */}
               {/* <MyDrawer /> */}
-              <View
+              {/* <View
                 style={{
                   flex: 1,
                   alignItems: "center",
@@ -187,7 +187,7 @@ export default function App() {
                     await schedulePushNotification();
                   }}
                 />
-              </View>
+              </View> */}
             </View>
           </NavigationContainer>
         </ThemeProvider>

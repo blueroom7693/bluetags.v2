@@ -8,7 +8,8 @@
     "assetBundlePatterns": ["**/*"],
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./src/assets/images/splash3.png"
+      "image": "./src/assets/images/AppIcon.png",
+      "resizeMode": "contain"
     },
     "scheme": "exp://",
     "android": {
@@ -26,7 +27,12 @@
       "package": "app.bluetags.bluetags",
       "googleServicesFile": "./google-services.json"
     },
-    "ios": {}
+    "ios": {},
+    "extra": {
+      "eas": {
+        "projectId": "d1bb32de-d8e0-492f-9e03-b4986ab82a13"
+      }
+    }
   },
   "name": "langApp"
 }
