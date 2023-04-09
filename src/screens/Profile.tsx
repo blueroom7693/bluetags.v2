@@ -230,49 +230,40 @@ const Profile = () => {
       quality: 1,
     });
     if (!result.canceled) {
-      setImage(result.assets[0].uri.split("/").pop());
-      console.log(result.assets[0].uri.split("/").pop());
-      // uploadImage(result.assets[0], user);
+      setImage(result.assets[0]);
+      // console.log(result.assets[0].uri.split("/").pop());
+      // console.log(result.assets[0].uri, 464654867);
+      if (result.assets[0] !== undefined) {
+        // uploadImageImage(result.assets[0]);
+      }
     }
   };
 
-  const uploadImageImage = async({ result }) => {
-    const localUri = result.uri;
-    const filename = localUri.split("/").pop();
-    const match = /\.(\w+)$/.exec(filename ?? "");
-    const type = match ? `image/${match[1]}` : `image`;
-    const formData = new FormData();
-    formData.append("image", { uri: localUri, name: filename, type });
-    console.log(formData);
-    fetch(result.data.uploadURL, {
-      method: "POST",
-      body: form,
-    }
-  };
-
-  const uploadImage = ({ file, user }) => {
-    axios.get("https://www.bluetags.app/api/upload/image").then((result) => {
-      console.log(result, 123);
-
-      const form = new FormData();
-      form.append("file", file, user?.id + "");
-      fetch(result.data.uploadURL, {
-        method: "POST",
-        body: form,
-      }).then((result) => {
-        console.log(result, 123);
-        result.json().then((res) => {
-          console.log(res, 456);
-          // setAvatarPreview(res.result.id);
-          axios.post("https://www.bluetags.app/api/users/edit", {
-            id: user?.id,
-            avatarId: res.result.id,
+  useEffect(() => {
+    if (image) {
+      const localUri = image.uri;
+      const filename = localUri.split("/").pop();
+      const match = /\.(\w+)$/.exec(filename ?? "");
+      const type = match ? `image/${match[1]}` : `image`;
+      const formData = new FormData();
+      formData.append("file", { uri: localUri, name: user?.id, type });
+      axios.get("https://www.bluetags.app/api/upload/image").then((result) => {
+        console.log(result.data.uploadURL);
+        fetch(result.data.uploadURL, {
+          method: "POST",
+          body: formData,
+        }).then((result) => {
+          result.json().then((res) => {
+            axios.post("https://www.bluetags.app/api/users/edit", {
+              id: user?.id,
+              avatarId: res.result.id,
+            });
           });
         });
       });
-    });
-  };
-
+    }
+  }, [image]);
+  //////
   return !user || !HistoryBluecards ? (
     <Loader></Loader>
   ) : (
